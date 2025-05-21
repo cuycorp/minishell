@@ -65,7 +65,8 @@ clean:
 	@rm -rf $(OBJ_DIR)
 	@echo "$(GREEN_COLOR)Clean: $(DEFAULT_COLOR) libft 🧹"
 
-fclean: $(if $(wildcard $(OBJ_DIR)),clean)
+fclean:
+	@if [ -d "$(OBJ_DIR)" ]; then $(MAKE) clean -s; fi
 	@rm -f $(LIBFT_STATIC_LIB)
 	@echo "$(GREEN_COLOR)Fclean: $(DEFAULT_COLOR) libft 🧹"
 
