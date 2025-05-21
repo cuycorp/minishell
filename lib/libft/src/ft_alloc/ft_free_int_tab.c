@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 19:08:06 by jgossard          #+#    #+#             */
-/*   Updated: 2025/04/07 21:36:22 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/22 09:48:33 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,17 @@
  * freeing each row and finally freeing the array itself. It sets the input
  * pointer to NULL after freeing.
  *
- * @param tab Pointer to the 2D array of integers to free
+ * @param arr Pointer to the 2D array of integers to free
  * @param size Number of rows in the array
  *
- * @note Sets errno to EINVAL if tab is NULL or if size is less than 1
+ * @note Sets errno to EINVAL if arr is NULL or if size is less than 1
  * @note The function will only free non-NULL row pointers
  */
-void	ft_free_int_tab(int **tab, size_t size)
+void	ft_free_int_tab(int **arr, size_t size)
 {
 	size_t	i;
 
-	if (!tab)
+	if (!arr)
 	{
 		errno = EINVAL;
 		perror("Invalid argument: NULL pointer passed");
@@ -44,10 +44,10 @@ void	ft_free_int_tab(int **tab, size_t size)
 	i = 0;
 	while (i < size)
 	{
-		if (tab[i])
-			free(tab[i]);
+		if (arr[i])
+			free(arr[i]);
 		i++;
 	}
-	free(tab);
-	tab = NULL;
+	free(arr);
+	arr = NULL;
 }

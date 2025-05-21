@@ -11,6 +11,7 @@
 outfile.txt
 # Executables
 *.out
+minishell
 
 # Temp files
 *.swp

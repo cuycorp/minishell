@@ -26,6 +26,7 @@ IFLAGS =	-I $(LIBFT_DIR)/include \
 			-I $(FT_PRINTF_DIR)/include \
 			-I $(GNL_DIR)/include \
 			-I $(INCLUDE_DIR)
+LDFLAGS = -lreadline -lncurses
 CFLAGS = -Wall -Werror -Wextra -g3 $(IFLAGS)
 
 ############################# INPUT & OBJECT FILES #############################
@@ -70,7 +71,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(EXEC): $(LIBS) $(MINISHELL_STATIC_LIB) $(MAIN_OBJ)
-	@$(CC) $(CFLAGS) $(MAIN_OBJ) $(MINISHELL_STATIC_LIB) $(LIBS) -o $@
+	@$(CC) $(CFLAGS) $(MAIN_OBJ) $(MINISHELL_STATIC_LIB) $(LIBS) $(LDFLAGS) -o $@
 	@echo "$(GREEN_COLOR)Executable: $(DEFAULT_COLOR)$(EXEC) created!✅"
 
 debug:

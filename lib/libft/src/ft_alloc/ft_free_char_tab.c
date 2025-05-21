@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:53:18 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/12 13:41:26 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/22 09:48:19 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,21 +19,21 @@
  * freeing each string and finally freeing the array. It sets the input
  * pointer to NULL after freeing.
  *
- * @param tab Pointer to the array of strings to free
+ * @param arr Pointer to the array of strings to free
  *
- * @note Sets errno to EINVAL if tab is NULL
+ * @note Sets errno to EINVAL if arr is NULL
  */
-void	ft_free_char_tab(char **tab)
+void	ft_free_char_tab(char **arr)
 {
 	int	i;
 
-	if (!tab)
+	if (!arr)
 		return ;
 	i = 0;
-	while (tab[i])
+	while (arr[i])
 	{
-		free(tab[i]);
+		free(arr[i]);
 		i++;
 	}
-	free(tab);
+	free(arr);
 }

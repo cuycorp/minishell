@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/11/18 20:50:13 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/09 14:08:44 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/22 09:47:59 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*ft_strtrim(char const *s1, char const *set);
 char	**ft_split(char const *str, char sep);
 char	*ft_strmapi(char const *s, char (*f)(unsigned int, char));
 void	ft_striteri(char *s, void (*f)(unsigned int, char*));
-int		ft_strarr_len(char **tab);
+int		ft_strarr_len(char **arr);
 
 /* Function to */
 
@@ -94,7 +94,7 @@ t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *));
 /* functin alloc */
 
 void	*ft_alloc_struct(size_t size);
-void	ft_free_char_tab(char **tab);
-void	ft_free_int_tab(int **tab, size_t size);
+void	ft_free_char_tab(char **arr);
+void	ft_free_int_tab(int **arr, size_t size);
 
 #endif
