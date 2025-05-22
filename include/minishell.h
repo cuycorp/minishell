@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:39:32 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/22 10:02:23 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/22 10:07:27 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,4 +89,7 @@
 # include "structures.h"
 # include "utils.h"
 
+/* FUNCTIONS */
+
+void	ft_init_shell(void);
 #endif
