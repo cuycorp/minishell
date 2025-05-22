@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_validate_args.c                                 :+:      :+:    :+:   */
+/*   ft_close_program.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 09:12:57 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/22 15:21:04 by jgossard         ###   ########.fr       */
+/*   Created: 2025/05/22 15:10:01 by jgossard          #+#    #+#             */
+/*   Updated: 2025/05/22 15:11:01 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_validate_args(int argc, t_shell *data)
+void	ft_close_program(t_shell *data, int exit_code)
 {
-	if (argc > 1)
-	{
-		ft_putstr_fd("Usage: ./minishell\n", STDERR_FILENO);
+	if (data)
 		ft_clear_memory(data);
-		exit(EXIT_FAILURE);
-	}
+	exit(exit_code);
 }

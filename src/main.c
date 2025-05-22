@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:08:57 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/22 09:49:05 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/22 15:21:24 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,13 @@ int main(int argc, char **argv, char **envp)
 {
 	(void)argv;
 	(void)envp;
-	ft_validate_args(argc);
-	ft_init_shell();
-	return (0);
+	t_shell	*data;
+
+	data = (t_shell *)ft_alloc_struct(sizeof(t_shell));
+	if (!data)
+		return (EXIT_FAILURE);
+	ft_validate_args(argc, data);
+	ft_handle_shell(data);
+	ft_clear_memory(data);
+	return (EXIT_SUCCESS);
 }

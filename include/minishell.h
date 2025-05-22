@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:39:32 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/22 10:07:27 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/22 14:47:01 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,12 @@
 # include "structures.h"
 # include "utils.h"
 
+/* MACRO */
+
+# define EXIT "exit"
 /* FUNCTIONS */
 
-void	ft_init_shell(void);
+void	ft_handle_shell(t_shell *data);
+void	ft_handle_history(char *str);
+
 #endif

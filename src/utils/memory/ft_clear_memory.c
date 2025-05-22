@@ -1,23 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_validate_args.c                                 :+:      :+:    :+:   */
+/*   clear_memory.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 09:12:57 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/22 15:21:04 by jgossard         ###   ########.fr       */
+/*   Created: 2025/05/22 14:57:54 by jgossard          #+#    #+#             */
+/*   Updated: 2025/05/22 15:04:44 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_validate_args(int argc, t_shell *data)
+void	ft_clear_memory(t_shell *data)
 {
-	if (argc > 1)
-	{
-		ft_putstr_fd("Usage: ./minishell\n", STDERR_FILENO);
-		ft_clear_memory(data);
-		exit(EXIT_FAILURE);
-	}
+	if (!data)
+		return ;
+	if (data->input)
+		free(data->input);
+	free(data);
 }

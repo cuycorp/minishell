@@ -1,23 +1,33 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_validate_args.c                                 :+:      :+:    :+:   */
+/*   ft_handle_shell.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 09:12:57 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/22 15:21:04 by jgossard         ###   ########.fr       */
+/*   Created: 2025/05/22 09:28:04 by jgossard          #+#    #+#             */
+/*   Updated: 2025/05/22 15:24:09 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_validate_args(int argc, t_shell *data)
+void	ft_handle_shell(t_shell *data)
 {
-	if (argc > 1)
+	while (1)
 	{
-		ft_putstr_fd("Usage: ./minishell\n", STDERR_FILENO);
-		ft_clear_memory(data);
-		exit(EXIT_FAILURE);
+		data->input = readline("Oh-My-Shell > ");
+		if (!data->input)
+			return (ft_close_program(data, EXIT_FAILURE));
+		if (*data->input == '\0')
+			continue;
+		ft_handle_history(data->input);
+		if (ft_strncmp(data->input, EXIT, ft_strlen(EXIT) + 1) == 0)
+		{
+			ft_putstr_fd(data->input, STDOUT_FILENO);
+			break;
+		}
+		else
+			ft_printf(STDOUT_FILENO, "%s\n", data->input);
 	}
 }
