@@ -84,5 +84,3 @@ Git offers a variety of commands related to **branching**, each serving differen
   Creates a local branch that tracks a remote branch.
 
 ---
-
-Would you like a visual example or Git workflow using branches?

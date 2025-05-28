@@ -17,24 +17,21 @@ redirection     ::= ('<' | '>' | '>>' | '<<') word
 word            ::= (quoted_string | unquoted_string | variable)+
 # A `quoted_string` is either a `single_quoted` string or a `double_quoted` string.
 quoted_string   ::= single_quoted | double_quoted
-# A `quoted_string` is either a `single_quoted` string or a `double_quoted` string.
+# A `single_quoted` string starts and ends with single quotes and contains any characters except single quote.
 single_quoted   ::= "'" [^']* "'"
 ```
 ```shell
 # A `double_quoted` string starts and ends with double quotes (`"`), and can contain `regular_char` or `variable`.
-double_quoted   ::= '"' (regular_char | variable)* '"'A `variable` starts with a `$` symbol, followed by either an `identifier` or the special `?` character.
+double_quoted   ::= '"' (regular_char | variable)* '"'
 # A `variable` starts with a `$` symbol, followed by either an `identifier` or the special `?` character.
 variable        ::= '$' (identifier | '?')
 # An `unquoted_string` consists of one or more `regular_char` or `escaped_char`.
 unquoted_string ::= (regular_char | escaped_char)+
 # An `identifier` starts with a letter or underscore (`_`), followed by zero or more letters, digits, or underscores.
-identifier      ::= [a-zA-Z_][a-zA-Z0-9_]*regular_char    ::= [^|&<>(){}"'$\ \t\n]
+identifier		::= [a-zA-Z_][a-zA-Z0-9_]*
+# A `regular_char` is any character except for: pipe (`|`), ampersand (`&`), angle brackets (`<`, `>`), parentheses (`()`), curly braces (`{}`, `}`), double quotes (`"`), dollar sign (`$`), space (` `), tab (`\t`), or newline (`\n`).
+regular_char	::= [^|&<>(){}"'$\ \t\n]
 ```
-
-
-
-
-
 
 
 ### Key Precedence Points:
