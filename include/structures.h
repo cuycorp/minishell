@@ -3,22 +3,29 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jg <jg@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:23:56 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/23 17:20:46 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/27 21:42:37 by jg               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef STRUCTURES_H
 # define STRUCTURES_H
 
+/**
+ * @brief Types of redirection for input and output operations
+ * 	@param REDIRECT_IN Input redirection '<'
+ * 	@param REDIRECT_OUT Output redirection '>'
+ * 	@param APPEND_OUT Append output '>>'
+ * 	@param HEREDOC Heredoc redirection '<<'
+ */
 typedef enum e_redirection_type
 {
-	REDIRECT_IN, //<
-	REDIRECT_OUT, // >
-	APPEND_OUT, // >>
-	HEREDOC, // <<
+	REDIRECT_IN,
+	REDIRECT_OUT,
+	APPEND_OUT,
+	HEREDOC,
 }	t_redirection_type;
 
 typedef struct s_redirection
@@ -42,37 +49,37 @@ typedef struct s_redirection
  */
 typedef enum e_token_type
 {
-	WORD,
-	PIPE,
-	REDIRECT_IN,
-	REDIRECT_OUT,
-	APPEND_OUT,
-	HEREDOC,
-	LOGICAL_AND,
-	LOGICAL_OR,
-	END_OF_LINE,
-	UNKNOWN
+	TOKEN_WORD,
+	TOKEN_PIPE,
+	TOKEN_REDIRECT_IN,
+	TOKEN_REDIRECT_OUT,
+	TOKEN_APPEND_OUT,
+	TOKEN_HEREDOC,
+	TOKEN_LOGICAL_AND,
+	TOKEN_LOGICAL_OR,
+	TOKEN_END_OF_LINE,
+	TOKEN_UNKNOWN
 }	t_token_type;
 
 typedef struct s_token
 {
-	char			*value;
-	t_token_type	type;
-	t_token			*next;
+	char				*value;
+	t_token_type		type;
+	struct s_token		*next;
 }	t_token;
 
 typedef struct s_command
 {
 	char			**args;
 	char			*command;
-	t_redirection	*redirection
+	t_redirection	*redirection;
 }	t_command;
 
 
 typedef struct s_shell
 {
 	char		*input;
-	t_token		**tokens;
+	t_token		*tokens_list;
 	t_command	**commands; // [cmd1, cmd2]
 }	t_shell;
 

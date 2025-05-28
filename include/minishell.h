@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:39:32 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/22 14:47:01 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/28 15:43:02 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,34 @@
 
 /* MACRO */
 
+# define PIPE '|'
 # define EXIT "exit"
+
 /* FUNCTIONS */
+
+/* INITIALIZER */
+
+t_shell	*ft_init_shell(void);
+
+/* ########  LEXER PART  ######## */
+
+/* Scanner function */
+
+void	ft_scan_alnum_token(char *str, unsigned int *pos, t_shell *data);
+
+/* Token  function */
+
+t_token	*ft_create_token(char *str, t_token_type type);
+void	ft_add_token(t_token **tokens_list, t_token *new_token);
+void	ft_free_tokens_list(t_token **tokens_list);
+void	ft_print_tokens_list(t_shell *data);
+
+void	ft_tokenize(char *str, t_shell *data);
+
+/* ########  SHELL PART  ######## */
 
 void	ft_handle_shell(t_shell *data);
 void	ft_handle_history(char *str);
+
 
 #endif

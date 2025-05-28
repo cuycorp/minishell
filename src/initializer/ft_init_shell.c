@@ -1,24 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_clear_memory.c                                  :+:      :+:    :+:   */
+/*   ft_init_shell.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jg <jg@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/22 14:57:54 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/27 23:09:32 by jg               ###   ########.fr       */
+/*   Created: 2025/05/23 16:04:03 by jgossard          #+#    #+#             */
+/*   Updated: 2025/05/27 22:11:26 by jg               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_clear_memory(t_shell *data)
+t_shell	*ft_init_shell(void)
 {
-	if (!data)
-		return ;
-	if (data->input)
-		free(data->input);
-	if (data->tokens_list)
-		ft_free_tokens_list(&data->tokens_list);
-	free(data);
+	t_shell	*shell;
+
+	shell = (t_shell *)ft_alloc_struct(sizeof(t_shell));
+	if (!shell)
+		return (NULL);
+
+	return (shell);
 }
