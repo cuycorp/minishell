@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:28:04 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/28 16:02:02 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:35:02 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	ft_handle_shell(t_shell *data)
 			return (ft_close_program(data, EXIT_FAILURE));
 		if (*data->input == '\0')
 			continue;
-		ft_tokenize(data->input, data);
+		ft_tokenizer(data->input, data);
 		ft_handle_history(data->input);
 		if (ft_strncmp(data->input, EXIT, ft_strlen(EXIT) + 1) == 0)
 		{

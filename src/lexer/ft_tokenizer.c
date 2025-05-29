@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tokenize.c                                      :+:      :+:    :+:   */
+/*   ft_tokenizer.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:55:53 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/29 16:23:05 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:35:15 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_tokenize(char *str, t_shell *data)
+void	ft_tokenizer(char *str, t_shell *data)
 {
 	(void)data;
 	unsigned int	i;

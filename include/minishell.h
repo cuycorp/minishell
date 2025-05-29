@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:39:32 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/29 16:23:05 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:35:02 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ void	ft_add_token(t_token **tokens_list, t_token *new_token);
 void	ft_free_tokens_list(t_token **tokens_list);
 void	ft_print_tokens_list(t_shell *data);
 
-void	ft_tokenize(char *str, t_shell *data);
+void	ft_tokenizer(char *str, t_shell *data);
 
 /* ########  SHELL PART  ######## */
 
