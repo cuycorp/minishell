@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jg <jg@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:23:56 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/27 21:42:37 by jg               ###   ########.fr       */
+/*   Updated: 2025/05/29 15:28:25 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,16 +36,16 @@ typedef struct s_redirection
 
 /**
  * @brief Token types for the lexical analyzer in the shell
- * 	@param WORD A normal word (e.g., command name or argument)
- * 	@param PIPE Pipe character '|'
- * 	@param REDIRECT_IN Input redirection '<'
- * 	@param REDIRECT_OUT Output redirection '>'
- * 	@param APPEND_OUT Append output '>>'
- * 	@param HEREDOC Heredoc '<<'
- * 	@param LOGICAL_AND '&&'
- * 	@param LOGICAL_OR '||'
- * 	@param END_OF_LINE End of line
- * 	@param UNKNOWN Anything that doesn't match a specific token type
+ * 	@param TOKEN_WORD A normal word (e.g., command name or argument)
+ * 	@param TOKEN_PIPE Pipe character '|'
+ * 	@param TOKEN_REDIRECT_IN Input redirection '<'
+ * 	@param TOKEN_REDIRECT_OUT Output redirection '>'
+ * 	@param TOKEN_APPEND_OUT Append output '>>'
+ * 	@param TOKEN_HEREDOC Heredoc '<<'
+ * 	@param TOKEN_LOGICAL_AND '&&'
+ * 	@param TOKEN_LOGICAL_OR '||'
+ * 	@param TOKEN_END_OF_LINE End of line
+ * 	@param TOKEN_UNKNOWN Anything that doesn't match a specific token type
  */
 typedef enum e_token_type
 {
