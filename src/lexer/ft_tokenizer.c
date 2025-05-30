@@ -32,8 +32,11 @@ void	ft_tokenizer(char *str, t_shell *data)
 			ft_tokenize_log_or(str, &i, data);
 		else if (str[i] == '|')
 			ft_tokenize_pipe(str, &i, data);
+		else if (str[i] == '\0')
+			ft_tokenize_EOL(str, &i, data);
 		else
 		{
+			ft_tokenize_unknown(str, &i, data);
 			ft_printf(1, "character unknown\n");
 			break ;
 		}
