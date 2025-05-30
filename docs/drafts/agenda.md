@@ -1,33 +1,141 @@
-# Agenda
+# Minishell Project Roadmap
 
-## Lexing
-### Phase 1: Scanning / Tokenization
-echo "hello world" > outfile
+## Project Structure File
 
-#### Still to be implemented
+```
+Minishell
+|-docs/
+|-include/
+|	|-minishell.h
+|	|-structures.h
+|	|-utils.h
+|-lib/
+|	|-ft_printf/
+|	|-get_next_line/
+|	|-libft/
+|-src/
+|	|-initializer/		# all the initializer functions
+|	|-lexer/			# all the function for tokenization and syntax analysis
+|	|-parser/			# all the parsing functions (command construction, etc.)
+|	|-exec/				# all the pipe, fork, redirection, AST tree, and exec functions
+|	|-builtins/			# all the builtins functions
+|	|-signals/			# all the functions to manage signals
+|	|-shell/			# all the functions to manage shell
+|	|-env/				# all the environment variable functions
+|	|-utils/			# all the utils functions
+|	|-main.c
+|-Makefile
+|-readme.md
+```
 
-* redirection: <, >, << , >>
-* unquoted_char
-* single-quote
-* double-quotes
-* &&
-* ||
-* pipe: |
+---
 
-### Phase 2: Analize Syntax - Order of tokens => analysing the stream of token if it follows the grammar rules
+## Phase 1: Input Handling
 
-## Parsing
-### Phase 3: start replacing content of the token
+- [x] Use `readline()` to display prompt and collect input.
+- [x] Add input to history with `add_history()`.
+- [X] Close the program when writing `exit`
+- [ ] Handle `CTRL-D` (exit), `CTRL-C` (new prompt), `CTRL-\` (ignored).
 
-"hello world $HOME" => "hello world /path/path/"
+---
 
-### Phase 4: Create the command
+## Phase 2: Lexing (Tokenization)
 
-linked list of token [token1, token2, ...]
+- [x] Define Token Type
+- [x] Recognize redirection operators: `<`, `>`, `<<`, `>>`
+- [] Recognize parenthesis: `(`, `)`
+- [] Recognize `pipe` operator : `|`
+- [] Recognize logical `AND` operator : `&&`
+- [] Recognize logical `OR` operator : `||`
+- [] Identify words by implementing the <unquoted_char> grammar rule
+- [] Handle quoting:
+	- [] Single quote `'`
+	- [] Double quote `"`
+- [] Handle `END_OF_FILE` Token
 
-## Execution
-Create the Pipe with all the forking and redirection
-Create the AST to execute the command (and get command priority) => C13 from Piscine for Binary Tree
+### Example:
 
-## Builtins
-## Signals
+Input:
+
+```bash
+echo "Hello $USER" > out.txt
+```
+
+Tokens:
+`[echo] [Hello $USER] [>] [out.txt]` => like this?
+`[echo] ["Hello $USER"] [>] [out.txt]` => or this?
+
+---
+
+## Phase 3: Syntax Analysis
+
+- [x] Define grammar rules
+- [] Validate token order and grammar => Recursive Descent Parsing algo?
+	- [] Implement the grammar rules in function
+	- [] Implement the match function
+	- [] Handle syntax errors ? (unclosed quotes, invalid chars)
+	- [] Handle syntax errors (e.g., empty pipes, unmatched tokens) (e.g., `| > file`, `cat infile |`)
+
+---
+
+## Phase 4: Parsing / Building Command Structures + Environment Management ?
+
+### Environment Management ?
+- [ ] Load environment variables into internal structure
+- [ ] Load environment from `envp` into internal list/structure
+- [ ] Implement `getenv`, `setenv`, `unsetenv` functions
+
+- [ ] Replace environment variables: `$VAR`, `$?`
+- [ ] Build the command / Store command in a structure (e.g., `t_command`)
+	<!-- - [] --in Array style?-- -->
+	- [X] in Linked-List style?
+- [ ] Handle input/output files, heredoc
+<!-- - [ ] Support command chaining via linked list or AST -->
+
+---
+
+## Phase 5: Execution
+
+- [] Implement `fork`/`execve` with pipes
+- [] Handle input/output redirection with `dup2`
+- [] Manage file descriptors (prevent leaks): close / open the right fds
+- [] Manage child process exit codes
+- [] Implement AST tree to find token priority => see Piscine C13 for Binary Tree
+
+<!-- Create the Pipe with all the forking and redirection
+Create the AST to execute the command (and get command priority) => C13 from Piscine for Binary Tree -->
+
+## Phase 6: Builtins
+
+- [] Should we implement them by using execve?
+- [] `echo [-n]`
+- [] CD + PWD
+	- [] `cd [relative_path]`
+	- [] `cd [absolute_path]`
+	- [] `pwd`
+- [] EXPORT + UNSET + ENV
+	- [] `export KEY=VAL`
+	- [] `unset KEY`
+	- [] `env`
+	- [] `env [arguments]` => how to use it exactly?
+- [] `exit`
+
+---
+
+## Phase 7: Signals
+
+- [ ] Handle `SIGINT` signal for `CTRL-C`
+- [ ] Handle `EOF` signal for `CTRL-D`
+- [ ] Handle ??? signal for `CTRL-\`
+- [ ] Reset signal handlers for child processes
+- [] Interactive mode?
+
+---
+
+## Phase 8: Bonus
+
+- [] Implement `&&` and `||`
+	- [] Handle Parenthesis for grouping / priority
+- [] Implement `*` wildcard expansion: should match only files in current working directory
+
+---
