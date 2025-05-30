@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:39:32 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/29 16:52:23 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/30 17:51:33 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,10 +102,16 @@ t_shell	*ft_init_shell(void);
 
 /* ########  LEXER PART  ######## */
 
-/* Scanner function */
+/* Tokenize function */
 
 void	ft_tokenize_word(char *str, unsigned int *pos, t_shell *data);
 void	ft_tokenize_redirection(char *str, unsigned int *pos, t_shell *data);
+void	ft_tokenize_parenthesis(char *str, unsigned int *pos, t_shell *data);
+void	ft_tokenize_EOL(char *str, unsigned int *pos, t_shell *data);
+void	ft_tokenize_log_and(char *str, unsigned int *pos, t_shell *data);
+void	ft_tokenize_log_or(char *str, unsigned int *pos, t_shell *data);
+void	ft_tokenize_pipe(char *str, unsigned int *pos, t_shell *data);
+void	ft_tokenize_unknown(char *str, unsigned int *pos, t_shell *data);
 
 /* Token  function */
 

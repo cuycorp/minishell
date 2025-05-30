@@ -43,15 +43,17 @@ Minishell
 
 - [x] Define Token Type
 - [x] Recognize redirection operators: `<`, `>`, `<<`, `>>`
-- [] Recognize parenthesis: `(`, `)`
-- [] Recognize `pipe` operator : `|`
-- [] Recognize logical `AND` operator : `&&`
-- [] Recognize logical `OR` operator : `||`
-- [] Identify words by implementing the <unquoted_char> grammar rule
+- [x] Recognize parenthesis: `(`, `)`
+- [x] Recognize `pipe` operator : `|`
+- [x] Recognize logical `AND` operator : `&&`
+- [x] Recognize logical `OR` operator : `||`
+- [x] Identify words by implementing the <unquoted_char> grammar rule
 - [] Handle quoting:
 	- [] Single quote `'`
 	- [] Double quote `"`
-- [] Handle `END_OF_FILE` Token
+- [x] Handle `TOKEN_END_OF_FILE` Token
+- [x] Handle `TOKEN_UNKNOWN` Token
+- [] Handle `*` Wildcard Token
 
 ### Example:
 

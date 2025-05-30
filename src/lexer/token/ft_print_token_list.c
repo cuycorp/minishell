@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:11:46 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/28 15:40:52 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:03:10 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,10 @@ static char	*ft_get_token_type(t_token_type type)
 		return ("TOKEN_LOGICAL_OR");
 	if (type == TOKEN_END_OF_LINE)
 		return ("TOKEN_END_OF_LINE");
+	if (type == TOKEN_PARENTHESIS_RIGHT)
+		return ("TOKEN_PARENTHESIS_RIGHT");
+	if (type == TOKEN_PARENTHESIS_LEFT)
+		return ("TOKEN_PARENTHESIS_LEFT");
 	return ("TOKEN_UNKNOWN");
 }
 

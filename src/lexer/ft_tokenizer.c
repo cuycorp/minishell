@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:55:53 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/30 17:31:27 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:09:14 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	ft_tokenizer(char *str, t_shell *data)
 {
 	unsigned int	i;
 
-	(void)data;
 	i = 0;
 	while (str[i])
 	{
@@ -32,6 +31,8 @@ void	ft_tokenizer(char *str, t_shell *data)
 			ft_tokenize_pipe(str, &i, data);
 		else if (str[i] == '\0')
 			ft_tokenize_EOL(str, &i, data);
+		else if (str[i] == '(' || str[i] == ')')
+			ft_tokenize_parenthesis(str, &i, data);
 		else if (ft_isalnum(str[i]) || ft_is_special_char(str[i]))
 			ft_tokenize_word(str, &i, data);
 		else

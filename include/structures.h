@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: jg <jg@student.42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:23:56 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/29 15:28:25 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/30 15:28:25 by jg               ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ typedef enum e_token_type
 	TOKEN_HEREDOC,
 	TOKEN_LOGICAL_AND,
 	TOKEN_LOGICAL_OR,
+	TOKEN_PARENTHESIS_RIGHT,
+	TOKEN_PARENTHESIS_LEFT,
 	TOKEN_END_OF_LINE,
 	TOKEN_UNKNOWN
 }	t_token_type;
@@ -70,17 +72,17 @@ typedef struct s_token
 
 typedef struct s_command
 {
-	char			**args;
-	char			*command;
-	t_redirection	*redirection;
+	char				**args;
+	char				*command;
+	t_redirection		*redirection;
+	struct s_command	*next;
 }	t_command;
-
 
 typedef struct s_shell
 {
 	char		*input;
 	t_token		*tokens_list;
-	t_command	**commands; // [cmd1, cmd2]
+	t_command	*commands; // [cmd1, cmd2]
 }	t_shell;
 
 #endif

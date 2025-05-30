@@ -1,5 +1,5 @@
 <shell>					::= <command_line>*
-<command_line>			::= <pipeline> (('&&' | '||') <pipeline>)*
+<command_line>			::= <left_parenthesis> <pipeline> (('&&' | '||') <pipeline>)* <right_parenthesis>
 <pipeline>				::= <simple_command> ('|' <simple_command>)*
 <pipe>					::= "|"
 <simple_command>		::= (<redirection>)* <word> (<arguments>)* (<word> | <redirection>)*
@@ -16,6 +16,8 @@
 <letter>				::= "a"-"z" | "A"-"Z"
 <digit>					::= "0"-"9"
 <redirection>			::= ('<' | '>' | '>>' | '<<') <word>
+<left_parenthesis>		::= "("
+<right_parenthesis>		::= ")"
 
 <!-- <export_args> ::= <env_name> "=" <word> -->
 
