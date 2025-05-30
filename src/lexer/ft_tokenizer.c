@@ -14,9 +14,9 @@
 
 void	ft_tokenizer(char *str, t_shell *data)
 {
-	(void)data;
 	unsigned int	i;
 
+	(void)data;
 	i = 0;
 	while (str[i])
 	{
@@ -26,10 +26,16 @@ void	ft_tokenizer(char *str, t_shell *data)
 			ft_scan_alnum_token(str, &i, data);
 		else if (str[i] == '>' || str[i] == '<')
 			ft_tokenize_redirection(str, &i, data);
+		else if (str[i] == '&' && str[i + 1] == '&')
+			ft_tokenize_log_and(str, &i, data);
+		else if (str[i] == '|' && str[i + 1] == '|')
+			ft_tokenize_log_or(str, &i, data);
+		else if (str[i] == '|')
+			ft_tokenize_pipe(str, &i, data);
 		else
 		{
 			ft_printf(1, "character unknown\n");
-			break;
+			break ;
 		}
 	}
 	ft_print_tokens_list(data);
