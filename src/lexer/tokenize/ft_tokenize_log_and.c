@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_tokenize_log_and(char *str, unsigned int *pos, t_shell *data)
+void	ft_tokenize_log_and(unsigned int *pos, t_shell *data)
 {
 	t_token	*new_token;
 	char	*token;
@@ -28,13 +28,3 @@ void	ft_tokenize_log_and(char *str, unsigned int *pos, t_shell *data)
 		return (free(token));
 	ft_add_token(&data->tokens_list, new_token);
 }
-
-/*
-update index
-set length of token string
-set string of token
-validate correct allocation
-create token
-validate token
-add token to the list
-*/

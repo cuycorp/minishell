@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:55:53 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/30 18:09:14 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:17:40 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,13 @@ void	ft_tokenizer(char *str, t_shell *data)
 		if (str[i] == '>' || str[i] == '<')
 			ft_tokenize_redirection(str, &i, data);
 		else if (str[i] == '&' && str[i + 1] == '&')
-			ft_tokenize_log_and(str, &i, data);
+			ft_tokenize_log_and(&i, data);
 		else if (str[i] == '|' && str[i + 1] == '|')
-			ft_tokenize_log_or(str, &i, data);
+			ft_tokenize_log_or(&i, data);
 		else if (str[i] == '|')
-			ft_tokenize_pipe(str, &i, data);
+			ft_tokenize_pipe(&i, data);
 		else if (str[i] == '\0')
-			ft_tokenize_EOL(str, &i, data);
+			ft_tokenize_EOL(&i, data);
 		else if (str[i] == '(' || str[i] == ')')
 			ft_tokenize_parenthesis(str, &i, data);
 		else if (ft_isalnum(str[i]) || ft_is_special_char(str[i]))

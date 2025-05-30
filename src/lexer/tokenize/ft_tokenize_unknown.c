@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tokenize_unknown.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 17:03:00 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/05/30 17:03:01 by mcamaren         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:15:52 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	ft_tokenize_unknown(char *str, unsigned int *pos, t_shell *data)
 
 	length = 1;
 	(*pos) += length;
-	token = ft_strdup(*str);
+	token = ft_strdup(str);
 	if (!token)
 		return (ft_close_program(data, EXIT_FAILURE));
 	new_token = ft_create_token(token, TOKEN_UNKNOWN);

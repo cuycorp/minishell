@@ -1,17 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_scan_log_or.c                                   :+:      :+:    :+:   */
+/*   ft_tokenize_log_or.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 16:56:14 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/05/29 16:56:16 by mcamaren         ###   ########.fr       */
+/*   Updated: 2025/05/30 18:12:31 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
-void	ft_tokenize_log_or(char *str, unsigned int *pos, t_shell *data)
+void	ft_tokenize_log_or(unsigned int *pos, t_shell *data)
 {
 	t_token	*new_token;
 	char	*token;

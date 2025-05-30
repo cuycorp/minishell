@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-void	ft_tokenize_pipe(char *str, unsigned int *pos, t_shell *data)
+void	ft_tokenize_pipe(unsigned int *pos, t_shell *data)
 {
 	t_token	*new_token;
 	char	*token;
