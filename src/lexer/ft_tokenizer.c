@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:55:53 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/29 16:35:15 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/30 17:31:27 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ void	ft_tokenizer(char *str, t_shell *data)
 	{
 		while (ft_isspace(str[i]))
 			i++;
-		if (ft_isalnum(str[i]))
-			ft_scan_alnum_token(str, &i, data);
-		else if (str[i] == '>' || str[i] == '<')
+		if (str[i] == '>' || str[i] == '<')
 			ft_tokenize_redirection(str, &i, data);
 		else if (str[i] == '&' && str[i + 1] == '&')
 			ft_tokenize_log_and(str, &i, data);
@@ -34,6 +32,8 @@ void	ft_tokenizer(char *str, t_shell *data)
 			ft_tokenize_pipe(str, &i, data);
 		else if (str[i] == '\0')
 			ft_tokenize_EOL(str, &i, data);
+		else if (ft_isalnum(str[i]) || ft_is_special_char(str[i]))
+			ft_tokenize_word(str, &i, data);
 		else
 		{
 			ft_tokenize_unknown(str, &i, data);

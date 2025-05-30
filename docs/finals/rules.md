@@ -5,7 +5,7 @@
 <simple_command>		::= (<redirection>)* <word> (<arguments>)* (<word> | <redirection>)*
 <arguments>				::= <word> | <quoted_string> | <env_variable> | <special_variable>
 <word>					::= <unquoted_char>+
-<unquoted_char>			::= "!" | "." | "," | ";" | ":" | "?" | "!" | "~" | "_" | "@" | "+" | "/" | "=" | "[" | "]" | "*" | " " | "-" | "\" | <letter> | <digit> | "|" | "<" | ">" | ">>" | "<<" | "$" | "^" | "&"| "#" | "%"
+<unquoted_char>			::= "!" | "." | "," | ";" | ":" | "?" | "!" | "~" | "_" | "@" | "+" | "/" | "=" | "[" | "]" | "*" | " " | "-" | "\" | <letter> | <digit> | "|" | "<" | ">" | ">>" | "<<" | "$" | "^" | "&"| "#" | "%" | "(" | ")"
 <quoted_string>			::= <single_quoted> | <double_quoted_string>
 <!-- A `single_quoted` string starts and ends with single quotes and contains any characters except single quote. -->
 <single_quoted>			::= "'" [^']* "'"

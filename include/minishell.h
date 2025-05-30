@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:39:32 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/29 16:35:02 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/05/29 16:52:23 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ t_shell	*ft_init_shell(void);
 
 /* Scanner function */
 
-void	ft_scan_alnum_token(char *str, unsigned int *pos, t_shell *data);
+void	ft_tokenize_word(char *str, unsigned int *pos, t_shell *data);
 void	ft_tokenize_redirection(char *str, unsigned int *pos, t_shell *data);
 
 /* Token  function */
