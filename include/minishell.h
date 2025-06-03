@@ -107,8 +107,9 @@ t_shell	*ft_init_shell(void);
 void	ft_tokenize_word(char *str, unsigned int *pos, t_shell *data);
 void	ft_tokenize_redirection(char *str, unsigned int *pos, t_shell *data);
 void	ft_tokenize_parenthesis(char *str, unsigned int *pos, t_shell *data);
-void	ft_tokenize_log_and(unsigned int *pos, t_shell *data);
-void	ft_tokenize_log_or(unsigned int *pos, t_shell *data);
+
+void	ft_tokenize_log_operator(unsigned int *pos, t_shell *data,
+		char operator);
 void	ft_tokenize_pipe(unsigned int *pos, t_shell *data);
 void	ft_tokenize_unknown(char *str, unsigned int *pos, t_shell *data);
 void	ft_tokenize_mixed_word(char *str, unsigned int *pos, t_shell *data);

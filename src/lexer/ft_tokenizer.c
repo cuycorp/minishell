@@ -23,14 +23,14 @@ void	ft_tokenizer(char *str, t_shell *data)
 			i++;
 		if (str[i] == '>' || str[i] == '<')
 			ft_tokenize_redirection(str, &i, data);
-		else if (str[i] == '&' && str[i + 1] == '&')
-			ft_tokenize_log_and(&i, data);
-		else if (str[i] == '|' && str[i + 1] == '|')
-			ft_tokenize_log_or(&i, data);
-		else if (str[i] == '|')
-			ft_tokenize_pipe(&i, data);
+		else if ((str[i] == '&' && str[i + 1] == '&') || (str[i] == '|' && str[i
+				+ 1] == '|'))
+			ft_tokenize_log_operator(&i, data, str[i]);
 		else if (str[i] == '(' || str[i] == ')')
 			ft_tokenize_parenthesis(str, &i, data);
+
+		else if (str[i] == '|')
+			ft_tokenize_pipe(&i, data);
 		else if (str[i] == '$')
 			ft_tokenize_expansion(str, &i, data);
 		else if (str[i] == '"' || ft_is_unquoted_char(str[i]))

@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tokenize_log_and.c                                  :+:      :+:    :+:   */
+/*   ft_tokenize_log_operator.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/29 16:55:53 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/05/29 16:55:56 by mcamaren         ###   ########.fr       */
+/*   Created: 2025/06/03 15:13:43 by mcamaren          #+#    #+#             */
+/*   Updated: 2025/06/03 15:13:46 by mcamaren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_tokenize_log_and(unsigned int *pos, t_shell *data)
+void	ft_tokenize_log_operator(unsigned int *pos, t_shell *data,
+		char operator)
 {
 	t_token	*new_token;
 	char	*token;
@@ -20,10 +21,13 @@ void	ft_tokenize_log_and(unsigned int *pos, t_shell *data)
 
 	length = 2;
 	(*pos) += length;
-	token = ft_strdup("&&");
+	if (operator== '|')
+		token = ft_strdup("||");
+	else
+		token = ft_strdup("&&");
 	if (!token)
 		return (ft_close_program(data, EXIT_FAILURE));
-	new_token = ft_create_token(token, TOKEN_LOGICAL_AND);
+	new_token = ft_create_token(token, TOKEN_LOGICAL_OR);
 	if (!new_token)
 		return (free(token));
 	ft_add_token(&data->tokens_list, new_token);
