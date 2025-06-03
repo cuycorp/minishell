@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:23:56 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/02 12:14:25 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/03 10:29:52 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,9 @@ typedef struct s_redirection
  * 	@param TOKEN_HEREDOC Heredoc '<<'
  * 	@param TOKEN_LOGICAL_AND '&&'
  * 	@param TOKEN_LOGICAL_OR '||'
+ * 	@param TOKEN_PARENTHESIS_RIGHT Right parenthesis ')'
+ *	@param TOKEN_PARENTHESIS_LEFT Left parenthesis '('
+ *	@param TOKEN_EXPANSION Word starting with '$' for variable expansion
  * 	@param TOKEN_END_OF_LINE End of line
  * 	@param TOKEN_UNKNOWN Anything that doesn't match a specific token type
  */
@@ -63,6 +66,7 @@ typedef enum e_token_type
 	TOKEN_LOGICAL_OR,
 	TOKEN_PARENTHESIS_RIGHT,
 	TOKEN_PARENTHESIS_LEFT,
+	TOKEN_EXPANSION,
 	TOKEN_END_OF_LINE,
 	TOKEN_UNKNOWN
 }	t_token_type;

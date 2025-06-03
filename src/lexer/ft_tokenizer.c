@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:55:53 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/03 10:10:06 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/03 10:42:52 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ void	ft_tokenizer(char *str, t_shell *data)
 			ft_tokenize_EOL(&i, data);
 		else if (str[i] == '(' || str[i] == ')')
 			ft_tokenize_parenthesis(str, &i, data);
+		else if (str[i] == '$')
+			ft_tokenize_expansion(str, &i, data);
 		else if (str[i] == '"')
 			ft_tokenize_double_quote(str, &i, data);
 		else if (ft_is_unquoted_char(str[i]))

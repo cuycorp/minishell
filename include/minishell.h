@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:39:32 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/03 09:41:46 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/03 10:39:21 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,6 +113,7 @@ void	ft_tokenize_log_or(unsigned int *pos, t_shell *data);
 void	ft_tokenize_pipe(unsigned int *pos, t_shell *data);
 void	ft_tokenize_unknown(char *str, unsigned int *pos, t_shell *data);
 void	ft_tokenize_double_quote(char *str, unsigned int *pos, t_shell *data);
+void	ft_tokenize_expansion(char *str, unsigned int *pos, t_shell *data);
 
 /* Token  function */
 
