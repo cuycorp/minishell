@@ -6,20 +6,18 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:27:13 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/03 10:20:02 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/03 14:38:03 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// should we kept the '&' and ';' from th eexcluded list?
 bool	ft_is_unquoted_char(char c)
 {
 	if (!ft_isprint(c))
 		return (false);
-	if (c == ' ' || c == '|' || c == '<' || c == '>'
-		|| c == '(' || c == ')' || c == '"' || c == '\'' || c == '$'
-		|| c == '\\')
+	if (c== ' ' | c == '|' || c == '<' || c == '>' || c == '(' || c == ')' || c == '"'
+		|| c == '\'' || c == '$' || c == '\\')
 		return (false);
 	return (true);
 }
@@ -37,5 +35,3 @@ bool	ft_is_special_operator(char c)
 	return (c == '|' || c == '&' || c == ';' || c == '<' || c == '>' || c == '('
 		|| c == ')');
 }
-
-

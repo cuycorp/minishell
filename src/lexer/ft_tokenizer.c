@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:55:53 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/03 10:42:52 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/03 17:15:13 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,17 +33,16 @@ void	ft_tokenizer(char *str, t_shell *data)
 			ft_tokenize_parenthesis(str, &i, data);
 		else if (str[i] == '$')
 			ft_tokenize_expansion(str, &i, data);
-		else if (str[i] == '"')
-			ft_tokenize_double_quote(str, &i, data);
-		else if (ft_is_unquoted_char(str[i]))
-			ft_tokenize_word(str, &i, data);
+		else if (str[i] == '"' || ft_is_unquoted_char(str[i]))
+			ft_tokenize_mixed_word(str, &i, data);
 		else if (str[i] == '\'')
 			ft_tokenize_single_quote(&i, data);
+		else if (str[i] == '\0')
+			break ;
 		else
 		{
 			ft_tokenize_unknown(str, &i, data);
 			break ;
-				// TODO: change to return instead? in order to stop computing whenever we have an issue?
 		}
 	}
 	ft_print_tokens_list(data);

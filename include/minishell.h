@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:39:32 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/03 10:39:21 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/03 15:30:20 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 
 /**
  * Required Functions and Headers
-*/
+ */
 
 /**
  * === BASIC I/O AND FILE OPERATIONS ===
@@ -26,7 +26,7 @@
  * === PIPE OPERATIONS ===
  * - Pipe creation: pipe
  * - Descriptor duplication: dup, dup2
-*/
+ */
 # include <unistd.h>	/* read, write, access, close, unlink, chdir,
 							getcwd, execve, isatty, ttyname, ttyslot, pipe, dup,
 							dup2, fork, STDERR_FILENO, STDIN_FILENO,
@@ -41,8 +41,8 @@
  * - Process waiting: wait, waitpid, wait3, wait4
  * - Process types: pid_t
  */
-# include <sys/wait.h>	/* wait, waitpid, wait3, wait4 */
 # include <sys/types.h>	/* pid_t */
+# include <sys/wait.h>	/* wait, waitpid, wait3, wait4 */
 /**
  * === MEMORY AND STRING HANDLING ===
  * - Memory allocation: malloc, free
@@ -51,10 +51,10 @@
  * - Exit functions: exit, EXIT_FAILURE, EXIT_SUCCESS
  * - Environment: getenv
  */
+# include <stdbool.h>	/* bool type support */
 # include <stdio.h>		/* printf, perror */
 # include <stdlib.h>	//malloc, free, exit, EXIT_FAILURE, EXIT_SUCCESS, getenv
 # include <string.h>	/* strerror */
-# include <stdbool.h>	/* bool type support */
 /**
  * === SIGNAL HANDLING ===
  * - Signal operations: signal, sigaction, kill, sigemptyset, sigaddset
@@ -78,13 +78,13 @@
  * - Display control: rl_clear_history, rl_on_new_line, rl_replace_line,
  *  rl_redisplay
  */
-# include <readline/readline.h>	/* readline, rl_clear_history, rl_on_new_line,
+# include <readline/readline.h> /* readline, rl_clear_history, rl_on_new_line,
 									rl_replace_line, rl_redisplay */
-# include <readline/history.h>	/* add_history */
+# include <readline/history.h> /* add_history */
 /* Personnal Libraries */
-# include "libft.h"
-# include "get_next_line.h"
 # include "ft_printf.h"
+# include "get_next_line.h"
+# include "libft.h"
 /* Internal Headers*/
 # include "structures.h"
 # include "utils.h"
@@ -111,7 +111,7 @@ void	ft_tokenize_log_and(unsigned int *pos, t_shell *data);
 void	ft_tokenize_log_or(unsigned int *pos, t_shell *data);
 void	ft_tokenize_pipe(unsigned int *pos, t_shell *data);
 void	ft_tokenize_unknown(char *str, unsigned int *pos, t_shell *data);
-void	ft_tokenize_double_quote(char *str, unsigned int *pos, t_shell *data);
+void	ft_tokenize_mixed_word(char *str, unsigned int *pos, t_shell *data);
 void	ft_tokenize_expansion(char *str, unsigned int *pos, t_shell *data);
 void	ft_tokenize_single_quote(unsigned int *pos, t_shell *data);
 
@@ -130,6 +130,5 @@ void	ft_tokenizer(char *str, t_shell *data);
 
 void	ft_handle_shell(t_shell *data);
 void	ft_handle_history(char *str);
-
 
 #endif
