@@ -1,18 +1,19 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tokenize_EOL.c                                  :+:      :+:    :+:   */
+/*   ft_tokenize_single_quote.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/30 16:44:56 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/05/30 18:12:42 by jgossard         ###   ########.fr       */
+/*   Created: 2025/06/03 11:35:47 by mcamaren          #+#    #+#             */
+/*   Updated: 2025/06/03 11:36:09 by mcamaren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_tokenize_EOL(unsigned int *pos, t_shell *data)
+
+void	ft_tokenize_single_quote(unsigned int *pos, t_shell *data)
 {
 	t_token	*new_token;
 	char	*token;
@@ -20,11 +21,12 @@ void	ft_tokenize_EOL(unsigned int *pos, t_shell *data)
 
 	length = 1;
 	(*pos) += length;
-	token = ft_strdup("\0");
+	token = ft_strdup("'");
 	if (!token)
 		return (ft_close_program(data, EXIT_FAILURE));
-	new_token = ft_create_token(token, TOKEN_END_OF_LINE);
+	new_token = ft_create_token(token, TOKEN_PIPE);
 	if (!new_token)
 		return (free(token));
 	ft_add_token(&data->tokens_list, new_token);
 }
+
