@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:39:32 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/30 18:16:23 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/03 09:41:46 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,14 @@ void	ft_tokenize_log_and(unsigned int *pos, t_shell *data);
 void	ft_tokenize_log_or(unsigned int *pos, t_shell *data);
 void	ft_tokenize_pipe(unsigned int *pos, t_shell *data);
 void	ft_tokenize_unknown(char *str, unsigned int *pos, t_shell *data);
+void	ft_tokenize_double_quote(char *str, unsigned int *pos, t_shell *data);
 
 /* Token  function */
 
 t_token	*ft_create_token(char *str, t_token_type type);
 void	ft_add_token(t_token **tokens_list, t_token *new_token);
+void	ft_add_token_from_range(t_shell *data, int start, int end,
+			t_token_type type);
 void	ft_free_tokens_list(t_token **tokens_list);
 void	ft_print_tokens_list(t_shell *data);
 

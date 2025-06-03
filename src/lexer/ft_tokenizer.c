@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:55:53 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/30 18:17:40 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/03 10:10:06 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,14 @@ void	ft_tokenizer(char *str, t_shell *data)
 			ft_tokenize_EOL(&i, data);
 		else if (str[i] == '(' || str[i] == ')')
 			ft_tokenize_parenthesis(str, &i, data);
-		else if (ft_isalnum(str[i]) || ft_is_special_char(str[i]))
+		else if (str[i] == '"')
+			ft_tokenize_double_quote(str, &i, data);
+		else if (ft_is_unquoted_char(str[i]))
 			ft_tokenize_word(str, &i, data);
 		else
 		{
 			ft_tokenize_unknown(str, &i, data);
-			ft_printf(1, "character unknown\n");
-			break ;
+			break ; // TODO: change to return instead? in order to stop computing whenever we have an issue?
 		}
 	}
 	ft_print_tokens_list(data);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   structures.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jg <jg@student.42.fr>                      +#+  +:+       +#+        */
+/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:23:56 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/30 15:28:25 by jg               ###   ########.fr       */
+/*   Updated: 2025/06/02 12:14:25 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ typedef struct s_redirection
 /**
  * @brief Token types for the lexical analyzer in the shell
  * 	@param TOKEN_WORD A normal word (e.g., command name or argument)
+ * 	@param TOKEN_DOUBLE_QUOTED_WORD A double-quoted word
+ * 	@param TOKEN_SINGLE_QUOTED_WORD A single-quoted word
  * 	@param TOKEN_PIPE Pipe character '|'
  * 	@param TOKEN_REDIRECT_IN Input redirection '<'
  * 	@param TOKEN_REDIRECT_OUT Output redirection '>'
@@ -50,6 +52,8 @@ typedef struct s_redirection
 typedef enum e_token_type
 {
 	TOKEN_WORD,
+	TOKEN_DOUBLE_QUOTED_WORD,
+	TOKEN_SINGLE_QUOTED_WORD,
 	TOKEN_PIPE,
 	TOKEN_REDIRECT_IN,
 	TOKEN_REDIRECT_OUT,

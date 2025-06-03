@@ -50,10 +50,11 @@ Minishell
 - [x] Identify words by implementing the <unquoted_char> grammar rule
 - [] Handle quoting:
 	- [] Single quote `'`
-	- [] Double quote `"`
+	- [x] Double quote `"`
 - [x] Handle `TOKEN_END_OF_FILE` Token
 - [x] Handle `TOKEN_UNKNOWN` Token
 - [] Handle `*` Wildcard Token
+- [] Fix issue with `TOKEN_END_OF_FILE` and `TOKEN_UNKNOWN` conflicts
 
 ### Example:
 
@@ -72,6 +73,7 @@ Tokens:
 ## Phase 3: Syntax Analysis
 
 - [x] Define grammar rules
+- [] Fix grammar rules to better incorporate parenthesis in <command_line> rule
 - [] Validate token order and grammar => Recursive Descent Parsing algo?
 	- [] Implement the grammar rules in function
 	- [] Implement the match function

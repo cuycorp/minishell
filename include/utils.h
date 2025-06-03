@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:24:47 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/30 15:54:33 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/03 09:55:25 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ void	ft_close_program(t_shell *data, int exit_code);
 
 /* Utils */
 
-int	ft_is_special_char(char c);
+bool	ft_is_unquoted_char(char c);
+bool	ft_is_double_quoted_char(char c);
+bool	ft_is_special_operator(char c);
 
 #endif

@@ -6,18 +6,25 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:11:46 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/30 18:03:10 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/02 12:34:21 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static char	*ft_get_token_type(t_token_type type)
+static char	*ft_get_word_token_type(t_token_type type)
 {
 	if (type == TOKEN_WORD)
 		return ("TOKEN_WORD");
-	if (type == TOKEN_PIPE)
-		return ("TOKEN_PIPE");
+	if (type == TOKEN_DOUBLE_QUOTED_WORD)
+		return ("TOKEN_DOUBLE_QUOTED_WORD");
+	if (type == TOKEN_SINGLE_QUOTED_WORD)
+		return ("TOKEN_SINGLE_QUOTED_WORD");
+	return (NULL);
+}
+
+static char *ft_get_redirection_token_type(t_token_type type)
+{
 	if (type == TOKEN_REDIRECT_IN)
 		return ("TOKEN_REDIRECT_IN");
 	if (type == TOKEN_REDIRECT_OUT)
@@ -26,6 +33,21 @@ static char	*ft_get_token_type(t_token_type type)
 		return ("TOKEN_APPEND_OUT");
 	if (type == TOKEN_HEREDOC)
 		return ("TOKEN_HEREDOC");
+	return (NULL);
+}
+
+static char	*ft_get_token_type(t_token_type type)
+{
+	char	*result;
+
+	result = ft_get_word_token_type(type);
+	if (result)
+		return (result);
+	result = ft_get_redirection_token_type(type);
+	if (result)
+		return (result);
+	if (type == TOKEN_PIPE)
+		return ("TOKEN_PIPE");
 	if (type == TOKEN_LOGICAL_AND)
 		return ("TOKEN_LOGICAL_AND");
 	if (type == TOKEN_LOGICAL_OR)
