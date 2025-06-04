@@ -54,6 +54,7 @@ Minishell
 - [x] Handle `TOKEN_END_OF_FILE` Token
 - [x] Handle `TOKEN_UNKNOWN` Token
 - [] Handle `*` Wildcard Token
+- [x] Break loop when `'\0'` (end of line) is found, no token is created
 - [x] Fix issue with `TOKEN_END_OF_FILE` and `TOKEN_UNKNOWN` conflicts
 - [] Fix issue with `&&` not returning the right token type
 - [] Fix issue with `&` which currently close the program but rather create a `TOKEN_UNKNOWN` in order not to close the program
