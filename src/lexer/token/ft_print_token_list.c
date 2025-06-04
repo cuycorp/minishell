@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/28 12:11:46 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/03 10:40:48 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/04 11:32:32 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ static char	*ft_get_word_token_type(t_token_type type)
 	return (NULL);
 }
 
-static char *ft_get_redirection_token_type(t_token_type type)
+static char	*ft_get_redirection_token_type(t_token_type type)
 {
 	if (type == TOKEN_REDIRECT_IN)
 		return ("TOKEN_REDIRECT_IN");
@@ -66,18 +66,21 @@ static char	*ft_get_token_type(t_token_type type)
 void	ft_print_tokens_list(t_shell *data)
 {
 	t_token	*current;
+	int		i;
 
 	if (!data || !data->tokens_list)
 		return (perror("Error: ft_print_token_list failed"));
 	current = data->tokens_list;
+	i = 0;
 	while (current)
 	{
-		ft_printf(STDOUT_FILENO,
-			"tokens_list->value = %s\n", current->value);
-		ft_printf(STDOUT_FILENO,
-			"tokens_list->value length = %d\n", ft_strlen(current->value));
-		ft_printf(STDOUT_FILENO,
-			"tokens_list->type = %s\n", ft_get_token_type(current->type));
+		ft_printf(
+			STDOUT_FILENO,
+			"Token[%i] : value = %s, value length = %d, token type = %s\n",
+			i++,
+			current->value,
+			ft_strlen(current->value),
+			ft_get_token_type(current->type));
 		current = current->next;
 	}
 }
