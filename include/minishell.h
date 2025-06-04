@@ -115,6 +115,7 @@ void	ft_tokenize_unknown(char *str, unsigned int *pos, t_shell *data);
 void	ft_tokenize_mixed_word(char *str, unsigned int *pos, t_shell *data);
 void	ft_tokenize_expansion(char *str, unsigned int *pos, t_shell *data);
 void	ft_tokenize_single_quote(unsigned int *pos, t_shell *data);
+void	ft_tokenize_single(char *str, unsigned int *pos, t_shell *data);
 
 /* Token  function */
 

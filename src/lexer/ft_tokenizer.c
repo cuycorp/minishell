@@ -23,12 +23,26 @@ void	ft_tokenizer(char *str, t_shell *data)
 			i++;
 		if (str[i] == '>' || str[i] == '<')
 			ft_tokenize_redirection(str, &i, data);
-		else if ((str[i] == '&' && str[i + 1] == '&') || (str[i] == '|' && str[i
-				+ 1] == '|'))
+		else if (str[i] == '&'|| str[i] == '|' )
 			ft_tokenize_log_operator(&i, data, str[i]);
 		else if (str[i] == '(' || str[i] == ')')
 			ft_tokenize_parenthesis(str, &i, data);
+		else if (str[i] == '|' || str[i] == '$' || str[i] == '"'
+			|| str[i] == '\'')
+			ft_tokenize_single(str[i], &i, data);
+		else if (ft_is_unquoted_char(str[i]))
+			ft_tokenize_word(str, &i, data);
+		else
+		{
+			ft_tokenize_unknown(str, &i, data);
+			break ;
+		}
+	}
+	ft_print_tokens_list(data);
+}
 
+// TODO: change to return instead? in order to stop computing whenever we have an issue?
+/*
 		else if (str[i] == '|')
 			ft_tokenize_pipe(&i, data);
 		else if (str[i] == '$')
