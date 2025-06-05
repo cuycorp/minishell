@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:28:04 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/29 16:35:02 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/19 13:47:49 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,11 @@ void	ft_handle_shell(t_shell *data)
 		if (*data->input == '\0')
 			continue ;
 		ft_tokenizer(data->input, data);
+		if (!ft_parser(data->tokens_list))
+			ft_printf(STDERR_FILENO, "Error: ft_parser failed\n");
+		else
+			ft_printf(STDIN_FILENO, "Success: ft_parser succeeded\n");
+
 		ft_handle_history(data->input);
 		if (ft_strncmp(data->input, EXIT, ft_strlen(EXIT) + 1) == 0)
 		{

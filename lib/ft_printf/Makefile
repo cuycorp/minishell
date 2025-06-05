@@ -57,7 +57,7 @@ $(LIBFT_STATIC_LIB):
 	@$(MAKE) -C $(LIBFT_DIR) -s || { echo "$(RED_COLOR)Libft build failed!$(DEFAULT_COLOR)"; exit 1; }
 
 # Then build ft_printf library
-$(FT_PRINTF_STATIC_LIB): $(LIBFT_STATIC_LIB) $(OBJ_FILES)
+$(FT_PRINTF_STATIC_LIB): $(OBJ_FILES)
 	@ar rcs $@ $^
 	@echo "$(GREEN_COLOR)Compiled: $(DEFAULT_COLOR) ft_printf ✅";
 

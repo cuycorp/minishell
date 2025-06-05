@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tokenize_single.c                               :+:      :+:    :+:   */
+/*   ft_parse_pipeline_command.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/03 15:27:50 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/06/17 14:49:10 by jgossard         ###   ########.fr       */
+/*   Created: 2025/06/17 14:09:20 by jgossard          #+#    #+#             */
+/*   Updated: 2025/06/19 13:43:25 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_tokenize_single(char *str, unsigned int *pos, t_shell *data)
+bool	ft_parse_pipeline_command(t_token **tokens)
 {
-	// if (str[*pos] == '|')
-		// ft_tokenize_pipe(pos, data);
-	// else
-	if (str[*pos] == '$')
-		ft_tokenize_expansion(str, pos, data);
+	if (!*tokens)
+		return (false);
+	if ((*tokens)->type == TOKEN_PARENTHESIS_LEFT)
+		return (ft_parse_grouped_pipeline(tokens));
+	return (ft_parse_simple_command(tokens));
 }

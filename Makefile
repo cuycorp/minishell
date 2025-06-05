@@ -5,8 +5,6 @@ INCLUDE_DIR = include
 LIB_DIR = lib
 
 ################################## LIBRAIRIES ##################################
-COMBINED_LIB = $(LIB_DIR)/libcombined.a
-
 LIBFT_DIR = $(LIB_DIR)/libft
 LIBFT_STATIC_LIB = $(LIBFT_DIR)/libft.a
 

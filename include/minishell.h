@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:39:32 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/03 15:30:20 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/19 14:46:21 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,13 @@
 /* MACRO */
 
 # define PIPE '|'
+# define LOGICAL_OR "||"
+# define AMPERSAND_OPERATOR '&'
+# define LOGICAL_AND "&&"
+# define INPUT_REDIRECT '<'
+# define OUTPUT_REDIRECT '>'
+# define HERE_DOC "<<"
+# define OUTPUT_APPEND ">>"
 # define EXIT "exit"
 
 /* FUNCTIONS */
@@ -112,12 +119,13 @@ void	ft_tokenize_redirection(char *str, unsigned int *pos, t_shell *data);
 void	ft_tokenize_parenthesis(char *str, unsigned int *pos, t_shell *data);
 
 void	ft_tokenize_log_operator(char *str, unsigned int *pos, t_shell *data);
-void	ft_tokenize_pipe(unsigned int *pos, t_shell *data);
+// void	ft_tokenize_pipe(unsigned int *pos, t_shell *data);
 void	ft_tokenize_unknown(char *str, unsigned int *pos, t_shell *data);
 void	ft_tokenize_mixed_word(char *str, unsigned int *pos, t_shell *data);
 void	ft_tokenize_expansion(char *str, unsigned int *pos, t_shell *data);
-void	ft_tokenize_single_quote(unsigned int *pos, t_shell *data);
-void	ft_tokenize_single(char *str, unsigned int *pos, t_shell *data);
+// void	ft_tokenize_single_quote(unsigned int *pos, t_shell *data);
+// void	ft_tokenize_single(char *str, unsigned int *pos, t_shell *data);
+void	ft_tokenize_end_of_line(unsigned int *pos, t_shell *data);
 
 /* Token  function */
 
@@ -135,6 +143,32 @@ void	ft_tokenizer(char *str, t_shell *data);
 int	function_cd(t_shell **data, t_command command);
 int	function_pwd(t_shell *data);
 int function_echo(t_command command);
+
+/* ########  PARSER PART  ######## */
+bool	ft_parser(t_token *token_list);
+bool	ft_parse_shell(t_token **token_list);
+bool	ft_parse_command_line(t_token **token_list);
+bool	ft_parse_grouped_pipeline(t_token **token_list);
+bool	ft_parse_pipeline(t_token **token_list);
+bool	ft_parse_simple_command(t_token **token_list);
+bool	ft_parse_redirection(t_token **token_list);
+bool	ft_parse_arguments(t_token **token_list);
+bool	ft_parse_word(t_token **token_list);
+bool	ft_parse_quoted_string(t_token **token_list);
+bool	ft_parse_single_quoted(t_token **token_list);
+bool	ft_parse_double_quoted_string(t_token **token_list);
+bool	ft_parse_double_quoted_char(t_token **token_list);
+bool	ft_parse_env_variable(t_token **token_list);
+bool	ft_parse_env_name(t_token **token_list);
+bool	ft_parse_prefix(t_token **token_list);
+bool	ft_parse_command_part(t_token **token_list);
+bool	ft_parse_suffix_list(t_token **token_list);
+bool	ft_parse_command_word(t_token **token_list);
+bool	ft_parse_argument_or_redirection(
+			t_token **token_list, bool *has_redirection);
+bool	ft_parse_pipeline_group(t_token **token_list);
+bool	ft_parse_and_or_list(t_token **token_list);
+bool	ft_parse_pipeline_command(t_token **tokens);
 
 /* ########  SHELL PART  ######## */
 

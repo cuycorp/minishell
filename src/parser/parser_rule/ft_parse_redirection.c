@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tokenize_single.c                               :+:      :+:    :+:   */
+/*   ft_parse_redirection.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/03 15:27:50 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/06/17 14:49:10 by jgossard         ###   ########.fr       */
+/*   Created: 2025/06/09 14:07:55 by jgossard          #+#    #+#             */
+/*   Updated: 2025/06/19 13:46:08 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_tokenize_single(char *str, unsigned int *pos, t_shell *data)
+bool	ft_parse_redirection(t_token **token_list)
 {
-	// if (str[*pos] == '|')
-		// ft_tokenize_pipe(pos, data);
-	// else
-	if (str[*pos] == '$')
-		ft_tokenize_expansion(str, pos, data);
+	if (!token_list || !(*token_list))
+		return (false);
+	if (!ft_is_redirection_type((*token_list)->type))
+		return (ft_parse_error("expected redirection operator"));
+	ft_advance_token(token_list);
+	if (!(*token_list) || !ft_is_word_like_type((*token_list)->type))
+		return (ft_parse_error("expected filename after redirection"));
+	return (ft_parse_word(token_list));
 }

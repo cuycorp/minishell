@@ -48,16 +48,18 @@ Minishell
 - [x] Recognize logical `AND` operator : `&&`
 - [x] Recognize logical `OR` operator : `||`
 - [x] Identify words by implementing the <unquoted_char> grammar rule
-- [] Handle quoting:
+- [x] Handle quoting:
 	- [x] Single quote `'`
 	- [x] Double quote `"`
 - [x] Handle `TOKEN_END_OF_FILE` Token
 - [x] Handle `TOKEN_UNKNOWN` Token
-- [] Handle `*` Wildcard Token
 - [x] Fix issue with `TOKEN_END_OF_FILE` and `TOKEN_UNKNOWN` conflicts
-- [] Fix issue with `&&` not returning the right token type
-- [] Fix issue with `&` which currently close the program but rather create a `TOKEN_UNKNOWN` in order not to close the program
-- [] Refactored the single quote handling?
+- [x] Fix issue with `&&` not returning the right token type
+- [x] Fix issue with `&` which currently close the program but rather create a `TOKEN_UNKNOWN` in order not to close the program
+- [x] Refactored the single quote handling?
+- [] Handle `*` Wildcard Token
+- [] Handle unknow character such as `;` which currently close the program...
+- [] Add check on number of quotes and parenthesis -> should be an even number
 
 ### Example:
 
@@ -76,12 +78,14 @@ Tokens:
 ## Phase 3: Syntax Analysis
 
 - [x] Define grammar rules
-- [] Fix grammar rules to better incorporate parenthesis in <command_line> rule
-- [] Validate token order and grammar => Recursive Descent Parsing algo?
-	- [] Implement the grammar rules in function
-	- [] Implement the match function
-	- [] Handle syntax errors ? (unclosed quotes, invalid chars)
-	- [] Handle syntax errors (e.g., empty pipes, unmatched tokens) (e.g., `| > file`, `cat infile |`)
+- [x] Fix grammar rules to better incorporate parenthesis in <command_line> rule
+- [x] Validate token order and grammar => Recursive Descent Parsing algo?
+	- [x] Implement the grammar rules in function
+	- [x] Implement the match function
+	- [x] Handle syntax errors ? (unclosed quotes, invalid chars)
+	- [x] Handle syntax errors (e.g., empty pipes, unmatched tokens) (e.g., `| > file`, `cat infile |`)
+- [] Fix error when line finished with pipe (e.g: `(echo hi && ls) | (grep main || ((echo fallback && exit))) | `)
+- [] Fix tokenizer which seems to close the program when it encountere an unknow character (e.g. ``)
 
 ---
 

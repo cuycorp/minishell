@@ -1,35 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_token_list.c                              :+:      :+:    :+:   */
+/*   ft_parser.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/28 12:11:46 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/17 15:36:51 by jgossard         ###   ########.fr       */
+/*   Created: 2025/06/05 11:41:53 by mcamaren          #+#    #+#             */
+/*   Updated: 2025/06/19 13:36:26 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_print_tokens_list(t_shell *data)
+bool	ft_parser(t_token *token_list)
 {
 	t_token	*current;
-	int		i;
 
-	if (!data || !data->tokens_list)
-		return (perror("Error: ft_print_token_list failed"));
-	current = data->tokens_list;
-	i = 0;
-	while (current)
-	{
-		ft_printf(
-			STDOUT_FILENO,
-			"Token[%i] : value = %s, value length = %d, token type = %s\n",
-			i++,
-			current->value,
-			ft_strlen(current->value),
-			ft_stringify_token_type(current->type));
-		current = current->next;
-	}
+	current = token_list;
+	if (!ft_parse_shell(&current))
+		return (false);
+	return (true);
 }

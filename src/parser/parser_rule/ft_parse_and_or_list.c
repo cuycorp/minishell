@@ -1,37 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strings_utils.c                                 :+:      :+:    :+:   */
+/*   ft_parse_and_or_list.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/21 14:27:13 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/15 18:07:01 by jgossard         ###   ########.fr       */
+/*   Created: 2025/06/17 10:17:22 by jgossard          #+#    #+#             */
+/*   Updated: 2025/06/19 13:40:24 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_is_unquoted_char(char c)
+bool	ft_parse_and_or_list(t_token **token_list)
 {
-	if (!ft_isprint(c))
+	if (!token_list)
 		return (false);
-	if (c == ' ' || c == '|' || c == '<' || c == '>' || c == '(' || c == ')'
-		|| c == '"' || c == '\'' || c == '$' || c == '\\')
+	if (!ft_parse_pipeline_group(token_list))
 		return (false);
+	while (*token_list && ft_is_logical_operator((*token_list)->type))
+	{
+		ft_advance_token(token_list);
+		if (!(*token_list))
+			return (ft_parse_error(
+				"unexpected end of input after logical operator"));
+		if (!ft_parse_pipeline_group(token_list))
+			return (ft_parse_error(
+				"expected pipeline/grouped_pipeline after logical operator"));
+	}
 	return (true);
-}
-
-// TODO: unused function so far, to remove
-bool	ft_is_double_quoted_char(char c)
-{
-	if (c == '\0' || c == '"')
-		return (false);
-	return (ft_isprint(c));
-}
-
-bool	ft_is_special_operator(char c)
-{
-	return (c == '|' || c == '&' || c == ';' || c == '<' || c == '>' || c == '('
-		|| c == ')');
 }

@@ -3,33 +3,53 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tokenize_log_operator.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:13:43 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/06/03 15:13:46 by mcamaren         ###   ########.fr       */
+/*   Updated: 2025/06/17 17:25:32 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
+static t_token_type	ft_get_logical_operator_token_type(
+	char *str, unsigned int *pos)
+{
+	if (str[*pos] == PIPE)
+	{
+		if (str[(*pos)++] && str[*pos] == PIPE)
+		{
+			(*pos)++;
+			return (TOKEN_LOGICAL_OR);
+		}
+		return (TOKEN_PIPE);
+	}
+	else if (str[*pos] == AMPERSAND_OPERATOR)
+	{
+		if (str[(*pos)++] && str[*pos] == AMPERSAND_OPERATOR)
+		{
+			(*pos)++;
+			return (TOKEN_LOGICAL_AND);
+		}
+		return (TOKEN_UNKNOWN);
+	}
+	return (TOKEN_UNKNOWN);
+}
+
 void	ft_tokenize_log_operator(char *str, unsigned int *pos, t_shell *data)
 {
-	t_token	*new_token;
-	char	*token;
-	int		length;
+	t_token_type	token_type;
+	char			*token;
+	unsigned int	start_index;
+	int				length;
 
-	if (str[*pos] == '|' && str[(*pos) + 1] == '|')
-		token = ft_strdup("||");
-	else if (str[*pos] == '&' && str[(*pos) + 1] == '&')
-		token = ft_strdup("&&");
-	else
-		return (ft_close_program(data, EXIT_FAILURE));
-	length = 2;
-	(*pos) += length;
+	if (!str)
+		return ;
+	start_index = *pos;
+	token_type = ft_get_logical_operator_token_type(str, pos);
+	length = *pos - start_index;
+	token = ft_substr(str, start_index, length);
 	if (!token)
 		return (ft_close_program(data, EXIT_FAILURE));
-	new_token = ft_create_token(token, TOKEN_LOGICAL_OR);
-	if (!new_token)
-		return (free(token));
-	ft_add_token(&data->tokens_list, new_token);
+	ft_add_token(&data->tokens_list, ft_create_token(token, token_type));
 }

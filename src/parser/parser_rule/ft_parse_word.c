@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tokenize_single.c                               :+:      :+:    :+:   */
+/*   ft_parse_word.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/03 15:27:50 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/06/17 14:49:10 by jgossard         ###   ########.fr       */
+/*   Created: 2025/06/09 14:08:31 by jgossard          #+#    #+#             */
+/*   Updated: 2025/06/19 13:45:47 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_tokenize_single(char *str, unsigned int *pos, t_shell *data)
+bool	ft_parse_word(t_token **token_list)
 {
-	// if (str[*pos] == '|')
-		// ft_tokenize_pipe(pos, data);
-	// else
-	if (str[*pos] == '$')
-		ft_tokenize_expansion(str, pos, data);
+	if (!token_list || !(*token_list))
+		return (false);
+	if (ft_is_word_like_type((*token_list)->type))
+	{
+		ft_advance_token(token_list);
+		return (true);
+	}
+	return (ft_parse_error("expected a word"));
 }

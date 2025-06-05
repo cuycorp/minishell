@@ -1,22 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tokenize_single.c                               :+:      :+:    :+:   */
+/*   ft_parse_command_line.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/03 15:27:50 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/06/17 14:49:10 by jgossard         ###   ########.fr       */
+/*   Created: 2025/06/18 11:29:54 by jgossard          #+#    #+#             */
+/*   Updated: 2025/06/19 13:41:07 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_tokenize_single(char *str, unsigned int *pos, t_shell *data)
+bool	ft_parse_command_line(t_token **token_list)
 {
-	// if (str[*pos] == '|')
-		// ft_tokenize_pipe(pos, data);
-	// else
-	if (str[*pos] == '$')
-		ft_tokenize_expansion(str, pos, data);
+	if (!token_list || !(*token_list))
+		return (false);
+	return (ft_parse_and_or_list(token_list));
 }

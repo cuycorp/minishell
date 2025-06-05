@@ -1,22 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_tokenize_single.c                               :+:      :+:    :+:   */
+/*   ft_tokenize_end_of_line.c                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/03 15:27:50 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/06/17 14:49:10 by jgossard         ###   ########.fr       */
+/*   Created: 2025/06/17 14:54:04 by jgossard          #+#    #+#             */
+/*   Updated: 2025/06/17 14:58:17 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_tokenize_single(char *str, unsigned int *pos, t_shell *data)
+void	ft_tokenize_end_of_line(unsigned int *pos, t_shell *data)
 {
-	// if (str[*pos] == '|')
-		// ft_tokenize_pipe(pos, data);
-	// else
-	if (str[*pos] == '$')
-		ft_tokenize_expansion(str, pos, data);
+	t_token	*new_token;
+	char	*token;
+	int		length;
+
+	length = 1;
+	(*pos) += length;
+	token = ft_strdup("\0");
+	if (!token)
+		return (ft_close_program(data, EXIT_FAILURE));
+	new_token = ft_create_token(token, TOKEN_END_OF_LINE);
+	if (!new_token)
+		return (free(token));
+	ft_add_token(&data->tokens_list, new_token);
 }
