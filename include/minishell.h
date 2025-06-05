@@ -127,6 +127,23 @@ void	ft_print_tokens_list(t_shell *data);
 
 void	ft_tokenizer(char *str, t_shell *data);
 
+/* ########  PARSER PART  ######## */
+bool	ft_parser(t_token *token_list, t_shell *data);
+bool	ft_parse_shell(t_token *token_list, t_shell *data);
+bool	ft_parse_command_line(t_token **token_list, t_shell *data);
+bool	ft_parse_grouped_pipeline(t_token **token_list, t_shell *data);
+bool	ft_parse_pipeline(t_token **token_list, t_shell *data);
+bool	ft_parse_simple_command(t_token **token_list, t_shell *data);
+bool	ft_parse_redirection(t_token *token_list, t_shell *data);
+bool	ft_parse_arguments(t_token *token_list, t_shell *data);
+bool	ft_parse_word(t_token *token_list, t_shell *data);
+bool	ft_parse_quoted_string(t_token *token_list, t_shell *data);
+bool	ft_parse_single_quoted(t_token *token_list, t_shell *data);
+bool	ft_parse_double_quoted_string(t_token *token_list, t_shell *data);
+bool	ft_parse_double_quoted_char(t_token *token_list, t_shell *data);
+bool	ft_parse_env_variable(t_token *token_list, t_shell *data);
+bool	ft_parse_env_name(t_token *token_list, t_shell *data);
+
 /* ########  SHELL PART  ######## */
 
 void	ft_handle_shell(t_shell *data);
