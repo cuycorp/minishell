@@ -18,8 +18,4 @@ void	ft_tokenize_single(char *str, unsigned int *pos, t_shell *data)
 		ft_tokenize_pipe(pos, data);
 	else if (str[*pos] == '$')
 		ft_tokenize_expansion(str, pos, data);
-	else if (str[*pos] == '"')
-		ft_tokenize_double_quote(str, pos, data);
-	else if (str[*pos] == '\'')
-		ft_tokenize_single_quote(pos, data);
 }

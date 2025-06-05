@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:08:10 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/03 17:23:56 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/05 11:18:10 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,18 @@ static void	ft_advance_past_double_quotes(char *str, unsigned int *pos)
 	}
 }
 
+static void	ft_advance_past_single_quotes(char *str, unsigned int *pos)
+{
+	(*pos)++;
+	while (str[*pos] != '\'')
+	{
+		if (!str[*pos])
+			break;
+		(*pos)++;
+	}
+	(*pos)++;
+}
+
 /**
  * @brief Determines the token type based on the presence of quotes.
  *
@@ -68,11 +80,14 @@ static void	ft_advance_past_double_quotes(char *str, unsigned int *pos)
  * @param has_quote Boolean flag indicating whether quotes were found.
  * @return t_token_type The appropriate token type.
  */
-static t_token_type	ft_get_token_type(bool has_quote)
+static t_token_type	ft_get_token_type(bool has_double_quote, bool has_single_quote)
 {
-	if (has_quote)
+	if (has_double_quote && !has_single_quote)
 		return (TOKEN_DOUBLE_QUOTED_WORD);
-	return (TOKEN_WORD);
+	else if (has_single_quote && !has_double_quote)
+		return (TOKEN_SINGLE_QUOTED_WORD);
+	else
+		return (TOKEN_WORD);
 }
 
 /**
@@ -91,17 +106,24 @@ void	ft_tokenize_mixed_word(char *str, unsigned int *pos, t_shell *data)
 {
 	t_token_type	token_type;
 	unsigned int	start_index;
-	bool			has_quote;
+	bool			has_double_quote;
+	bool			has_single_quote;
 
 	if (!str)
 		return ;
 	start_index = *pos;
-	has_quote = false;
+	has_double_quote = false;
+	has_single_quote = false;
 	while (str[*pos])
 	{
-		if (str[*pos] == '"')
+		if (str[*pos] == '\'')
 		{
-			has_quote = true;
+			has_single_quote = true;
+			ft_advance_past_single_quotes(str ,pos);
+		}
+		else if (str[*pos] == '"')
+		{
+			has_double_quote = true;
 			ft_advance_past_double_quotes(str, pos);
 		}
 		else if (ft_is_special_operator(str[*pos]))
@@ -111,6 +133,6 @@ void	ft_tokenize_mixed_word(char *str, unsigned int *pos, t_shell *data)
 		else
 			break ;
 	}
-	token_type = ft_get_token_type(has_quote);
+	token_type = ft_get_token_type(has_double_quote, has_single_quote);
 	ft_add_token_from_range(data, start_index, *pos, token_type);
 }

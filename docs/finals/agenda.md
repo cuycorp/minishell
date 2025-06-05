@@ -49,12 +49,15 @@ Minishell
 - [x] Recognize logical `OR` operator : `||`
 - [x] Identify words by implementing the <unquoted_char> grammar rule
 - [] Handle quoting:
-	- [] Single quote `'`
+	- [x] Single quote `'`
 	- [x] Double quote `"`
 - [x] Handle `TOKEN_END_OF_FILE` Token
 - [x] Handle `TOKEN_UNKNOWN` Token
 - [] Handle `*` Wildcard Token
-- [] Fix issue with `TOKEN_END_OF_FILE` and `TOKEN_UNKNOWN` conflicts
+- [x] Fix issue with `TOKEN_END_OF_FILE` and `TOKEN_UNKNOWN` conflicts
+- [] Fix issue with `&&` not returning the right token type
+- [] Fix issue with `&` which currently close the program but rather create a `TOKEN_UNKNOWN` in order not to close the program
+- [] Refactored the single quote handling?
 
 ### Example:
 
