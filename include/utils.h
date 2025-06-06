@@ -29,4 +29,6 @@ bool	ft_is_unquoted_char(char c);
 bool	ft_is_double_quoted_char(char c);
 bool	ft_is_special_operator(char c);
 
+bool	ft_is_redirection_type(t_token_type type);
+bool	ft_is_argument_type(t_token_type type);
 #endif
