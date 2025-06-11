@@ -12,13 +12,40 @@
 
 #include "minishell.h"
 
-t_shell	*ft_init_shell(void)
+static char	**ft_set_env(char **envp)
+{
+	char	**ev;
+	int		i;
+
+	i = 0;
+	ev = (char **)ft_alloc_struct(52 * sizeof(char *));
+	if (!ev)
+		return (NULL);
+	while (i < 52)
+	{
+		ev[i] = ft_strdup(envp[i]);
+		i++;
+	}
+	return (ev);
+}
+
+t_shell	*ft_init_shell(char **envp)
 {
 	t_shell	*shell;
+	int		i;
 
+	i = 0;
 	shell = (t_shell *)ft_alloc_struct(sizeof(t_shell));
 	if (!shell)
 		return (NULL);
-
+	shell->ev = ft_set_env(envp);
 	return (shell);
 }
+
+/*
+	printf("printing copy of env\n");
+	while (i < 52)
+	{
+		printf("%s\n", shell->ev[i]);
+		i++;
+	} */

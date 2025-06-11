@@ -12,13 +12,27 @@
 
 #include "minishell.h"
 
-int main(int argc, char **argv, char **envp)
+static void	test_builtin(t_shell **data)
 {
-	(void)argv;
-	(void)envp;
+	t_command	command;
+	char		*PATH;
+
+	PATH = "src";
+	command.args = ft_split(PATH, ' ');
+	command.command = "cd";
+	command.redirection = NULL;
+	command.next = NULL;
+	function_cd(data, command);
+}
+
+int	main(int argc, char **argv, char **envp)
+{
 	t_shell	*data;
 
-	data = ft_init_shell();
+	(void)argv;
+	(void)argc;
+	data = ft_init_shell(envp);
+	test_builtin(&data); //test builtins
 	if (!data)
 		return (EXIT_FAILURE);
 	ft_validate_args(argc, data);

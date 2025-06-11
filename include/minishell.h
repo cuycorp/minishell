@@ -81,6 +81,8 @@
 # include <readline/readline.h> /* readline, rl_clear_history, rl_on_new_line,
 									rl_replace_line, rl_redisplay */
 # include <readline/history.h> /* add_history */
+# include <limits.h> /*max size of path PATH_MAX */
+
 /* Personnal Libraries */
 # include "ft_printf.h"
 # include "get_next_line.h"
@@ -88,6 +90,7 @@
 /* Internal Headers*/
 # include "structures.h"
 # include "utils.h"
+
 
 /* MACRO */
 
@@ -98,7 +101,7 @@
 
 /* INITIALIZER */
 
-t_shell	*ft_init_shell(void);
+t_shell	*ft_init_shell(char **envp);
 
 /* ########  LEXER PART  ######## */
 
@@ -144,9 +147,16 @@ bool	ft_parse_double_quoted_char(t_token *token_list, t_shell *data);
 bool	ft_parse_env_variable(t_token *token_list, t_shell *data);
 bool	ft_parse_env_name(t_token *token_list, t_shell *data);
 
+/* ########  BUILTINS  ######## */
+
+void	function_cd(t_shell **data, t_command command);
+
+
 /* ########  SHELL PART  ######## */
 
 void	ft_handle_shell(t_shell *data);
 void	ft_handle_history(char *str);
+
+
 
 #endif
