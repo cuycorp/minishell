@@ -149,8 +149,9 @@ bool	ft_parse_env_name(t_token *token_list, t_shell *data);
 
 /* ########  BUILTINS  ######## */
 
-void	function_cd(t_shell **data, t_command command);
-
+int	function_cd(t_shell **data, t_command command);
+int	function_pwd(t_shell *data);
+int function_echo(t_command command);
 
 /* ########  SHELL PART  ######## */
 

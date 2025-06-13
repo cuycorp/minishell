@@ -50,7 +50,7 @@ static void	ft_update_env_variables(t_shell **data, char *old_pwd, char *pwd)
 	ft_realloc_env_variable(data, "OLDPWD=", old_pwd);
 }
 
-void	function_cd(t_shell **data, t_command command)
+int	function_cd(t_shell **data, t_command command)
 {
 	char	old_pwd[PATH_MAX];
 	char	pwd[PATH_MAX];
@@ -58,8 +58,9 @@ void	function_cd(t_shell **data, t_command command)
 
 	i = 0;
 	if (!ft_update_path(command, old_pwd, pwd))
-		return ;
+		return (1);
 	ft_update_env_variables(data, old_pwd, pwd);
+	return (0);
 }
 
 /*

@@ -89,7 +89,7 @@ Tokens:
 
 ### Environment Management ?
 - [ ] Load environment variables into internal structure
-- [ ] Load environment from `envp` into internal list/structure
+- [x] Load environment from `envp` into internal list/structure
 - [ ] Implement `getenv`, `setenv`, `unsetenv` functions
 
 - [ ] Replace environment variables: `$VAR`, `$?`

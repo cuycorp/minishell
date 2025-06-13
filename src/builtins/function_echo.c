@@ -1,27 +1,37 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   function_pwd.c                                     :+:      :+:    :+:   */
+/*   function_echo.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/10 14:11:27 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/06/10 14:11:28 by mcamaren         ###   ########.fr       */
+/*   Created: 2025/06/11 18:21:50 by mcamaren          #+#    #+#             */
+/*   Updated: 2025/06/11 18:21:54 by mcamaren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	function_pwd(t_shell *data)
+int	function_echo(t_command command)
 {
-	char	*pwd;
+	bool	nl_flag;
 	int		i;
 
 	i = 0;
-	while (data->ev[i] && ft_strncmp(data->ev[i], "PWD", ft_strlen("PWD")) != 0)
+	nl_flag = false;
+	if (ft_strncmp("-n", command.args[i], ft_strlen("-n")) == 0)
+	{
+		nl_flag = true;
 		i++;
-	pwd = data->ev[i];
-	pwd += 4;
-	ft_printf(STDOUT_FILENO, "%s\n", pwd);
+	}
+	while (command.args[i])
+	{
+		ft_printf(STDOUT_FILENO, "%s", command.args[i]);
+		if (command.args[i + 1])
+			ft_printf(STDOUT_FILENO, " ");
+		i++;
+	}
+	if (nl_flag)
+		ft_printf(STDOUT_FILENO, "\n");
 	return (0);
 }

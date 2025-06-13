@@ -52,7 +52,6 @@ void	ft_handle_shell(t_shell *data)
 		if (!ft_parser(data->tokens_list, data))
 			perror("Error: ft_parse failed");
 		ft_handle_history(data->input);
-		// builtins
 		if (ft_strncmp(data->input, EXIT, ft_strlen(EXIT) + 1) == 0)
 		{
 			ft_putstr_fd(data->input, STDOUT_FILENO);
