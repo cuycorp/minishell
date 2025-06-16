@@ -1,12 +1,14 @@
 <shell>					::= <command_line>*
 
-<command_line>			::= <pipeline> | <grouped_pipeline>
+<command_line>			::= <grouped_pipeline> | <pipeline>
 
 <grouped_pipeline>		::= <left_parenthesis> <pipeline> (<special_operator> <pipeline>)* <right_parenthesis>
 <pipeline>				::= <simple_command> (<pipe> <simple_command>)*
 <!-- <command_line>			::= <left_parenthesis>? <pipeline> (('&&' | '||') <pipeline>)* <right_parenthesis>? -->
+<pipeline>				::= <simple_command> ('|' <simple_command>)*
+<pipe>					::= "|"
 <simple_command>		::= (<redirection>)* <word> (<arguments>)* (<word> | <redirection>)*
-<arguments>				::= <word> | <quoted_string> | <env_variable>
+<arguments>				::= <word> | <quoted_string> | <env_variable> | <special_variable>
 <word>					::= <unquoted_char>+
 <unquoted_char> ::= any printable character
     except: '|', '&', ';', '<', '>', '(', ')', ' ', '"', "'", '$', '\'
@@ -30,6 +32,5 @@ So those should not be included in your ft_is_special_char() — unless they are
 <digit>					::= "0"-"9"
 <left_parenthesis>		::= "("
 <right_parenthesis>		::= ")"
-<pipe>					::= "|"
 
 <!-- <export_args> ::= <env_name> "=" <word> -->

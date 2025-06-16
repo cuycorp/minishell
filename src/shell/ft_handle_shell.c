@@ -49,8 +49,6 @@ void	ft_handle_shell(t_shell *data)
 		if (*data->input == '\0')
 			continue ;
 		ft_tokenizer(data->input, data);
-		if (!ft_parser(data->tokens_list, data))
-			perror("Error: ft_parse failed");
 		ft_handle_history(data->input);
 		if (ft_strncmp(data->input, EXIT, ft_strlen(EXIT) + 1) == 0)
 		{
