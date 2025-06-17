@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 10:34:17 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/01 20:46:18 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/09 11:27:54 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,8 @@ void	ft_tokenize_expansion(char *str, unsigned int *pos, t_shell *data)
 		if (ft_is_valid_expansion(str[*pos]))
 			(*pos)++;
 		else if (ft_isalnum(str[*pos]) || str[*pos] == '_')
+			(*pos)++;
+		else if(str[*pos] == '?')
 			(*pos)++;
 		else
 			break ;

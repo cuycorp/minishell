@@ -143,21 +143,30 @@ void			ft_print_tokens_list(t_shell *data);
 void			ft_tokenizer(char *str, t_shell *data);
 
 /* ########  EXPANSION AND QUOTE REMOVAL  ######## */
-int	ft_var_expansion(t_token **token_list, t_shell *data);
+void	ft_expansion_n_removal(char *prompt, t_shell *data);
+bool	ft_evaluate_var_expansion(t_token **token_list, t_shell *data);
 char	*ft_expand_var(char *var_name, t_shell *data);
 char	*ft_locate_var(char *str, int *i);
+char	*ft_fill_expanded_variables(char *str, t_shell *data);
 
+char	*ft_handle_dollar_cases(char *str, int *i, char *final, t_shell *data);
+bool	ft_retokenize(t_token **token_list, t_shell *data);
+
+bool	ft_quote_removal(t_token **token_list, t_shell *data);
 char	*ft_char_2_str(char c); //utils
-int	ft_quote_removal(t_token **token_list);
 char	*ft_expand_heredoc_delimiter(char *str, t_token_type type);
-void 	ft_retokenize(t_shell *data);
 char	*ft_remove_quote(char *str, char quote);
-char *ft_handle_word_quotes(char *str);
-int	ft_is_valid_token_heredoc(t_token_type type);
+char	*ft_remove_quotes_of_token_word(char *str);
+bool	ft_is_valid_delimiter_token(t_token_type type);
+//adding advanced expansion logic
+char *ft_extract_single_quoted_str(char *str, int *i);
+
 
 /* ########  BUILTINS  ######## */
 
 int	function_cd(t_shell **data, t_command *command);
+char	*get_new_dir(int len, t_shell *data, t_command *command);
+bool	ft_update_path(t_command *command, char *old_pwd, char *pwd, char *in_chdir);
 int	function_pwd(t_shell *data, t_command *command);
 int function_echo(t_command *command);
 bool	ft_validate_command(t_command *command, char *commmand_name);

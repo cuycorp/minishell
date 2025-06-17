@@ -14,9 +14,9 @@
 
 int	function_export(t_command *command, t_shell *data)
 {
-	if (!command->name || !command->args || !data || !command->args[0]
-		|| ft_strncmp(command->args[0], "export", ft_strlen(command->args[0]))
-		|| ft_strncmp(command->args[0], "export", ft_strlen("export")))
+	if (!command->name || !command->args || !data || !command->args[0])
+		return (EXIT_FAILURE);
+	if (ft_validate_command(command, "export") == false)
 		return (EXIT_FAILURE);
 	if (ft_len_table(command->args) == 1)
 	{

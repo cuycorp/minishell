@@ -27,14 +27,14 @@ typedef enum e_redirection_type
 	APPEND_OUT,
 	HEREDOC,
 	UNKNOWN,
-}	t_redirection_type;
+}							t_redirection_type;
 
 typedef struct s_redirection
 {
 	t_redirection_type		type;
 	char					*target;
 	struct s_redirection	*next;
-}	t_redirection;
+}							t_redirection;
 
 /**
  * @brief Token types for the lexical analyzer in the shell
@@ -82,10 +82,10 @@ typedef struct s_token
 
 typedef struct s_command
 {
-	char			**args;
-	char 			*name;
-	t_redirection	*redirection;
-}	t_command;
+	char					**args;
+	char					*name;
+	t_redirection			*redirection;
+}							t_command;
 
 
 
@@ -117,6 +117,7 @@ typedef struct s_ast_node
 typedef struct s_shell
 {
 	char					*input;
+	int						exit_code;
 	char					**ev;
 	char					**export;
 	t_token					*tokens_list;

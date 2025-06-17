@@ -86,7 +86,10 @@ Tokens:
 	- [x] Handle syntax errors (e.g., empty pipes, unmatched tokens) (e.g., `| > file`, `cat infile |`)
 - [x] Fix error when line finished with pipe (e.g: `(echo hi && ls) | (grep main || ((echo fallback && exit))) | `)
 - [] Fix tokenizer which seems to close the program when it encountere an unknown character (e.g. `;`, `echo hi &&;` and create leaks)
-
+- [] Modifu tokenizer to classify all  TOKEN_WORD correctly,
+- [x] Implement var_expansion
+- [] Implement retokenize
+- [x] Implement quoteremoval
 ---
 
 ## Phase 4: Parsing / Building Command Structures + Environment Management ?

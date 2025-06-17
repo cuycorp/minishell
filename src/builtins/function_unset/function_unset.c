@@ -21,13 +21,14 @@ static bool	ft_check_first_arg(t_command *command)
 	return (false);
 }
 
-
 int	function_unset(t_command *command, t_shell *data)
 {
 	int	len_arg;
 
 	len_arg = ft_len_table(command->args);
 	if (!command || !data || len_arg == 0)
+		return (EXIT_FAILURE);
+	if (ft_validate_command(command, "unset") == false)
 		return (EXIT_FAILURE);
 	if (ft_strncmp(command->name, "unset", ft_strlen(command->name)))
 		return (EXIT_FAILURE);
@@ -41,16 +42,3 @@ int	function_unset(t_command *command, t_shell *data)
 	}
 	return (EXIT_SUCCESS);
 }
-/*
-check command name
-check args of command
-	-> len_arg = 0 exit 1
-	-> len_arg = 1
-		-> arg[0] = usnset: exit 0
-		-> exit 0
-	-> len_arg
-		while(arg_var)
-			if var_exits
-			next var
-
-*/

@@ -12,73 +12,64 @@
 
 #include "minishell.h"
 
-char	*ft_char_2_str(char c)
+static bool	ft_process_regular_token(t_token *token)
 {
-	char *result;
-
-	result = ft_alloc_struct(2 * sizeof(char));
-	result[0] = c;
-	result[1] = '\0';
-	return (result);
-}
-
-char	*ft_remove_quote(char *str, char quote)
-{
-	int		i;
-	char	*new;
 	char	*tmp;
-	char *char_str;
 
-	new = ft_strdup("");
-	i = 0;
-	while (str[i])
-	{
-		if (str[i] != quote)
-		{
-			char_str = ft_char_2_str(str[i]);
-			tmp = new;
-			new = ft_strjoin(new, char_str);
-			free(tmp);
-			free(char_str);
-		}
-		i++;
-	}
-	return (new);
+	tmp = token->value;
+	if (token->type == TOKEN_DOUBLE_QUOTED_WORD)
+		token->value = ft_remove_quote(tmp, '\"');
+	else if (token->type == TOKEN_SINGLE_QUOTED_WORD)
+		token->value = ft_remove_quote(tmp, '\'');
+	else if (token->type == TOKEN_WORD)
+		token->value = ft_remove_quotes_of_token_word(tmp);
+	if (token->type == TOKEN_DOUBLE_QUOTED_WORD
+		|| token->type == TOKEN_SINGLE_QUOTED_WORD || token->type == TOKEN_WORD)
+		free(tmp);
+	if (!token->value)
+		return (false);
+	return (true);
 }
 
-int	ft_is_valid_token_heredoc(t_token_type type)
+static bool	ft_process_heredoc_token(t_token **current)
 {
-	if (type == TOKEN_DOUBLE_QUOTED_WORD || type == TOKEN_SINGLE_QUOTED_WORD
-		|| type == TOKEN_WORD || type == TOKEN_EXPANSION)
-		return (1);
-	return (0);
+	char	*tmp;
+
+	if (!(*current)->next)
+		return (perror("zsh: parse error near \n"), false);
+	if (!ft_is_valid_delimiter_token((*current)->next->type))
+		return (perror("zsh: parse error near"), false);
+	tmp = (*current)->next->value;
+	(*current)->next->value = ft_expand_heredoc_delimiter(tmp,
+			(*current)->next->type);
+	free(tmp);
+	if (!(*current)->next->value)
+		return (false);
+	*current = (*current)->next->next;
+	return (true);
 }
 
-
-int	ft_quote_removal(t_token **token_list)
+bool	ft_quote_removal(t_token **token_list, t_shell *data)
 {
 	t_token	*current;
 
+	(void)data;
+	if (!*token_list)
+		return (false);
 	current = *token_list;
 	while (current)
 	{
-		if (current->type == TOKEN_HEREDOC && current->next
-			&& ft_is_valid_token_heredoc(current->next->type))
+		if (current->type == TOKEN_HEREDOC)
 		{
-			current->next->value = ft_expand_heredoc_delimiter(current->next->value,
-					current->next->type);
-			current = current->next->next;
+			if (!ft_process_heredoc_token(&current))
+				return (false);
 		}
 		else
 		{
-			if (current->type == TOKEN_DOUBLE_QUOTED_WORD)
-				current->value = ft_remove_quote(current->value, '\"');
-			if (current->type == TOKEN_SINGLE_QUOTED_WORD)
-				current->value = ft_remove_quote(current->value, '\'');
-			if (current->type == TOKEN_WORD)
-				current->value = ft_handle_word_quotes(current->value);
+			if (!ft_process_regular_token(current))
+				return (false);
 			current = current->next;
 		}
 	}
-	return (0);
+	return (true);
 }

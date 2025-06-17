@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:28:04 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/01 21:02:33 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/08 20:59:13 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ static char	*ft_set_prompt(t_shell *data)
 	char	*pwd;
 	char	*equal_sign;
 
+	if (!data)
+		return (NULL);
 	i = 0;
 	while (data->ev[i] && ft_strncmp(data->ev[i], "PWD", ft_strlen("PWD")) != 0)
 		i++;
@@ -64,26 +66,10 @@ void	ft_handle_shell(t_shell *data)
 		}
 		else
 			ft_printf(STDOUT_FILENO, "%s\n", data->input);
+
 		ft_handle_history(data->input);
-		// TOKENIZATION
-		ft_tokenizer(data->input, data);
-		printf("-----------------TOKENIZED-----------------\n");
-		ft_print_tokens_list(data);
-		printf("------------------------------------------\n");
-		// VAR_EXPANSION
-		ft_var_expansion(&data->tokens_list, data);
-		printf("-----------------EXPANDED-----------------\n");
-		ft_print_tokens_list(data);
-		printf("------------------------------------------\n");
-		ft_retokenize(data);
-		printf("----------------RETOKENIZED------------------\n");
-		ft_print_tokens_list(data);
-		printf("---------------------------------------------\n");
-		ft_quote_removal(&data->tokens_list);
-		printf("----------------REMOVED QUOTES-----------------\n");
-		ft_print_tokens_list(data);
-		printf("----------------------------------------------\n");
-		// Parsing
+		ft_expansion_n_removal(prompt, data);
+		//// Parsing
 		if (data->tokens_list && data->tokens_list->type != TOKEN_END_OF_LINE)
 		{
 			data->ast_root = ft_parser(data->tokens_list);
@@ -92,104 +78,8 @@ void	ft_handle_shell(t_shell *data)
 			else
 				ft_printf(STDIN_FILENO, "Success: ft_parser succeeded\n");
 		}
-
 		ft_reset_shell(data);
-	//free(prompt);
+		//free(prompt);
 	}
 	free(prompt);
 }
-
- /*
- Test cases Expansion
- 1. Odd number of quotes
- 	$TEST "$USER "$A" -> pair logic pending
- 2. Valida variable with non variables characters (TOKEN_WORD)
-	echo $USER-e      -> passed
- 3. String and Variable with composite command together (TOKEN_WORD)
-	$TEST"AA"         ->
- 4. Token word heredoc
-	<< "$USER"'A""A'
- 5. DOUBLE_QUOTED_WORD
-	"aa $USER $A" -->passed
-
-
-
- Test cases Quote removal
- 1. Token_word
-	'aaa'"aa"aa$$
-
- Aditionals
- 1. History change -> updated with retokenized string, add string variable
-*/
-
-
-
-/*
-void	ft_handle_shell(t_shell *data)
-{
-	int	i;
-
-	i = 0;
-	while (1)
-	{
-		data->input = readline(prompt);
-		if (!data->input)
-			return (free(prompt), ft_close_program(data, EXIT_FAILURE));
-		if (*data->input == '\0')
-			continue ;
-		// EXIT
-		ft_tokenizer(data->input, data);
-		ft_handle_history(data->input);
-		ft_var_expansion(&data->tokens_list, data);
-		ft_retokenize(data);
-		ft_quote_removal(&data->tokens_list);
-		if (ft_strncmp(data->input, EXIT, ft_strlen(EXIT) + 1) == 0)
-		{
-			ft_putstr_fd(data->input, STDOUT_FILENO);
-			break ;
-		}
-		else
-			ft_printf(STDOUT_FILENO, "%s\n", data->input);
-		// TOKENIZATION
-		ft_tokenizer(data->input, data);
-		// Parsing
-		if (data->tokens_list && data->tokens_list->type != TOKEN_END_OF_LINE)
-		{
-			data->ast_root = ft_parser(data->tokens_list);
-			if (!data->ast_root)
-				ft_printf(STDERR_FILENO, "Error: ft_parser failed\n");
-			else
-				ft_printf(STDIN_FILENO, "Success: ft_parser succeeded\n");
-		}
-		ft_handle_history(data->input);
-		// else
-		// ft_printf(STDOUT_FILENO, "%s\n", data->input);
-		ft_reset_shell(data);
-	}
-	free(prompt);
-}
-
-*/
-
-/*
-VAR = "AAA" -> AAA
-
-echo $VAR
-type = TOKEN_EXPANSION
-value = $VAR
-
-expsansion of $
-type = TOKEN_EXPANSION
-value = AAA
-
-
-echo "$VAR"
-type = TOKEN__DOUBLE_QUOTED_WORD
-value = "$VAR"
-
-expansion of $
-type = TOKEN__DOUBLE_QUOTED_WORD
-value = "AAA"
-
-
-*/

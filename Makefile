@@ -76,9 +76,11 @@ $(EXEC): $(LIBS) $(MINISHELL_STATIC_LIB) $(MAIN_OBJ)
 	@$(CC) $(CFLAGS) $(MAIN_OBJ) $(MINISHELL_STATIC_LIB) $(LIBS) $(LDFLAGS) -o $@
 	@echo "$(GREEN_COLOR)Executable: $(DEFAULT_COLOR)$(EXEC) created!✅"
 
+# TODO: fix relinking on debugger and valgrind rules
 debugger:
 	$(CC) $(CFLAGS) -g3 $(SRC_FILES) $(MINISHELL_STATIC_LIB) $(LIBS) $(LDFLAGS) -o $(EXEC)
 
+# TODO: fix relinking on debugger and valgrind rules
 valgrind:
 	$(VALG_FLAG) ./$(EXEC)
 
@@ -108,4 +110,5 @@ fclean: clean
 
 re: fclean all
 
+# TODO: add debugger and valrgind to list of .PHONY
 .PHONY: all clean fclean re debug help
