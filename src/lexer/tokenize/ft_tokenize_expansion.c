@@ -26,8 +26,31 @@ void	ft_tokenize_expansion(char *str, unsigned int *pos, t_shell *data)
 		(*pos)++;
 	else
 	{
-		while (str[*pos] && (ft_isalnum(str[*pos]) || str[*pos] == '_'))
+		while (str[*pos])
+		{
+			if (ft_isalnum(str[*pos]) || str[*pos] == '_')
+				(*pos)++;
+			else
+				break ;
+		}
+	}
+	while (str[*pos])
+	{
+		if (ft_is_valid_expansion(str[*pos]))
 			(*pos)++;
+		else if (ft_isalnum(str[*pos]) || str[*pos] == '_')
+			(*pos)++;
+		else
+			break ;
 	}
 	ft_add_token_from_range(data, start_index, *pos, type);
 }
+
+// $USER_123-e
+ /*
+ -> token_word :
+ 1. replace existing env variables
+ 2. $"" or $'' are left as they are
+	$USER$"aa" ->  mcamaren$"aa" -->  mcamaren$aa
+ 3. non existent variables return empty
+ */

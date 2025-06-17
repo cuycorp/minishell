@@ -142,6 +142,16 @@ void			ft_free_tokens_list(t_token **tokens_list);
 void			ft_print_tokens_list(t_shell *data);
 void			ft_tokenizer(char *str, t_shell *data);
 
+/* ########  EXPANSION AND QUOTE REMOVAL  ######## */
+int	ft_var_expansion(t_token **token_list, t_shell *data);
+char	*ft_char_2_str(char c); //utils
+int	ft_quote_removal(t_token **token_list);
+char	*ft_expand_heredoc_delimiter(char *str, t_token_type type);
+void 	ft_retokenize(t_shell *data);
+char	*ft_remove_quote(char *str, char quote);
+char *ft_handle_word_quotes(char *str);
+int	ft_is_valid_token_heredoc(t_token_type type);
+
 /* ########  BUILTINS  ######## */
 
 int	function_cd(t_shell **data, t_command *command);

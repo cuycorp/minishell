@@ -25,7 +25,7 @@ IFLAGS =	-I $(LIBFT_DIR)/include \
 			-I $(GNL_DIR)/include \
 			-I $(INCLUDE_DIR)
 LDFLAGS = -lreadline -lncurses
-CFLAGS = -Wall -Werror -Wextra -g3 $(IFLAGS)
+CFLAGS = -Wall -Werror -Wextra $(IFLAGS)
 
 ############################# INPUT & OBJECT FILES #############################
 # TODO: Update SRC_FILES
@@ -40,6 +40,10 @@ OBJ_FILES = $(SRC_FILES:$(SRC_DIR)/%.c=$(BUILD_DIR)/%.o)
 
 # Output Files
 MINISHELL_STATIC_LIB = libminishell.a
+
+VALG_FLAG	= valgrind --leak-check=full --show-leak-kinds=all \
+				--track-origins=yes --track-fds=yes --trace-children=yes \
+				# --suppressions=inc/readline.supp
 
 ################################## EXECUTABLE ##################################
 EXEC = minishell
@@ -71,6 +75,12 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 $(EXEC): $(LIBS) $(MINISHELL_STATIC_LIB) $(MAIN_OBJ)
 	@$(CC) $(CFLAGS) $(MAIN_OBJ) $(MINISHELL_STATIC_LIB) $(LIBS) $(LDFLAGS) -o $@
 	@echo "$(GREEN_COLOR)Executable: $(DEFAULT_COLOR)$(EXEC) created!✅"
+
+debugger:
+	$(CC) $(CFLAGS) -g3 $(SRC_FILES) $(MINISHELL_STATIC_LIB) $(LIBS) $(LDFLAGS) -o $(EXEC)
+
+valgrind:
+	$(VALG_FLAG) ./$(EXEC)
 
 debug:
 	@echo "$(BLUE_COLOR)SRC_FILES: $(DEFAULT_COLOR) $(SRC_FILES)"

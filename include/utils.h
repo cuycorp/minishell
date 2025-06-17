@@ -31,6 +31,7 @@ void	ft_free_ast_tree(t_ast_node **root);
 bool	ft_is_unquoted_char(char c);
 bool	ft_is_double_quoted_char(char c);
 bool	ft_is_special_operator(char c);
+bool	ft_is_valid_expansion(char c);
 
 /* Token */
 

@@ -32,6 +32,12 @@ bool	ft_is_double_quoted_char(char c)
 
 bool	ft_is_special_operator(char c)
 {
-	return (c == '|' || c == '&' || c == ';' || c == '<' || c == '>' || c == '('
+	return (c == '|' || c == ';' || c == '&' || c == '<' || c == '>' || c == '('
 		|| c == ')');
+}
+
+bool	ft_is_valid_expansion(char c)
+{
+	return ((c == '.' || c == '-' || c == '(' || c == ')' || c == '{'
+			|| c == '}' || c == '\'' || c == '"' || c == '$'));
 }
