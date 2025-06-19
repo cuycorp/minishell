@@ -3,11 +3,8 @@
 <and_or_list>				::= <pipeline_group> ( <logical_operator> <pipeline_group> )*
 <pipeline_group>			::= <grouped_pipeline> | <pipeline>
 <grouped_pipeline>			::= <left_parenthesis> <and_or_list> <right_parenthesis>
-
-<pipeline> ::= <pipeline_command> (<pipe> <pipeline_command>)*
-<pipeline_command> ::= <grouped_pipeline> | <simple_command>
-
-<!-- <pipeline>					::= <simple_command> (<pipe> <simple_command>)* -->
+<pipeline>					::= <pipeline_command> (<pipe> <pipeline_command>)*
+<pipeline_command>			::= <grouped_pipeline> | <simple_command>
 <simple_command>			::= <redirection>* <command_word>? <argument_or_redirection>* <command_terminator>
 <command_word>				::= <word> | <env_variable>
 <argument_or_redirection>	::= <argument> | <redirection>

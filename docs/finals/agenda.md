@@ -84,8 +84,8 @@ Tokens:
 	- [x] Implement the match function
 	- [x] Handle syntax errors ? (unclosed quotes, invalid chars)
 	- [x] Handle syntax errors (e.g., empty pipes, unmatched tokens) (e.g., `| > file`, `cat infile |`)
-- [] Fix error when line finished with pipe (e.g: `(echo hi && ls) | (grep main || ((echo fallback && exit))) | `)
-- [] Fix tokenizer which seems to close the program when it encountere an unknow character (e.g. ``)
+- [x] Fix error when line finished with pipe (e.g: `(echo hi && ls) | (grep main || ((echo fallback && exit))) | `)
+- [] Fix tokenizer which seems to close the program when it encountere an unknown character (e.g. ``)
 
 ---
 
@@ -98,6 +98,8 @@ Tokens:
 
 - [ ] Replace environment variables: `$VAR`, `$?`
 - [ ] Build the command / Store command in a structure (e.g., `t_command`)
+- [] Implement AST tree to find token priority => see Piscine C13 for Binary Tree
+
 	<!-- - [] --in Array style?-- -->
 	- [X] in Linked-List style?
 - [ ] Handle input/output files, heredoc
@@ -111,7 +113,7 @@ Tokens:
 - [] Handle input/output redirection with `dup2`
 - [] Manage file descriptors (prevent leaks): close / open the right fds
 - [] Manage child process exit codes
-- [] Implement AST tree to find token priority => see Piscine C13 for Binary Tree
+- [] Traverse the AST tree to execute the command according to the node priority
 
 <!-- Create the Pipe with all the forking and redirection
 Create the AST to execute the command (and get command priority) => C13 from Piscine for Binary Tree -->
@@ -120,10 +122,11 @@ Create the AST to execute the command (and get command priority) => C13 from Pis
 
 - [] Should we implement them by using execve?
 - [] `echo [-n]`
-- [] CD + PWD
-	- [] `cd [relative_path]`
-	- [] `cd [absolute_path]`
-	- [] `pwd`
+- [x] CD + PWD
+	- [x] `cd [relative_path]`
+	- [x] `cd [absolute_path]`
+	- [x] `pwd`
+	- [] check if all the edge cases are handled
 - [] EXPORT + UNSET + ENV
 	- [] `export KEY=VAL`
 	- [] `unset KEY`
