@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+/* int	main(int argc, char **argv, char **envp)
 {
 	t_shell	*data;
 
@@ -25,6 +25,25 @@ int	main(int argc, char **argv, char **envp)
 	ft_handle_shell(data);
 	ft_clear_memory(data);
 	return (EXIT_SUCCESS);
+}
+
+ */
+int	main(void)
+{
+	t_ast_node *node_a;
+	t_ast_node *node_b;
+	t_ast_node *operator;
+
+	node_a = ft_alloc_struct(sizeof(t_ast_node));
+	node_b = ft_alloc_struct(sizeof(t_ast_node));
+	operator = ft_alloc_struct(sizeof(t_ast_node));
+	node_a->left = 0;
+	node_a->right = 0;
+	node_a->value = "echo";
+	node_a->type = AST_SIMPLE_COMMAND;
+	node_a->redirection_data = ;
+	node_a->command_data = ;
+
 }
 
 

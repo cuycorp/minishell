@@ -82,8 +82,8 @@ typedef struct s_command
 {
 	char				**args;
 	char				*command;
-	t_redirection		*redirection;
-	struct s_command	*next;
+	//t_redirection		*redirection;
+	//struct s_command	*next;
 }						t_command;
 
 typedef enum e_ast_node_type
@@ -105,7 +105,7 @@ typedef	struct s_ast_node
 	struct s_ast_node	*left;
 	struct s_ast_node	*right;
 	char				*value; // to keep?
-	t_redirection		*redirectin_data; // to keep or update with another one?
+	t_redirection		*redirection_data; // to keep or update with another one?
 	t_command			*command_data; // to keep or update with another one?
 	// void				*data;
 }	t_ast_node;
