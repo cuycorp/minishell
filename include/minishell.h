@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:39:32 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/19 14:46:21 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/20 17:58:31 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,12 @@ bool	ft_parse_argument_or_redirection(
 bool	ft_parse_pipeline_group(t_token **token_list);
 bool	ft_parse_and_or_list(t_token **token_list);
 bool	ft_parse_pipeline_command(t_token **tokens);
+
+/* ########  AST TREE PART  ######## */
+
+t_ast_node	*ft_create_ast_node(t_ast_node_type type);
+t_ast_node	*ft_add_ast_node(t_ast_node_type type, t_ast_node *left,
+				t_ast_node *right);
 
 /* ########  SHELL PART  ######## */
 

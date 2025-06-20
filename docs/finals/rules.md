@@ -24,7 +24,7 @@
 <logical_operator>			::= <logical_and> | <logical_or>
 <logical_and>				::= "&&"
 <logical_or>				::= "||"
-<end_of_line>				::= "\n" | ";"
+<!-- <end_of_line>				::= "\n" | ";" -->
 <letter>					::= "a"-"z" | "A"-"Z"
 <digit>						::= "0"-"9"
 <left_parenthesis>			::= "("

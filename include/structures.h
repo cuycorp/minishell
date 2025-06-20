@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:23:56 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/03 10:29:52 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/20 10:30:33 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ typedef enum e_redirection_type
 typedef struct s_redirection
 {
 	t_redirection_type	type;
-	char				*target;
+	char				*fd_value;
 }						t_redirection;
 
 /**
@@ -86,12 +86,39 @@ typedef struct s_command
 	struct s_command	*next;
 }						t_command;
 
+typedef enum e_ast_node_type
+{
+	AST_SHELL,
+	AST_AND_OR_LIST,
+	AST_LOGICAL_OR,
+	AST_LOGICAL_AND,
+	AST_PIPE,
+	AST_SIMPLE_COMMAND,
+	AST_GROUPED_PIPELINE,
+	AST_REDIRECTION,
+	AST_ENV_VARIABLE,
+}	t_ast_node_type;
+
+typedef	struct s_ast_node
+{
+	t_ast_node_type		type;
+	struct s_ast_node	*left;
+	struct s_ast_node	*right;
+	char				*value; // to keep?
+	t_redirection		*redirectin_data; // to keep or update with another one?
+	t_command			*command_data; // to keep or update with another one?
+	// void				*data;
+}	t_ast_node;
+
+
 typedef struct s_shell
 {
 	char				*input;
 	char				**ev;
 	t_token				*tokens_list;
 	t_command *commands; // [cmd1, cmd2]
+	struct s_ast_node	*ast_root;
 }						t_shell;
 
 #endif
+
