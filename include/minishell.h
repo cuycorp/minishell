@@ -175,6 +175,10 @@ bool	ft_parse_pipeline_command(t_token **tokens);
 t_ast_node	*ft_create_ast_node(t_ast_node_type type);
 t_ast_node	*ft_add_ast_node(t_ast_node_type type, t_ast_node *left,
 				t_ast_node *right);
+void	ft_free_ast_node(t_ast_node *node);
+void	ft_free_bintree(t_ast_node **root);
+void	ft_print_ast_node(t_ast_node *node);
+void	ft_print_in_tree_form(t_ast_node *node, int level);
 
 /* ########  SHELL PART  ######## */
 
