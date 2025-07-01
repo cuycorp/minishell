@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:08:43 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/30 15:59:03 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/27 19:28:34 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,5 @@ void	ft_tokenize_redirection(char *str, unsigned int *pos, t_shell *data)
 	if (!token)
 		return (ft_close_program(data, EXIT_FAILURE));
 	ft_add_token(&data->tokens_list, ft_create_token(token, token_type));
+	free(token);
 }

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_tokenize_single_quote.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 11:35:47 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/06/03 11:36:09 by mcamaren         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:07:04 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
 
 void	ft_tokenize_single_quote(unsigned int *pos, t_shell *data)
 {
@@ -29,4 +28,3 @@ void	ft_tokenize_single_quote(unsigned int *pos, t_shell *data)
 		return (free(token));
 	ft_add_token(&data->tokens_list, new_token);
 }
-

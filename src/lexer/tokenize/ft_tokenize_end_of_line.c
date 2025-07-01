@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 14:54:04 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/17 14:58:17 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/30 10:07:04 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,4 +27,5 @@ void	ft_tokenize_end_of_line(unsigned int *pos, t_shell *data)
 	if (!new_token)
 		return (free(token));
 	ft_add_token(&data->tokens_list, new_token);
+	free(token);
 }

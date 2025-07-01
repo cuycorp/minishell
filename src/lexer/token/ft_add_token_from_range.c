@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 17:00:55 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/03 09:39:34 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/06/27 11:31:20 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,4 +33,5 @@ void	ft_add_token_from_range(t_shell *data, int start, int end,
 		ft_close_program(data, EXIT_FAILURE);
 	}
 	ft_add_token(&data->tokens_list, new_token);
+	free(token);
 }
