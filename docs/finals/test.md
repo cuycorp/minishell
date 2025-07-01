@@ -79,9 +79,19 @@ echo hi || (ls && echo fail)   ✅
 `(echo hi && ls) | (grep main || ((echo fallback && exit))) && ` ✅ OK
 `(echo hi && ls) | (grep main || ((echo fallback && exit))) && ` ✅ OK
 `(echo hi && ls) | (grep main || ((echo fallback && exit))) | ()` ✅ OK
-`(echo hi | cat | grep h) || && (cat | echo hi)` ✅ OK
+`(echo hi | cat | grep h) || && (cat | echo hi)` ❌ Error
 `|| &&` ✅ OK
 
 
 `(echo hi | cat | grep h) || ((cat && echo hi | (cat | echo hi))` ❌ Error
 `(echo hi | cat | grep h) || ((cat && echo hi | (cat | echo hi)))` ✅ OK
+`(hello hi` ❌ Error
+`(hello hi))` ❌ Error
+
+
+Redirection with expansion variable
+<< $USER-e cat >> $USER >> $USER-e
+
+
+
+(< infile cat -e) | (ls > out > out 1) -> not working...because of the final 1

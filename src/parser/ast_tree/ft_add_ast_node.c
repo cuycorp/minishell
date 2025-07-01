@@ -1,23 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_quoted_string.c                           :+:      :+:    :+:   */
+/*   ft_add_ast_node.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/09 14:10:06 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/19 13:43:41 by jgossard         ###   ########.fr       */
+/*   Created: 2025/06/20 15:12:12 by jgossard          #+#    #+#             */
+/*   Updated: 2025/07/01 11:30:51 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_parse_quoted_string(t_token **token_list)
+t_ast_node	*ft_add_ast_node(
+	t_ast_node_type type, t_ast_node *left, t_ast_node *right)
 {
-	if (!token_list || !(*token_list))
-		return (false);
-	if (ft_match_token(token_list, TOKEN_DOUBLE_QUOTED_WORD)
-		|| ft_match_token(token_list, TOKEN_SINGLE_QUOTED_WORD))
-		return (true);
-	return (ft_parse_error("expected a quoted string"));
+	t_ast_node	*node;
+
+	if (!type || !left || !right)
+		return (NULL);
+	node = ft_create_ast_node(type);
+	if (!node)
+		return (NULL);
+	node->left = left;
+	node->right = right;
+	return (node);
 }

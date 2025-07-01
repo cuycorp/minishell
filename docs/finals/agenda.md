@@ -61,7 +61,7 @@ Minishell
 - [] Handle unknow character such as `;` which currently close the program...
 - [] Add check on number of quotes and parenthesis -> should be an even number
 
-### Example:
+#### Example:
 
 Input:
 
@@ -85,7 +85,7 @@ Tokens:
 	- [x] Handle syntax errors ? (unclosed quotes, invalid chars)
 	- [x] Handle syntax errors (e.g., empty pipes, unmatched tokens) (e.g., `| > file`, `cat infile |`)
 - [x] Fix error when line finished with pipe (e.g: `(echo hi && ls) | (grep main || ((echo fallback && exit))) | `)
-- [] Fix tokenizer which seems to close the program when it encountere an unknown character (e.g. ``)
+- [] Fix tokenizer which seems to close the program when it encountere an unknown character (e.g. `;`, `echo hi &&;` and create leaks)
 
 ---
 
@@ -97,14 +97,16 @@ Tokens:
 - [ ] Implement `getenv`, `setenv`, `unsetenv` functions
 
 - [ ] Replace environment variables: `$VAR`, `$?`
-- [ ] Build the command / Store command in a structure (e.g., `t_command`)
-- [] Implement AST tree to find token priority => see Piscine C13 for Binary Tree
-
-	<!-- - [] --in Array style?-- -->
+	- [] If an environment variable is used as a limiter with heredoc, the variale should not be extended
+- [x] Build the command / Store command in a structure (e.g., `t_command`)
+	- [x] No need to implement linked list since we are using AST tree
+- [x] Build the redirection structure (e.g., `t_command`) and link it with command if needed
+	- [x] Used linked list to link multiple redirection
+- [x] Implement AST tree to find token priority => see Piscine C13 for Binary Tree
+- [x] Handle input/output files, heredoc
 	- [X] in Linked-List style?
-- [ ] Handle input/output files, heredoc
-<!-- - [ ] Support command chaining via linked list or AST -->
-
+- [x] Implement error messages
+- [x] Check memory leak with valgrind
 ---
 
 ## Phase 5: Execution
@@ -113,6 +115,7 @@ Tokens:
 - [] Handle input/output redirection with `dup2`
 - [] Manage file descriptors (prevent leaks): close / open the right fds
 - [] Manage child process exit codes
+- [] implement parse_error (e.g `<< eof >` => should open the heredoc but return an error message since the final redirection is wrongly build)
 - [] Traverse the AST tree to execute the command according to the node priority
 
 <!-- Create the Pipe with all the forking and redirection
@@ -129,6 +132,8 @@ Create the AST to execute the command (and get command priority) => C13 from Pis
 	- [] check if all the edge cases are handled
 - [] EXPORT + UNSET + ENV
 	- [] `export KEY=VAL`
+		- [] export should handle the expand
+		- [] variable name can't start with a number. 9eg "123VAR_A" is invalid
 	- [] `unset KEY`
 	- [] `env`
 	- [] `env [arguments]` => how to use it exactly?
@@ -143,6 +148,7 @@ Create the AST to execute the command (and get command priority) => C13 from Pis
 - [ ] Handle ??? signal for `CTRL-\`
 - [ ] Reset signal handlers for child processes
 - [] Interactive mode?
+- [] Handle signal with heredoc
 
 ---
 

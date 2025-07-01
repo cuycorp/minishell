@@ -1,23 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parser.c                                        :+:      :+:    :+:   */
+/*   ft_free_redirection.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/05 11:41:53 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/07/01 20:19:23 by jgossard         ###   ########.fr       */
+/*   Created: 2025/06/24 10:36:31 by jgossard          #+#    #+#             */
+/*   Updated: 2025/06/25 23:43:16 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_ast_node	*ft_parser(t_token *tokens)
+void	ft_free_redirection(t_redirection **redirection)
 {
-	t_ast_node	*root;
+	t_redirection	*current;
+	t_redirection	*next;
 
-	root = ft_parse_shell(&tokens);
-	if (!root)
-		return (NULL);
-	return (root);
+	if (!redirection || !(*redirection))
+		return ;
+	current = *redirection;
+	while (current)
+	{
+		next = current->next;
+		if (current->target)
+		{
+			free(current->target);
+			current->target = NULL;
+		}
+		free(current);
+		current = next;
+	}
+	*redirection = NULL;
 }

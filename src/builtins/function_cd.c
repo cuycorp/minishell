@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   function_cd.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 14:11:13 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/06/10 14:11:15 by mcamaren         ###   ########.fr       */
+/*   Updated: 2025/06/25 19:07:51 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
 static bool	ft_save_wd(char *variable)
@@ -54,9 +55,9 @@ int	function_cd(t_shell **data, t_command command)
 {
 	char	old_pwd[PATH_MAX];
 	char	pwd[PATH_MAX];
-	int		i;
+	// int		i;
 
-	i = 0;
+	// i = 0;
 	if (!ft_update_path(command, old_pwd, pwd))
 		return (1);
 	ft_update_env_variables(data, old_pwd, pwd);

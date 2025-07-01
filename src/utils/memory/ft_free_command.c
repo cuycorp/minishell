@@ -1,27 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_arguments.c                               :+:      :+:    :+:   */
+/*   ft_free_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/09 14:09:03 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/19 15:53:37 by jgossard         ###   ########.fr       */
+/*   Created: 2025/06/24 11:05:07 by mcamaren          #+#    #+#             */
+/*   Updated: 2025/07/01 14:09:39 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_parse_arguments(t_token **token_list)
+void	ft_free_command(t_command *command)
 {
-	if (!token_list || !(*token_list))
-		return (false);
-	if (ft_is_word_like_type((*token_list)->type))
+	if (!command)
+		return ;
+	if (command->args)
 	{
-		ft_advance_token(token_list);
-		return (true);
+		ft_free_char_tab(command->args);
+		command->args = NULL;
 	}
-	if ((*token_list)->type == TOKEN_EXPANSION)
-		return (ft_parse_env_variable(token_list));
-	return (ft_parse_error("expected argument"));
+	if (command->name)
+	{
+		free(command->name);
+		command->name = NULL;
+	}
+	if (command->redirection)
+	{
+		ft_free_redirection(&command->redirection);
+		command->redirection = NULL;
+	}
+	free(command);
 }

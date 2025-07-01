@@ -1,20 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parse_command_line.c                            :+:      :+:    :+:   */
+/*   ft_count_arguments.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/18 11:29:54 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/19 13:41:07 by jgossard         ###   ########.fr       */
+/*   Created: 2025/06/25 15:50:33 by jgossard          #+#    #+#             */
+/*   Updated: 2025/07/01 14:55:05 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_parse_command_line(t_token **token_list)
+int	ft_count_arguments(t_token *tokens)
 {
-	if (!token_list || !(*token_list))
-		return (false);
-	return (ft_parse_and_or_list(token_list));
+	t_token	*current;
+	int		count;
+
+	count = 0;
+	current = tokens;
+	while (current && ft_is_argument_type(current->type))
+	{
+		count++;
+		current = current->next;
+	}
+	return (count);
 }
