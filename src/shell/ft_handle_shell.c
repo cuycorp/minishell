@@ -64,12 +64,25 @@ void	ft_handle_shell(t_shell *data)
 		}
 		else
 			ft_printf(STDOUT_FILENO, "%s\n", data->input);
+		ft_handle_history(data->input);
 		// TOKENIZATION
 		ft_tokenizer(data->input, data);
+		printf("-----------------TOKENIZED-----------------\n");
+		ft_print_tokens_list(data);
+		printf("------------------------------------------\n");
 		// VAR_EXPANSION
 		ft_var_expansion(&data->tokens_list, data);
+		printf("-----------------EXPANDED-----------------\n");
+		ft_print_tokens_list(data);
+		printf("------------------------------------------\n");
 		ft_retokenize(data);
+		printf("----------------RETOKENIZED------------------\n");
+		ft_print_tokens_list(data);
+		printf("---------------------------------------------\n");
 		ft_quote_removal(&data->tokens_list);
+		printf("----------------REMOVED QUOTES-----------------\n");
+		ft_print_tokens_list(data);
+		printf("----------------------------------------------\n");
 		// Parsing
 		if (data->tokens_list && data->tokens_list->type != TOKEN_END_OF_LINE)
 		{
@@ -79,14 +92,39 @@ void	ft_handle_shell(t_shell *data)
 			else
 				ft_printf(STDIN_FILENO, "Success: ft_parser succeeded\n");
 		}
-		ft_handle_history(data->input);
+
 		ft_reset_shell(data);
+	//free(prompt);
 	}
 	free(prompt);
 }
 
-/*
+ /*
+ Test cases Expansion
+ 1. Odd number of quotes
+ 	$TEST "$USER "$A" -> pair logic pending
+ 2. Valida variable with non variables characters (TOKEN_WORD)
+	echo $USER-e      -> passed
+ 3. String and Variable with composite command together (TOKEN_WORD)
+	$TEST"AA"         ->
+ 4. Token word heredoc
+	<< "$USER"'A""A'
+ 5. DOUBLE_QUOTED_WORD
+	"aa $USER $A" -->passed
 
+
+
+ Test cases Quote removal
+ 1. Token_word
+	'aaa'"aa"aa$$
+
+ Aditionals
+ 1. History change -> updated with retokenized string, add string variable
+*/
+
+
+
+/*
 void	ft_handle_shell(t_shell *data)
 {
 	int	i;

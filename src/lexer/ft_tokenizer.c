@@ -42,5 +42,5 @@ void	ft_tokenizer(char *str, t_shell *data)
 			break ;
 		}
 	}
-	ft_print_tokens_list(data); // TODO: delete this line
+	//ft_print_tokens_list(data); // TODO: delete this line
 }
