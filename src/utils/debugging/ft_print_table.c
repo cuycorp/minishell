@@ -1,30 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   ft_print_table.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/21 14:08:57 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/01 21:03:24 by jgossard         ###   ########.fr       */
+/*   Created: 2025/07/09 14:12:48 by mcamaren          #+#    #+#             */
+/*   Updated: 2025/07/09 14:12:51 by mcamaren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+void	ft_print_table(char **str) // debug function
 {
-	t_shell		*data;
+	int k;
 
-
-	(void)argv;
-	// (void)argc;
-
-	data = ft_init_shell(envp);
-	if (!data)
-		return (EXIT_FAILURE);
-	ft_validate_args(argc, data);
-	ft_handle_shell(data);
-	ft_clear_memory(data);
-	return (EXIT_SUCCESS);
+	k = 0;
+	if (!str)
+		return ;
+	while (str[k])
+	{
+		ft_printf(STDOUT_FILENO, "%s\n", str[k]);
+		k++;
+	}
 }

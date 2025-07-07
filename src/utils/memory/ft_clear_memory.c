@@ -24,5 +24,7 @@ void	ft_clear_memory(t_shell *data)
 		ft_free_ast_tree(&data->ast_root);
 	if (data->ev)
 		ft_free_char_tab(data->ev);
+	if (data->export)
+		ft_free_char_tab(data->export);
 	free(data);
 }

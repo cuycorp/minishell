@@ -53,12 +53,3 @@ int	function_echo(t_command *command)
 		ft_printf(STDOUT_FILENO, "\n");
 	return (0);
 }
-
-/*
-check command
-	+ command name
-	+ command first argument
-check option
-	if correct set flag to put new line and jump to next
-loop over arguments printing
-*/

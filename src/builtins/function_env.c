@@ -1,30 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   function_env.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/05/21 14:08:57 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/01 21:03:24 by jgossard         ###   ########.fr       */
+/*   Created: 2025/07/09 18:50:51 by mcamaren          #+#    #+#             */
+/*   Updated: 2025/07/09 18:50:52 by mcamaren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	main(int argc, char **argv, char **envp)
+int	function_env(t_command *command, t_shell *data)
 {
-	t_shell		*data;
+	int	len_arg;
 
-
-	(void)argv;
-	// (void)argc;
-
-	data = ft_init_shell(envp);
-	if (!data)
+	if (!command || !data || !data->ev || !command->args)
 		return (EXIT_FAILURE);
-	ft_validate_args(argc, data);
-	ft_handle_shell(data);
-	ft_clear_memory(data);
+	len_arg = ft_len_table(command->args);
+	if (len_arg != 1)
+		return (EXIT_FAILURE);
+	if (ft_strncmp(command->name, "env", ft_strlen(command->name)))
+		return (EXIT_FAILURE);
+	ft_print_table(data->ev);
 	return (EXIT_SUCCESS);
 }

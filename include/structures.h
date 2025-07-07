@@ -118,6 +118,7 @@ typedef struct s_shell
 {
 	char					*input;
 	char					**ev;
+	char					**export;
 	t_token					*tokens_list;
 	struct s_ast_node		*ast_root;
 }							t_shell;

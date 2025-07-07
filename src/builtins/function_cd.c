@@ -48,7 +48,7 @@ static char	*ft_find_env_value(char *full_var, char **env) // removed
 	return (NULL);
 }
 
-static char	*ft_expand_var(char *var_name, t_shell *data) // removed
+static char	*ft_local_expand_var(char *var_name, t_shell *data) // removed
 {
 	char *full_var;
 	char *expanded_value;
@@ -71,7 +71,7 @@ char	*ft_get_home_path(t_shell *data)
 
 	if (!data)
 		return (NULL);
-	home_path = ft_expand_var("HOME", data);
+	home_path = ft_local_expand_var("HOME", data);
 	if (!home_path)
 		return (NULL);
 	return (home_path);

@@ -42,6 +42,9 @@ bool	ft_is_argument_type(t_token_type type);
 bool	ft_is_command_terminator(t_token_type type);
 bool	ft_is_logical_operator(t_token_type type);
 
+/* Table */
+int		ft_len_table(char **table);
 
-int	ft_len_table(char **table);
+/* Debugging */
+void	ft_print_table(char **str);
 #endif

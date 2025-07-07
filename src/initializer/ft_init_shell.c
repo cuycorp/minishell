@@ -56,7 +56,10 @@ t_shell	*ft_init_shell(char **envp)
 	if (!shell)
 		return (NULL);
 	shell->ev = ft_set_env(envp);
-	if (!shell->ev)
+	if (shell->ev == NULL)
 		return (free(shell), NULL);
+	shell->export = ft_set_env(envp);
+	if (shell->export == NULL)
+		return (ft_free_char_tab(shell->ev), free(shell), NULL);
 	return (shell);
 }

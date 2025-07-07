@@ -144,6 +144,9 @@ void			ft_tokenizer(char *str, t_shell *data);
 
 /* ########  EXPANSION AND QUOTE REMOVAL  ######## */
 int	ft_var_expansion(t_token **token_list, t_shell *data);
+char	*ft_expand_var(char *var_name, t_shell *data);
+char	*ft_locate_var(char *str, int *i);
+
 char	*ft_char_2_str(char c); //utils
 int	ft_quote_removal(t_token **token_list);
 char	*ft_expand_heredoc_delimiter(char *str, t_token_type type);
@@ -158,6 +161,16 @@ int	function_cd(t_shell **data, t_command *command);
 int	function_pwd(t_shell *data, t_command *command);
 int function_echo(t_command *command);
 bool	ft_validate_command(t_command *command, char *commmand_name);
+int	function_export(t_command *command, t_shell *data);
+bool	ft_print_export(t_shell *data);
+bool	ft_evaluate_var_creation(t_command *command, t_shell *data);
+bool	ft_replace_var_definition(char *new_var_definition, char **table);
+bool	ft_var_definition_exists(char *var_definition, char **table);
+bool ft_is_same_var(char *var_name1, char *var_name2);
+int	function_unset(t_command *command, t_shell *data);
+bool	ft_unset_var(t_command *command, t_shell *data);
+int	function_env(t_command *command, t_shell *data);
+char	*ft_get_var_name(char *var_definition);
 
 /* ########  SHELL PART  ######## */
 

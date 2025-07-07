@@ -11,7 +11,7 @@
 /* ************************************************************************** */
 #include "minishell.h"
 
-static char	*ft_expand_var(char *var_name, t_shell *data)
+char	*ft_expand_var(char *var_name, t_shell *data)
 {
 	int	i;
 	int	len;
@@ -28,7 +28,7 @@ static char	*ft_expand_var(char *var_name, t_shell *data)
 	return (free(var_name), ft_strdup(""));
 }
 
-static char	*ft_locate_var(char *str, int *i)
+char	*ft_locate_var(char *str, int *i)
 {
 	int	start;
 	int	length;
