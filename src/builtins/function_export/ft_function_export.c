@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   function_export.c                                  :+:      :+:    :+:   */
+/*   ft_function_export.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/04 19:39:21 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/07/04 19:39:26 by mcamaren         ###   ########.fr       */
+/*   Updated: 2025/07/23 15:55:12 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,13 +37,6 @@ int	function_export(t_command *command, t_shell *data)
 	}
 	return (EXIT_SUCCESS);
 }
-
-/*
-	printf("--------------------EV--------------------\n");
-	ft_print_table(data->ev);
-	printf("--------------------EXPORT--------------------\n");
-	ft_print_table(data->export);
-*/
 
 /*
 + export with no arguments

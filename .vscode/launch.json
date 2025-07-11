@@ -5,13 +5,13 @@
 	"version": "0.2.0",
 	"configurations": [
 		{
-			"name": "Minishell No Args",
+			"name": "Debug Minishell with Fork",
 			"type": "cppdbg",
 			"request": "launch",
 			"program": "${workspaceFolder}/minishell",
 			"args": [],
-			"stopAtEntry": true,
-			"cwd": "${fileDirname}",
+			"stopAtEntry": false,
+			"cwd": "${workspaceFolder}",
 			"environment": [],
 			"externalConsole": false,
 			"MIMode": "gdb",
@@ -21,6 +21,21 @@
 					"text": "-enable-pretty-printing",
 					"ignoreFailures": true
 				},
+				// {
+				// 	"description": "Follow fork mode child",
+				// 	"text": "set follow-fork-mode child",
+				// 	"ignoreFailures": false
+				// },
+				{
+					"description": "Follow fork mode parent",
+					"text": "set follow-fork-mode parent",
+					"ignoreFailures": false
+				},
+				{
+					"description": "Set detach-on-fork off",
+					"text": "set detach-on-fork off",
+					"ignoreFailures": false
+				},
 				{
 					"description": "Set Disassembly Flavor to Intel",
 					"text": "-gdb-set disassembly-flavor intel",
@@ -28,6 +43,5 @@
 				}
 			]
 		}
-
 	]
 }

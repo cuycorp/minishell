@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_quote_removal_heredoc.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 11:31:15 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/07/01 11:31:17 by mcamaren         ###   ########.fr       */
+/*   Updated: 2025/07/28 12:39:21 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,19 +71,3 @@ char	*ft_handle_word_quotes(char *str)
 	}
 	return (final);
 }
-
-
-char	*ft_expand_heredoc_delimiter(char *str, t_token_type type)
-{
-	if (type == TOKEN_DOUBLE_QUOTED_WORD)
-		str = ft_remove_quote(str, '\"');
-	else if (type == TOKEN_SINGLE_QUOTED_WORD)
-		str = ft_remove_quote(str, '\'');
-	else if (type == TOKEN_WORD)
-		str = ft_handle_word_quotes(str);
-	else
-		str = ft_strdup(str);
-	printf("expand heredoc delimiter %s\n", str);
-	return (str);
-}
-

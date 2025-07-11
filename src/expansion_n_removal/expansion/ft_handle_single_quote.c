@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_handle_single_quote.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 13:59:43 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/07/22 13:59:46 by mcamaren         ###   ########.fr       */
+/*   Updated: 2025/07/23 21:46:39 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,17 +16,13 @@ static int ft_len_single_quoted_section(char *str, int *i)
 {
 	int len;
 	int start;
-	char c;
 
 	if (!str)
 		return (-1);
 	start = *i;
-	c = str[*i];
 	(*i)++; //skip leading single quote
 	while(str[*i])
 	{
-		c = str[*i];
-		printf("%c", c);
 		if (str[*i] == '\'')
 		{
 			(*i)++; // skip closing single quote

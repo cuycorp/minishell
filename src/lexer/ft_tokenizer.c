@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 15:55:53 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/09 11:12:08 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/23 18:03:44 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,5 +44,5 @@ void	ft_tokenizer(char *str, t_shell *data)
 			break ;
 		}
 	}
-	//ft_print_tokens_list(data); // TODO: delete this line
+	// ft_print_tokens_list(data); // TODO: delete this line
 }

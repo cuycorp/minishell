@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/04/07 18:42:38 by jgossard          #+#    #+#             */
-/*   Updated: 2025/05/07 15:21:54 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:57:03 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,8 @@ void	*ft_alloc_struct(size_t size)
 		return (NULL);
 	}
 	ft_memset(data, 0, size);
+	if (!data)
+		return (NULL);
 	return (data);
 }
 

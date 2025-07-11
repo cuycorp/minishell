@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/27 21:41:28 by jg                #+#    #+#             */
-/*   Updated: 2025/05/28 15:38:18 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/09 18:48:54 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ t_token	*ft_create_token(char *str, t_token_type type)
 
 	if (!str || type < 0)
 		return (NULL);
-	token = malloc(sizeof(t_token));
+	token = ft_alloc_struct(sizeof(t_token));
 	if (!token)
 		return (NULL);
 	token->value = ft_strdup(str);

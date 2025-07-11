@@ -97,8 +97,8 @@ Tokens:
 ### Environment Management ?
 - [ ] Load environment variables into internal structure
 - [x] Load environment from `envp` into internal list/structure
+	- [] what if the user write `env -i ./minishell` while starting the program,is env well saved in the structures?
 - [ ] Implement `getenv`, `setenv`, `unsetenv` functions
-
 - [ ] Replace environment variables: `$VAR`, `$?`
 	- [] If an environment variable is used as a limiter with heredoc, the variale should not be extended
 - [x] Build the command / Store command in a structure (e.g., `t_command`)
@@ -109,18 +109,35 @@ Tokens:
 - [x] Handle input/output files, heredoc
 	- [X] in Linked-List style?
 - [x] Implement error messages
+	- [] Fix error message that pop in double
+	(ex: `cat < | ls`
+		=> minishell: syntax error near unexpected token '|', expected file/limiter after redirection
+		=> minishell: syntax error near unexpected token '|')
 - [x] Check memory leak with valgrind
 ---
 
 ## Phase 5: Execution
 
-- [] Implement `fork`/`execve` with pipes
-- [] Handle input/output redirection with `dup2`
+- [x] Implement `fork`/`execve` with pipes
+- [x] Handle input/output redirection with `dup2`
 - [] Manage file descriptors (prevent leaks): close / open the right fds
 - [] Manage child process exit codes
+	- [] 0
+	- [] 1
+	- [] 126 - No such file / redirectory, permission denied
+	- [] 127 - Command not found
+	- [] 130 - 128 + SIGINT (CTRL-C)
+	- [] 131 - 128 + SIGQUIT ("CTR-\")
+
 - [] implement parse_error (e.g `<< eof >` => should open the heredoc but return an error message since the final redirection is wrongly build)
 - [] Traverse the AST tree to execute the command according to the node priority
-
+	- [x] Pipe
+	- [x] Redirect In, Out, Append out
+	- [] Heredoc
+	- [x] Simple Command
+	- [x] Logical Operator
+- [] see for order of the expansion in cases like the following: `export TEST="test" && echo $TEST`
+- [] handle absolute_path and relative_path (S_ISDIR, )
 <!-- Create the Pipe with all the forking and redirection
 Create the AST to execute the command (and get command priority) => C13 from Piscine for Binary Tree -->
 
@@ -137,10 +154,12 @@ Create the AST to execute the command (and get command priority) => C13 from Pis
 	- [] `export KEY=VAL`
 		- [] export should handle the expand
 		- [] variable name can't start with a number. 9eg "123VAR_A" is invalid
+		- [] can we echo an unset variable (e.g. `export TEST; echo test`)?
 	- [] `unset KEY`
 	- [] `env`
 	- [] `env [arguments]` => how to use it exactly?
 - [] `exit`
+	- [] exit can take argument but only numeric argument
 
 ---
 
@@ -149,7 +168,8 @@ Create the AST to execute the command (and get command priority) => C13 from Pis
 - [ ] Handle `SIGINT` signal for `CTRL-C`
 - [ ] Handle `EOF` signal for `CTRL-D`
 - [ ] Handle ??? signal for `CTRL-\`
-- [ ] Reset signal handlers for child processes
+	- [] if blocking command like `sleep 5`, `wc` -> should return exit code 131
+- [] Reset signal handlers for child processes
 - [] Interactive mode?
 - [] Handle signal with heredoc
 
@@ -160,5 +180,21 @@ Create the AST to execute the command (and get command priority) => C13 from Pis
 - [] Implement `&&` and `||`
 	- [] Handle Parenthesis for grouping / priority
 - [] Implement `*` wildcard expansion: should match only files in current working directory
+	- [] Be careful of the behavior with expansion
+	```
+		echo $PAT*
+		build docs include lib libminishell.a Makefile minishell readline.supp readme.md src
 
+		echo $PATH*
+		/home/jgossard/.local/funcheck/host:/home/jgossard/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin*
+
+	```
+	- [] Be careful with the type of wildcard because `*` is a valid character in a file name and should not be expanded
+
+
+## Phase 9: Clear the code before correction
+- [] Tester avec funcheck / valgrind
+- [] Check all the TODO in the project and remove them
+	- [] Todo in Makefile: don't forget to update the list of files
+- [] Block the execution of minishell inside minishell, if not, we should update the env SHLVL by 1 and decrease teh SHLVL by 1 if we exit the minishell
 ---

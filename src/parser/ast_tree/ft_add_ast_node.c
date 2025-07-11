@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/20 15:12:12 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/01 11:30:51 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/11 17:33:15 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_ast_node	*ft_add_ast_node(
 {
 	t_ast_node	*node;
 
-	if (!type || !left || !right)
+	if (type == AST_NONE || !left || !right)
 		return (NULL);
 	node = ft_create_ast_node(type);
 	if (!node)
