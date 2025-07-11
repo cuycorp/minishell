@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:23:56 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/01 14:35:27 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/28 14:17:55 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ typedef struct s_redirection
 {
 	t_redirection_type		type;
 	char					*target;
+	int						heredoc_fd;
 	struct s_redirection	*next;
 }							t_redirection;
 
@@ -97,17 +98,17 @@ typedef struct s_command
 
 typedef enum e_ast_node_type
 {
-	AST_SHELL,
-	AST_COMMAND_LINE,
-	AST_AND_OR_LIST,
+	// AST_SHELL,
+	// AST_COMMAND_LINE,
+	// AST_AND_OR_LIST,
 	AST_LOGICAL_OR,
 	AST_LOGICAL_AND,
 	AST_PIPE,
 	AST_SIMPLE_COMMAND,
-	AST_GROUPED_PIPELINE,
+	// AST_GROUPED_PIPELINE,
 	AST_REDIRECTION,
-	AST_ENV_VARIABLE,
-	AST_WORD,
+	// AST_ENV_VARIABLE,
+	// AST_WORD,
 	AST_NONE,
 }							t_ast_node_type;
 
@@ -116,18 +117,30 @@ typedef struct s_ast_node
 	t_ast_node_type			type;
 	struct s_ast_node		*left;
 	struct s_ast_node		*right;
-	char *value;                     // to keep?
-	t_redirection *redirection_data; // to keep or update with another one?
-	t_command *command_data;         // to keep or update with another one?
+	char 					*value;
+	t_redirection 			*redirection_data;
+	t_command 				*command_data;
 }							t_ast_node;
+
+typedef struct s_redirection_result
+{
+	bool stdin_redirected;
+	bool stdout_redirected;
+} t_redirection_result;
+
 typedef struct s_shell
 {
-	char					*input;
-	int						exit_code;
-	char					**ev;
-	char					**export;
-	t_token					*tokens_list;
-	struct s_ast_node		*ast_root;
-}							t_shell;
+	char		*input;
+	char		**ev;
+	char		**export;
+	t_token		*tokens_list;
+	t_ast_node	*ast_root;
+	pid_t		*pids;
+	int			exit_code;
+	int			pid_count;
+	int			command_count; // to keep?
+	int			infile; // to keep?
+	int			log_fd; // TODO: to remove
+}	t_shell;
 
 #endif

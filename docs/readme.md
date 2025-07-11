@@ -14,6 +14,7 @@
 * [Man Shell Documentation](https://pubs.opengroup.org/onlinepubs/9799919799/)
 * [Shell Gramar](https://pubs.opengroup.org/onlinepubs/9799919799/utilities/V3_chap02.html#tag_19_10)
 * [Minishell AST - How AST is working](https://github.com/pmouhali/minishell_ast)
+* [Pipes, Forks, & Dups: Understanding Command Execution and Input/Output Data Flow](https://www.rozmichelle.com/pipes-forks-dups/)
 
 ## Online Tutorials
 * [Mes conseils si je devais recommencer minishell - medium article]([Mes conseils si je devais recommencer minishell - medium article](https://medium.com/@mostafa.omrane/mes-conseils-si-je-devais-recommencer-minishell-a9783c51ba1b))

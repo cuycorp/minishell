@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:24:47 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/01 20:12:18 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/23 19:08:04 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ bool	ft_is_unquoted_char(char c);
 bool	ft_is_double_quoted_char(char c);
 bool	ft_is_special_operator(char c);
 bool	ft_is_valid_expansion(char c);
+void	print_char_tab(char **tabs); // TODO: to remove
 
 /* Token */
 
@@ -47,4 +48,11 @@ int		ft_len_table(char **table);
 
 /* Debugging */
 void	ft_print_table(char **str);
+
+/* Environment */
+
+char	*ft_get_env_value(char *key, char **envp);
+char	**ft_split_env_value(char *key, char **envp);
+
+
 #endif

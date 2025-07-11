@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_evaluate_var_creation.c                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/09 14:18:22 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/07/09 14:18:25 by mcamaren         ###   ########.fr       */
+/*   Updated: 2025/07/23 21:44:56 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,13 +14,10 @@
 
 static bool	ft_is_valid_var_name(char *var_declaration, int *j)
 {
-	char	c;
-
 	if (!var_declaration)
 		return (false);
 	while (var_declaration[*j] && var_declaration[*j] != '=')
 	{
-		c = var_declaration[*j];
 		if (*j == 0 && !(ft_isalpha(var_declaration[*j])
 				|| var_declaration[*j] == '_'))
 			return (perror("not a valid identifier:"), ft_printf(STDERR_FILENO,
@@ -38,11 +35,9 @@ static bool	ft_is_valid_var_name(char *var_declaration, int *j)
 static char	**ft_append_str_to_table(char *new_str, char **table)
 {
 	int		i;
-	int		k;
 	char	**new_table;
 
 	i = 0;
-	k = 0;
 	if (!table || !new_str)
 		return (NULL);
 	new_table = ft_alloc_struct((ft_len_table(table) + 2) * sizeof(char *));

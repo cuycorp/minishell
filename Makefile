@@ -25,6 +25,7 @@ IFLAGS =	-I $(LIBFT_DIR)/include \
 			-I $(GNL_DIR)/include \
 			-I $(INCLUDE_DIR)
 LDFLAGS = -lreadline -lncurses
+GFLAG = -g3
 CFLAGS = -Wall -Werror -Wextra $(IFLAGS)
 
 ############################# INPUT & OBJECT FILES #############################
@@ -73,10 +74,11 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(EXEC): $(LIBS) $(MINISHELL_STATIC_LIB) $(MAIN_OBJ)
-	@$(CC) $(CFLAGS) $(MAIN_OBJ) $(MINISHELL_STATIC_LIB) $(LIBS) $(LDFLAGS) -o $@
+	@$(CC) $(CFLAGS) $(MAIN_OBJ) $(MINISHELL_STATIC_LIB) $(LIBS) $(LDFLAGS) $(GFLAG) -o $@
 	@echo "$(GREEN_COLOR)Executable: $(DEFAULT_COLOR)$(EXEC) created!✅"
 
 # TODO: fix relinking on debugger and valgrind rules
+# TODO: to delete this rule
 debugger:
 	$(CC) $(CFLAGS) -g3 $(SRC_FILES) $(MINISHELL_STATIC_LIB) $(LIBS) $(LDFLAGS) -o $(EXEC)
 

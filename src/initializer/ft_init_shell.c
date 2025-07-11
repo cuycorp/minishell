@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:04:03 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/01 19:34:04 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/28 14:19:51 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,9 +57,15 @@ t_shell	*ft_init_shell(char **envp)
 		return (NULL);
 	shell->ev = ft_set_env(envp);
 	if (shell->ev == NULL)
-		return (free(shell), NULL);
+		return (ft_clear_memory(shell), NULL);
 	shell->export = ft_set_env(envp);
 	if (shell->export == NULL)
-		return (ft_free_char_tab(shell->ev), free(shell), NULL);
+		return (ft_clear_memory(shell), NULL);
+	shell->infile = -1; // TODO: to keep?
+	shell->exit_code = -1;
+	shell->pid_count = 0;
+	shell->command_count = 0;
+	// shell->log_fd = open("logs.txt", O_WRONLY | O_CREAT | O_TRUNC,
+	// 			STANDARD_FILE_PERMISSIONS); // TODO: to remove
 	return (shell);
 }

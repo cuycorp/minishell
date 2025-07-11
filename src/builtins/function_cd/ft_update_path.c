@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_update_path.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 14:09:21 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/07/23 14:09:23 by mcamaren         ###   ########.fr       */
+/*   Updated: 2025/07/24 09:25:47 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ bool	ft_update_path(t_command *command, char *old_pwd, char *pwd,
 	if (chdir(in_chdir) != 0)
 	{
 		perror("cd");
-		ft_printf(STDOUT_FILENO, ": %s\n", command->args[0]);
+		ft_printf(STDOUT_FILENO, ": %s\n", command->args[0]); // TODO: should be STDERRO_FILENO instead of STDOUT_FILENO
 		return (free(in_chdir), false);
 	}
 	if (!ft_save_wd(pwd))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_handle_dollar_cases.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:15:59 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/07/22 17:16:01 by mcamaren         ###   ########.fr       */
+/*   Updated: 2025/07/23 21:47:11 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@
 static char	*ft_handle_question_expansion(int *i, char *final, t_shell *data)
 {
 	char	*exp;
-	char	*temp;
 
 	(*i)+=2;
-	temp = final;
 	exp = ft_strdup(ft_itoa(data->exit_code));
 	if (!exp)
 		return (NULL);

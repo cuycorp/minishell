@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:39:32 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/01 20:55:49 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/30 17:27:22 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,27 +89,19 @@
 # include "libft.h"
 /* Internal Headers*/
 # include "structures.h"
+# include "variables.h"
 # include "parser.h"
+# include "exec.h"
 # include "utils.h"
 
 #include <limits.h>  /*atoll*/
-/* MACRO */
-
-# define PIPE '|'
-# define LOGICAL_OR "||"
-# define AMPERSAND_OPERATOR '&'
-# define LOGICAL_AND "&&"
-# define INPUT_REDIRECT '<'
-# define OUTPUT_REDIRECT '>'
-# define HERE_DOC "<<"
-# define OUTPUT_APPEND ">>"
-# define EXIT "exit"
 
 /* FUNCTIONS */
 
 /* INITIALIZER */
 
 t_shell			*ft_init_shell(char **envp);
+// t_redirection_result	ft_init_redirection_result(void);
 t_redirection	*ft_create_redirection(t_redirection_type type, char *target);
 t_command		*ft_create_command(int argc);
 
@@ -184,10 +176,15 @@ int	function_env(t_command *command, t_shell *data);
 char	*ft_get_var_name(char *var_definition);
 int	function_exit(t_command *command, t_shell *data);
 
+
+
+
 /* ########  SHELL PART  ######## */
 
-void			ft_handle_shell(t_shell *data);
-void			ft_handle_history(char *str);
+void		ft_handle_shell(t_shell *data);
+void		ft_handle_history(char *str);
+void		ft_handle_pipe(t_ast_node *root, t_shell *data);
+
 
 
 

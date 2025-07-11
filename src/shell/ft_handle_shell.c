@@ -6,22 +6,56 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:28:04 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/08 20:59:13 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/28 14:31:24 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void	ft_close_heredocs_fd(t_ast_node *node)
+{
+	t_redirection	*redirection;
+
+	if (!node)
+		return ;
+	if (node->type == AST_SIMPLE_COMMAND && node->command_data)
+	{
+		redirection = node->command_data->redirection;
+		while (redirection)
+		{
+			if (redirection->type == HEREDOC && redirection->heredoc_fd != -1)
+			{
+				close(redirection->heredoc_fd);
+				redirection->heredoc_fd = -1;
+			}
+			redirection = redirection->next;
+		}
+	}
+	ft_close_heredocs_fd(node->left);
+	ft_close_heredocs_fd(node->right);
+}
 
 static void	ft_reset_shell(t_shell *data)
 {
 	if (!data)
 		return ;
 	if (data->input)
+	{
 		free(data->input);
+		data->input = NULL;
+	}
 	if (data->tokens_list)
 		ft_free_tokens_list(&data->tokens_list);
 	if (data->ast_root)
 		ft_free_ast_tree(&data->ast_root);
+	if (data->pids)
+	{
+		free(data->pids);
+		data->pids = NULL;
+	}
+	if (data->ast_root)
+		ft_close_heredocs_fd(data->ast_root);
+	data->pid_count = 0;
 }
 
 static char	*ft_set_prompt(t_shell *data)
@@ -47,6 +81,8 @@ static char	*ft_set_prompt(t_shell *data)
 void	ft_handle_shell(t_shell *data)
 {
 	char	*prompt;
+	// int		last_pid;
+	int		exit_code;
 
 	prompt = ft_set_prompt(data);
 	if (!prompt)
@@ -57,9 +93,12 @@ void	ft_handle_shell(t_shell *data)
 		if (!data->input)
 			return (free(prompt), ft_close_program(data, EXIT_FAILURE));
 		if (*data->input == '\0')
+		{
+			ft_reset_shell(data);
 			continue ;
+		}
 		if (!ft_are_quotes_balanced(data->input))
-			return (perror("Unbalanced quotes"), free(prompt), ft_close_program(data, EXIT_FAILURE));
+			return (perror("Unbalanced quotes"), free(prompt), ft_close_program(data, EXIT_FAILURE)); // TODO: we do not want to close program, only print error message and display new prompt
 		// EXIT
 		if (ft_strncmp(data->input, EXIT, ft_strlen(EXIT) + 1) == 0)
 		{
@@ -68,20 +107,33 @@ void	ft_handle_shell(t_shell *data)
 		}
 		else
 			ft_printf(STDOUT_FILENO, "%s\n", data->input);
-
+		// History
 		ft_handle_history(data->input);
+		// TOKENIZATION
+		ft_tokenizer(data->input, data);
+		// Expansion and Quotes Removal
 		ft_expansion_n_removal(prompt, data);
-		//// Parsing
+		ft_print_tokens_list(data); // TODO: remove this line
+		// Parsing
 		if (data->tokens_list && data->tokens_list->type != TOKEN_END_OF_LINE)
 		{
 			data->ast_root = ft_parser(data->tokens_list);
 			if (!data->ast_root)
+			{
 				ft_printf(STDERR_FILENO, "Error: ft_parser failed\n");
-			else
-				ft_printf(STDIN_FILENO, "Success: ft_parser succeeded\n");
+				ft_reset_shell(data);
+				continue ;
+			}
+		}
+		// EXECUTION
+		if (data->ast_root)
+		{
+			exit_code = ft_executor(data->ast_root, data);
+			ft_printf(STDOUT_FILENO, "exit code = %d\n", exit_code);
 		}
 		ft_reset_shell(data);
-		//free(prompt);
 	}
+	// TODO: add clear_history????
+	rl_clear_history(); // TODO: not sure
 	free(prompt);
 }
