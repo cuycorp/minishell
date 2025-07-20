@@ -144,13 +144,16 @@ void			ft_tokenizer(char *str, t_shell *data);
 
 /* ########  BUILTINS  ######## */
 
-int				function_cd(t_shell **data, t_command command);
-int				function_pwd(t_shell *data);
-int 			function_echo(t_command command);
+int	function_cd(t_shell **data, t_command *command);
+int	function_pwd(t_shell *data, t_command *command);
+int function_echo(t_command *command);
+bool	ft_validate_command(t_command *command, char *commmand_name);
 
 /* ########  SHELL PART  ######## */
 
 void			ft_handle_shell(t_shell *data);
 void			ft_handle_history(char *str);
+
+
 
 #endif

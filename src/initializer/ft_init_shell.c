@@ -35,6 +35,8 @@ static char	**ft_set_env(char **envp)
 		return (NULL);
 	while (i < len_env)
 	{
+		if (!envp[i])
+			return (ft_free_char_tab(ev), NULL);
 		ev[i] = ft_strdup(envp[i]);
 		if (!ev[i])
 			return (ft_free_char_tab(ev), NULL);
@@ -48,9 +50,13 @@ t_shell	*ft_init_shell(char **envp)
 {
 	t_shell	*shell;
 
+	if (!envp || !envp[0])
+		return (NULL);
 	shell = (t_shell *)ft_alloc_struct(sizeof(t_shell));
 	if (!shell)
 		return (NULL);
 	shell->ev = ft_set_env(envp);
+	if (!shell->ev)
+		return (free(shell), NULL);
 	return (shell);
 }

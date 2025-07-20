@@ -16,8 +16,8 @@ bool	ft_is_unquoted_char(char c)
 {
 	if (!ft_isprint(c))
 		return (false);
-	if (c == ' ' || c == '|' || c == '<' || c == '>' || c == '(' || c == ')'
-		|| c == '"' || c == '\'' || c == '$' || c == '\\')
+	if (c == ' ' || c == '|' || c == '<' || c == '>' || c == '(' || c == ')' || c == '"'
+		|| c == '\'' || c == '$' || c == '\\')
 		return (false);
 	return (true);
 }

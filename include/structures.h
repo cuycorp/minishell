@@ -87,6 +87,8 @@ typedef struct s_command
 	t_redirection	*redirection;
 }	t_command;
 
+
+
 typedef enum e_ast_node_type
 {
 	AST_SHELL,
@@ -112,7 +114,6 @@ typedef struct s_ast_node
 	t_redirection *redirection_data; // to keep or update with another one?
 	t_command *command_data;         // to keep or update with another one?
 }							t_ast_node;
-
 typedef struct s_shell
 {
 	char					*input;

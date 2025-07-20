@@ -41,4 +41,6 @@ bool	ft_is_argument_type(t_token_type type);
 bool	ft_is_command_terminator(t_token_type type);
 bool	ft_is_logical_operator(t_token_type type);
 
+
+int	ft_len_table(char **table);
 #endif
