@@ -14,28 +14,15 @@
 
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell		*data;
-	t_command	*builtin;
+	t_shell	*data;
 
 	(void)argv;
 	// (void)argc;
 	data = ft_init_shell(envp);
 	if (!data)
 		return (EXIT_FAILURE);
-	builtin = ft_alloc_struct(sizeof(t_command));
-	if (!builtin)
-		return (1);
-	builtin->args = ft_split("", ' ');
-	if (!builtin->args)
-		return (ft_clear_memory(data), ft_free_command(builtin), 1);
-	builtin->name = ft_strdup("cd");
-	if (!builtin->name)
-		return (ft_free_command(builtin), ft_clear_memory(data), 1);
 	ft_validate_args(argc, data);
-	// ft_handle_shell(data);
-	if (function_cd(&data, builtin))
-		return (ft_free_command(builtin), ft_clear_memory(data), 1);
-	ft_free_command(builtin);
+	ft_handle_shell(data);
 	ft_clear_memory(data);
 	return (EXIT_SUCCESS);
 }
