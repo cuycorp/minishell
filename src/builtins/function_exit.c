@@ -1,0 +1,73 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   function_exit.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2025/07/23 19:42:31 by mcamaren          #+#    #+#             */
+/*   Updated: 2025/07/23 19:42:33 by mcamaren         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+#include "minishell.h"
+
+static int	ft_is_number(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '-' || str[i] == '+')
+		i++;
+	if (!str[i])
+		return (0);
+	while (str[i])
+	{
+		if (!ft_isdigit(str[i]))
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+static int	exit_extra_args(t_command *command, t_shell *data)
+{
+	if (!ft_is_number(command->args[1]))
+		return (ft_close_program(data, 2), 2);
+	else
+		return (ft_printf(STDERR_FILENO, "bash: exit: too many arguments\n"),
+			1);
+}
+
+static int	exit_exact_args(t_command *command, t_shell *data, int len)
+{
+	long long exit_code;
+
+	exit_code =  ft_atol(command->args[1]) % 256;
+	if (len == 1)
+		return (ft_close_program(data, 0), 0);
+	else
+	{
+		if (ft_is_number(command->args[1]))
+			return (ft_close_program(data, exit_code),exit_code);
+		else
+		{
+			ft_printf(STDERR_FILENO, "bash: exit: numeric argument required\n");
+			return (ft_close_program(data, 2), 2);
+		}
+	}
+	return (data->exit_code);
+}
+int	function_exit(t_command *command, t_shell *data)
+{
+	int	len;
+
+	if (ft_validate_command(command, "exit") || !command || !command->args)
+		return (1);
+	ft_printf(STDOUT_FILENO, "exit\n");
+	len = ft_len_table(command->args);
+	if (len > 2)
+		return (exit_extra_args(command, data));
+	else
+		return (exit_exact_args(command, data, len));
+}
+

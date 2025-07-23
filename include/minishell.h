@@ -92,7 +92,7 @@
 # include "parser.h"
 # include "utils.h"
 
-
+#include <limits.h>  /*atoll*/
 /* MACRO */
 
 # define PIPE '|'
@@ -182,6 +182,7 @@ int	function_unset(t_command *command, t_shell *data);
 bool	ft_unset_var(t_command *command, t_shell *data);
 int	function_env(t_command *command, t_shell *data);
 char	*ft_get_var_name(char *var_definition);
+int	function_exit(t_command *command, t_shell *data);
 
 /* ########  SHELL PART  ######## */
 
