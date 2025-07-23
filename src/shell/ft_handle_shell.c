@@ -58,6 +58,8 @@ void	ft_handle_shell(t_shell *data)
 			return (free(prompt), ft_close_program(data, EXIT_FAILURE));
 		if (*data->input == '\0')
 			continue ;
+		if (!ft_are_quotes_balanced(data->input))
+			return (perror("Unbalanced quotes"), free(prompt), ft_close_program(data, EXIT_FAILURE));
 		// EXIT
 		if (ft_strncmp(data->input, EXIT, ft_strlen(EXIT) + 1) == 0)
 		{

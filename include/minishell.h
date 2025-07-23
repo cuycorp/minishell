@@ -115,6 +115,8 @@ t_command		*ft_create_command(int argc);
 
 /* ########  LEXER PART  ######## */
 
+bool	ft_are_quotes_balanced(char *str);
+
 /* Tokenize function */
 
 void			ft_tokenize_word(char *str, unsigned int *pos, t_shell *data);

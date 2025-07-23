@@ -36,6 +36,14 @@ typedef struct s_redirection
 	struct s_redirection	*next;
 }							t_redirection;
 
+typedef enum e_quotes
+{
+	NONE,
+	SINGLE,
+	DOUBLE,
+
+}							t_quotes;
+
 /**
  * @brief Token types for the lexical analyzer in the shell
  * 	@param TOKEN_WORD A normal word (e.g., command name or argument)
@@ -86,8 +94,6 @@ typedef struct s_command
 	char					*name;
 	t_redirection			*redirection;
 }							t_command;
-
-
 
 typedef enum e_ast_node_type
 {

@@ -106,7 +106,7 @@ Redirection with expansion variable
 | '$USER'$USER                  | $USERmcamaren                 | ✅ OK    |
 | $?$?                          | 00                            | ✅ OK    |
 | $$                            | end program                   | ✅ OK    |
-| << $USER'$HOME'               | $USER$HOME                    | ❌ Error |
+| << $USER'$HOME'               | $USER$HOME                    | ✅ OK    |
 fix: include TOKEN_EXPANSION in ft_expand_heredoc_delimiter
 | << '$USER'$HOME'              | $USER$HOME                    | ✅ OK    |
 
@@ -132,3 +132,12 @@ fix: include TOKEN_EXPANSION in ft_expand_heredoc_delimiter
 | unset LS_COLORS               | remove LS_COLORS of env and export         | ✅ OK    |
 | pwd                           | print  PWD variable                        | ✅ OK    |
 | pwd  bla bla                  | print  PWD variable                        | ✅ OK    |
+
+
+## Tests for balancec quote check
+
+| Command                       | Expected behaviour                         | Result   |
+|-------------------------------|--------------------------------------------|----------|
+| echo "he said 'hi"            | Balanced                                   | ✅ OK    |
+| echo 'hello"""'               | Balanced                                   | ✅ OK    |
+| echo "hello | " aa            | Balanced                                   | ✅ OK    |
