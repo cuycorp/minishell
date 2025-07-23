@@ -95,3 +95,40 @@ Redirection with expansion variable
 
 
 (< infile cat -e) | (ls > out > out 1) -> not working...because of the final 1
+
+
+## Tests for expansion_quote_removal
+
+| Command                       | Expected behaviour            | Result   |
+| ------------------------------| ------------------------------|----------|
+| echo "$USER"123"$USER"'$USER' | mcamaren123mcamaren$USER      | ✅ OK    |
+| $USER'$USER'                  | mcamaren$USER                 | ✅ OK    |
+| '$USER'$USER                  | $USERmcamaren                 | ✅ OK    |
+| $?$?                          | 00                            | ✅ OK    |
+| $$                            | end program                   | ✅ OK    |
+| << $USER'$HOME'               | $USER$HOME                    | ❌ Error |
+fix: include TOKEN_EXPANSION in ft_expand_heredoc_delimiter
+| << '$USER'$HOME'              | $USER$HOME                    | ✅ OK    |
+
+## Tests for builtins
+
+| Command                       | Expected behaviour                         | Result   |
+|-------------------------------|--------------------------------------------|----------|
+| cd                            | change directory to home, return 0         | ✅ OK    |
+| cd ..                         | return to nearest outer folder             | ✅ OK    |
+| cd src                        | change to src folder in current directory  | ✅ OK    |
+| cd /home/mcamaren/Desktop     | change to given root                       | ✅ OK    |
+| c /home/mcamaren/Desktop      | return EXIT_FAILURE                        | ✅ OK    |
+| export VAR1 VAR!              | Add VAR1 to export, error message for VAR! | ✅ OK    |
+| export                        | print export vars                          | ✅ OK    |
+| export VAR1=                  | Add VAR1 to export and env                 | ✅ OK    |
+| env                           | print env variables                        | ✅ OK    |
+| env extra                     | return EXIT_FAILURE                        | ✅ OK    |
+| echo                          | print newline                              | ✅ OK    |
+| echo -nnnnnonnnn hi           | print -nnnnnonnnn hi and newline           | ✅ OK    |
+| echo -n                       | print nothing                              | ✅ OK    |
+| unset                         | return EXIT_SUCCESS                        | ✅ OK    |
+| unset var!                    | return EXIT_SUCCESS                        | ✅ OK    |
+| unset LS_COLORS               | remove LS_COLORS of env and export         | ✅ OK    |
+| pwd                           | print  PWD variable                        | ✅ OK    |
+| pwd  bla bla                  | print  PWD variable                        | ✅ OK    |
