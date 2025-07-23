@@ -20,7 +20,7 @@ char	*ft_expand_heredoc_delimiter(char *str, t_token_type type)
 		str = ft_remove_quote(str, '\"');
 	else if (type == TOKEN_SINGLE_QUOTED_WORD)
 		str = ft_remove_quote(str, '\'');
-	else if (type == TOKEN_WORD)
+	else if (type == TOKEN_WORD || type == TOKEN_EXPANSION)
 		str = ft_remove_quotes_of_token_word(str);
 	else
 		str = ft_strdup(str);
