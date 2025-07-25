@@ -76,17 +76,20 @@ static char	*ft_set_prompt(t_shell *data)
 void	ft_handle_shell(t_shell *data)
 {
 	char	*prompt;
+
 	// int		last_pid;
 	// int		exit_code;
-
 	prompt = ft_set_prompt(data);
 	if (!prompt)
 		return ;
 	while (1)
 	{
 		data->input = readline(prompt);
-		if (!data->input)
-			return (free(prompt), ft_close_program(data, EXIT_FAILURE));
+		// History
+		ft_handle_history(data->input);
+		if (ft_interactive_ctrl_c(data))
+			continue;
+		ft_ctrl_d(data, prompt);
 		if (*data->input == '\0')
 		{
 			ft_reset_shell(data);
@@ -112,11 +115,12 @@ void	ft_handle_shell(t_shell *data)
 		// Expansion and Quotes Removal
 		if (!ft_expansion_n_removal(data))
 		{
-			ft_printf(STDERR_FILENO, "minishell: error occured during expansion\n");
+			ft_printf(STDERR_FILENO,
+				"minishell: error occured during expansion\n");
 			ft_reset_shell(data);
 			continue ;
 		}
-		// ft_print_tokens_list(data); // TODO: remove this line
+		ft_print_tokens_list(data); // TODO: remove this line
 		// Parsing
 		if (data->tokens_list && data->tokens_list->type != TOKEN_END_OF_LINE)
 		{
@@ -134,7 +138,6 @@ void	ft_handle_shell(t_shell *data)
 			data->exit_code = ft_run_command_tree(data->ast_root, data);
 			ft_printf(STDOUT_FILENO, "exit code = %d\n", data->exit_code);
 		}
-
 		ft_reset_shell(data);
 	}
 	// TODO: add clear_history????

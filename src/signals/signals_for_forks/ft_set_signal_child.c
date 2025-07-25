@@ -1,19 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error_command_not_found.c                       :+:      :+:    :+:   */
+/*   ft_set_signal_child.c                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/30 10:41:13 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/30 10:41:15 by jgossard         ###   ########.fr       */
+/*   Created: 2025/08/01 12:22:06 by mcamaren          #+#    #+#             */
+/*   Updated: 2025/08/01 12:22:09 by mcamaren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_error_command_not_found(char *command_name)
+void	ft_set_signal_child(bool simple_command)
 {
-	if (command_name)
-		ft_printf(STDERR_FILENO, "Minishell: %s : command not found\n", command_name);
+	struct sigaction	sig_child;
+
+	sig_child.sa_handler = SIG_DFL;
+	sigemptyset(&sig_child.sa_mask);
+	sig_child.sa_flags = 0;
+	sigaction(SIGINT, &sig_child, NULL);
+	if (simple_command == true)
+		sigaction(SIGQUIT, &sig_child, NULL);
 }

@@ -13,6 +13,10 @@
 #ifndef VARIABLES_H
 # define VARIABLES_H
 
+/* Global variable for ctrl-c signal */
+typedef volatile sig_atomic_t	t_sigflag;
+extern t_sigflag				g_signal;
+
 /* BUILT-INS Variable */
 
 # define ECHO_BUILTIN "echo"
@@ -55,5 +59,5 @@
 
 # define EXIT_PERMISSION_DENIED 126
 # define EXIT_COMMAND_NOT_FOUND 127
-
+# define EXIT_HEREDOC_SIGNAL_SIGINT 130
 #endif

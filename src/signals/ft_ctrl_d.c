@@ -1,19 +1,23 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_error_command_not_found.c                       :+:      :+:    :+:   */
+/*   ft_ctrl_d.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/30 10:41:13 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/30 10:41:15 by jgossard         ###   ########.fr       */
+/*   Created: 2025/07/24 17:46:09 by mcamaren          #+#    #+#             */
+/*   Updated: 2025/07/24 17:46:12 by mcamaren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_error_command_not_found(char *command_name)
+void	ft_ctrl_d(t_shell *data, char *prompt)
 {
-	if (command_name)
-		ft_printf(STDERR_FILENO, "Minishell: %s : command not found\n", command_name);
+	if (!data->input)
+	{
+		write(STDOUT_FILENO, "exit\n", 5);
+		free(prompt);
+		ft_close_program(data, data->exit_code);
+	}
 }

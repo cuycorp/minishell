@@ -50,46 +50,55 @@ static void	ft_exec_heredoc_child(int *pipe_fd, const char *delimiter)
 	exit(EXIT_SUCCESS);
 }
 
-static int	ft_exec_heredoc_parent(int *pipe_fd, int pid)
+static int	ft_exec_heredoc_parent(int *pipe_fd, int pid, t_signal_child sig,
+		t_exec_context *context)
 {
-	int	status;
-
-	if (!pipe_fd || pid < 0)
+	// int	status;
+	if (!pipe_fd || pid < 0 || !context)
 		return (-1);
 	close(pipe_fd[WRITE_END]);
-	if (waitpid(pid, &status, 0) == -1)
+	// TODO: to keep?
+	if (context->pid_count < context->command_count)
 	{
-		ft_printf(STDERR_FILENO, "minishell: error: error with waitpid - %s\n",
-			strerror(errno));
-		close(pipe_fd[READ_END]);
-		return (-1);
+		ft_printf(STDERR_FILENO, "will add pid into context->pids\n");
+		context->pids[context->pid_count] = pid;
+		// context->pid_count++;
+		context->last_pid = pid;
 	}
+	if (ft_waitpid(pid, context) == false)
+		return (-1);
+	if (!ft_restore_signal_parent_n_exit_heredoc(&sig, context->last_exit_code,
+			pipe_fd[READ_END], context))
+		return (-1);
+	context->pids[context->pid_count++] = -1;
 	return (pipe_fd[READ_END]);
 }
 
-int	ft_exec_heredoc(t_redirection *redirections, char *delimiter)
+int	ft_exec_heredoc(t_redirection *redirections, char *delimiter,
+		t_exec_context *context)
 {
-	pid_t	pid;
-	int		pipe_fd[2];
+	pid_t			pid;
+	int				pipe_fd[2];
+	t_signal_child	sig;
 
 	if (!redirections || !delimiter)
 		return (-1);
 	if (pipe(pipe_fd) == -1)
-	{
-		ft_printf(STDERR_FILENO, "minishell: error: failed to pipe - %s\n",
-			strerror(errno));
-		return (-1);
-	}
+		return (ft_printf(STDERR_FILENO, "minishell: error: failed to pipe - %s\n", strerror(errno)), -1);
+	ft_set_signal_parent(&sig);
 	pid = fork();
 	if (pid < 0)
 	{
-		close(pipe_fd[READ_END]);
-		close(pipe_fd[WRITE_END]);
-		ft_printf(STDERR_FILENO, "minishell: error: failed to fork - %s\n",
-			strerror(errno));
-		return (-1);
+			close(pipe_fd[READ_END]);
+			close(pipe_fd[WRITE_END]);
+			ft_printf(STDERR_FILENO, "minishell: error: failed to fork - %s\n",
+				strerror(errno));
+			return (-1);
 	}
 	if (pid == 0)
-		ft_exec_heredoc_child(pipe_fd, delimiter);
-	return (ft_exec_heredoc_parent(pipe_fd, pid));
+	{
+			ft_set_signal_child(false);
+			ft_exec_heredoc_child(pipe_fd, delimiter);
+	}
+	return (ft_exec_heredoc_parent(pipe_fd, pid, sig, context));
 }

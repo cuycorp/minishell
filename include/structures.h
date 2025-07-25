@@ -45,6 +45,8 @@ typedef enum e_quotes
 
 }							t_quotes;
 
+
+
 /**
  * @brief Token types for the lexical analyzer in the shell
  * 	@param TOKEN_WORD A normal word (e.g., command name or argument)
@@ -117,33 +119,40 @@ typedef struct s_ast_node
 	t_ast_node_type			type;
 	struct s_ast_node		*left;
 	struct s_ast_node		*right;
-	char 					*value;
-	t_redirection 			*redirection_data;
-	t_command 				*command_data;
+	char					*value;
+	t_redirection			*redirection_data;
+	t_command				*command_data;
 }							t_ast_node;
 
 typedef struct s_exec_context
 {
-	pid_t	*pids;
-	int		last_pid; // to keep?
-	int		pid_count;
-	int		command_count;
-	int		input_fd;
-	int		output_fd;
-	int		last_exit_code;
-	bool	needs_fork;
-	bool	is_last_command;
-}	t_exec_context;
+	pid_t					*pids;
+	int last_pid; // to keep?
+	int						pid_count;
+	int						command_count;
+	int						input_fd;
+	int						output_fd;
+	int						last_exit_code;
+	bool					needs_fork;
+	bool					is_last_command;
+}							t_exec_context;
 
 typedef struct s_shell
 {
-	char			*input;
-	char			**ev;
-	char			**export;
-	t_token			*tokens_list;
-	t_ast_node		*ast_root;
-	t_exec_context	exec_context;
-	int				exit_code; // TODO: keep here or more it to t_exec_context?
-}	t_shell;
+	char					*input;
+	char					**ev;
+	char					**export;
+	t_token					*tokens_list;
+	t_ast_node				*ast_root;
+	t_exec_context			exec_context;
+	int exit_code; // TODO: keep here or more it to t_exec_context?
+}							t_shell;
+
+typedef struct s_signal_child
+{
+	struct sigaction		sa_ignore;
+	struct sigaction		sa_old_int;
+	struct sigaction		sa_old_quit;
+}							t_signal_child;
 
 #endif

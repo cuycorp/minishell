@@ -12,18 +12,20 @@
 
 #include "minishell.h"
 
+t_sigflag	g_signal = 0;
+
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell		*data;
-
+	t_shell	*data;
 
 	(void)argv;
 	// (void)argc;
-
 	data = ft_init_shell(envp);
 	if (!data)
 		return (EXIT_FAILURE);
 	ft_validate_args(argc, data);
+	ft_ctrl_c();
+	ft_ctrl_slash();
 	ft_handle_shell(data);
 	ft_clear_memory(data);
 	return (EXIT_SUCCESS);
