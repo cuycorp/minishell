@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 11:32:22 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/28 12:14:07 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/28 20:39:03 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,43 +17,46 @@
 	pipefd[1] refers to the write end of the pipe.
 */
 
-int	ft_execute_ast_tree(t_ast_node *node, t_shell *data,
-		int input_fd, int *last_pid)
+int	ft_execute_ast_tree(t_ast_node *node, t_shell *data, t_exec_context *context)
 {
-	if (!node || !data || !last_pid || input_fd < 0) // TODO: check on current_infile_fd correct?
+	if (!node || !data || !context) // TODO: check on current_infile_fd correct?
 		return (EXIT_FAILURE);
 	if (node->type == AST_PIPE)
-		return (ft_exec_pipe_node(node, data, input_fd, last_pid));
+		return (ft_exec_pipe_node(node, data, context));
 	else if (node->type == AST_SIMPLE_COMMAND)
-		return (ft_exec_simple_command(node->command_data, data, input_fd, last_pid));
+		return (ft_exec_simple_command(node->command_data, data,context));
 	else if (node->type == AST_LOGICAL_AND)
-		return (ft_exec_logical_and(node, data, input_fd, last_pid));
+		return (ft_exec_logical_and(node, data, context));
 	else if (node->type == AST_LOGICAL_OR)
-		return (ft_exec_logical_or(node, data, input_fd, last_pid));
+		return (ft_exec_logical_or(node, data, context));
 	else if (node->type == AST_REDIRECTION)
-		return (ft_exec_redirections(node->redirection_data));
+		return (ft_exec_redirections(node->redirection_data, context));
 	return (EXIT_FAILURE);
 }
 
 int	ft_executor(t_ast_node *root, t_shell *data)
 {
-	int	last_pid;
+	t_exec_context	*context;
 	int	result;
 
 	if (!root || !data) // TODO: add last_pid
 		return (EXIT_FAILURE);
-	last_pid = -1;
-	data->pid_count = 0;
-	data->command_count = ft_count_cmd_nodes(data->ast_root);
-	data->pids = malloc(sizeof(pid_t) * data->command_count);
-	if (!data->pids)
-		return (perror("Error: malloc failed"), EXIT_FAILURE);
+	context = ft_create_exec_context(root);
+	if (!context)
+	{
+		ft_printf(STDERR_FILENO, "minishell: context structure creation failed: %s\n", strerror(errno));
+		return (EXIT_FAILURE);
+	}
 	// Process Heredocs
 	if (!ft_process_heredocs(root))
+	{
+		ft_free_exec_context(context);
 		return (EXIT_FAILURE);
-	result = ft_execute_ast_tree(root, data, STDIN_FILENO, &last_pid);
-	if (data->command_count > 0 && result == EXIT_SUCCESS)
-		ft_wait_all_pids(data, &last_pid);
+	}
+	result = ft_execute_ast_tree(root, data, context);
+	if (context->command_count > 0 && result == EXIT_SUCCESS)
+		ft_wait_all_pids(data, context);
+	ft_free_exec_context(context);
 	return (result);
 }
 /*

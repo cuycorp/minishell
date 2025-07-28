@@ -1,31 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exec_logical_and.c                              :+:      :+:    :+:   */
+/*   ft_free_exec_context.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/25 15:11:35 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/28 20:39:12 by jgossard         ###   ########.fr       */
+/*   Created: 2025/07/28 17:13:50 by jgossard          #+#    #+#             */
+/*   Updated: 2025/07/28 20:41:50 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_exec_logical_and(t_ast_node *node, t_shell *data,
-		t_exec_context *context)
+void	ft_free_exec_context(t_exec_context *context)
 {
-	int	result;
-
-	if (!node || !data || !context)
-		return (EXIT_FAILURE);
-	result = ft_execute_ast_tree(node->left, data, context);
-	if (result == EXIT_SUCCESS)
+	if (!context)
+		return ;
+	if (context->pids)
 	{
-		context->input_fd = STDIN_FILENO;
-		return (ft_execute_ast_tree(node->right, data, context));
+		free(context->pids);
+		context->pids = NULL;
 	}
-	if (context->input_fd != STDIN_FILENO)
+	if (context->input_fd > 2)
 		close(context->input_fd);
-	return (result);
+	if (context->output_fd > 2)
+		close(context->output_fd);
+	free(context);
 }

@@ -6,43 +6,41 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 11:33:11 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/28 12:20:07 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/28 20:15:24 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static t_redirection	*ft_get_last_input_redirection(t_redirection *redirection)
+static bool	ft_get_last_io_redirection(
+	t_redirection *redirection, t_redirection **last_input,
+	t_redirection **last_output)
 {
-	t_redirection	*last_input;
-
-	if (!redirection)
-		return (NULL);
-	last_input = NULL;
+	if (!redirection || !last_input || !last_output)
+		return (false);
 	while (redirection)
 	{
 		if (redirection->type == HEREDOC || redirection->type == REDIRECT_IN)
-			last_input = redirection;
+			*last_input = redirection;
+		else if (redirection->type == REDIRECT_OUT
+			|| redirection->type == APPEND_OUT)
+			*last_output = redirection;
 		redirection = redirection->next;
 	}
-	return (last_input);
+	return (true);
 }
 
 static bool	ft_prepare_command_inputs(t_redirection *redirection,
-		t_redirection *last_input, int *input_fd)
+		t_redirection *last_input, t_exec_context *context)
 {
 	int	fd;
 
-	if (!redirection || !last_input || !input_fd)
+	if (!redirection || !context)
 		return (false);
-	if (redirection->type == HEREDOC)
+	if (redirection->type == HEREDOC && redirection == last_input)
 	{
-		if (redirection->heredoc_fd == -1)
-			return (false);
-		if (redirection == last_input)
-			*input_fd = redirection->heredoc_fd;
-		else
-			close(redirection->heredoc_fd);
+		ft_close_fd_if_open(&context->input_fd);
+		context->input_fd = redirection->heredoc_fd;
 	}
 	else if (redirection->type == REDIRECT_IN)
 	{
@@ -51,7 +49,10 @@ static bool	ft_prepare_command_inputs(t_redirection *redirection,
 			return (ft_printf(STDERR_FILENO, "minishell: %s: %s\n",
 					redirection->target, strerror(errno)), false);
 		if (redirection == last_input)
-			*input_fd = fd;
+		{
+			ft_close_fd_if_open(&context->input_fd);
+			context->input_fd = fd;
+		}
 		else
 			close(fd);
 	}
@@ -59,51 +60,50 @@ static bool	ft_prepare_command_inputs(t_redirection *redirection,
 }
 
 static bool	ft_prepare_command_outputs(t_redirection *redirection,
-		int *output_fd)
+		t_redirection *last_output, t_exec_context *context)
 {
-	if (!redirection || !output_fd)
+	int	fd;
+
+	if (!redirection || !context)
 		return (false);
 	if (redirection->type == REDIRECT_OUT)
-	{
-		*output_fd = open(redirection->target, O_WRONLY | O_CREAT | O_TRUNC,
+		fd = open(redirection->target, O_WRONLY | O_CREAT | O_TRUNC,
 				STANDARD_FILE_PERMISSIONS);
-		if (*output_fd < 0)
-			return (ft_printf(STDERR_FILENO, "minishell: %s: %s\n",
-					redirection->target, strerror(errno)), false);
-	}
 	else if (redirection->type == APPEND_OUT)
-	{
-		*output_fd = open(redirection->target, O_WRONLY | O_CREAT | O_APPEND,
+		fd = open(redirection->target, O_WRONLY | O_CREAT | O_APPEND,
 				STANDARD_FILE_PERMISSIONS);
-		if (*output_fd < 0)
-			return (ft_printf(STDERR_FILENO, "minishell: %s: %s\n",
-					redirection->target, strerror(errno)), false);
+	else
+		return (false);
+	if (fd < 0)
+		return (ft_printf(STDERR_FILENO, "minishell: %s: %s\n",
+				redirection->target, strerror(errno)), false);
+	if (redirection == last_output)
+	{
+		ft_close_fd_if_open(&context->output_fd);
+		context->output_fd = fd;
 	}
+	else
+		close(fd);
 	return (true);
 }
 
 static bool	ft_prepare_command_redirection(t_redirection *redirection,
-		t_redirection *last_input, int *input_fd, int *output_fd)
+		t_redirection *last_input, t_redirection *last_output,
+		t_exec_context *context)
 {
-	// TODO: issue with last_input == NULL ??
-	if (!redirection || !input_fd || !output_fd)
+	if (!redirection || !context)
 		return (false);
 	while (redirection)
 	{
 		if (redirection->type == HEREDOC || redirection->type == REDIRECT_IN)
 		{
-			if (!ft_prepare_command_inputs(redirection, last_input, input_fd))
+			if (!ft_prepare_command_inputs(redirection, last_input, context))
 				return (false);
 		}
 		else if (redirection->type == REDIRECT_OUT
 			|| redirection->type == APPEND_OUT)
 		{
-			if (*output_fd != -1)
-			{
-				close(*output_fd);
-				*output_fd = -1;
-			}
-			if (!ft_prepare_command_outputs(redirection, output_fd))
+			if (!ft_prepare_command_outputs(redirection, last_output, context))
 				return (false);
 		}
 		redirection = redirection->next;
@@ -111,58 +111,20 @@ static bool	ft_prepare_command_redirection(t_redirection *redirection,
 	return (true);
 }
 
-bool	ft_prepare_command_io(t_redirection *redirection)
+bool	ft_prepare_command_io(t_redirection *redirection,
+		t_exec_context *context)
 {
 	t_redirection	*last_input;
-	int				input_fd;
-	int				output_fd;
+	t_redirection	*last_output;
 
+	if (!context)
+		return (false);
 	if (!redirection)
 		return (true);
-	input_fd = -1;
-	output_fd = -1;
-	last_input = ft_get_last_input_redirection(redirection);
-	// TODO: should we protect if last_input == NULL ??
-	// if (!last_input)
-	// {
-	// 	// Only process output redirections
-	// 	while (redirection)
-	// 	{
-	// 		if (redirection->type == REDIRECT_OUT
-	// 			|| redirection->type == APPEND_OUT)
-	// 		{
-	// 			if (!ft_prepare_command_outputs(redirection, &output_fd))
-	// 				return (false);
-	// 		}
-	// 		redirection = redirection->next;
-	// 	}
-	// }
-	// else
-	// {
-		// if (!ft_prepare_command_redirection(redirection, last_input, &input_fd,
-				// &output_fd))
-			// return (false);
-	// }
-	if (!ft_prepare_command_redirection(redirection, last_input, &input_fd,
-			&output_fd))
+	last_input = NULL;
+	last_output = NULL;
+	if (!ft_get_last_io_redirection(redirection, &last_input, &last_output))
 		return (false);
-	// Apply input redirection
-	if (input_fd != -1)
-	{
-		if (!ft_apply_dup2(input_fd, STDIN_FILENO))
-		{
-			if (output_fd != -1)
-				close(output_fd);
-			return (false);
-		}
-		close(input_fd);
-	}
-	// Apply output redirection
-	if (output_fd != -1)
-	{
-		if (!ft_apply_dup2(output_fd, STDOUT_FILENO))
-			return (false);
-		close(output_fd);
-	}
-	return (true);
+	return (ft_prepare_command_redirection(redirection, last_input, last_output,
+			context));
 }

@@ -6,13 +6,13 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 15:22:57 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/28 12:16:02 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/28 20:40:23 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool ft_fill_heredoc(int write_fd, const char *delimiter)
+static bool ft_fill_heredoc(int write_fd, const char *delimiter)
 {
 	char *line;
 
@@ -36,12 +36,38 @@ bool ft_fill_heredoc(int write_fd, const char *delimiter)
 	return (true);
 }
 
+static void	ft_exec_heredoc_child(int *pipe_fd, const char *delimiter)
+{
+	if (!pipe_fd || !delimiter)
+		exit(EXIT_FAILURE);
+	close(pipe_fd[READ_END]);
+	if (!ft_fill_heredoc(pipe_fd[WRITE_END], delimiter))
+		return (exit(EXIT_FAILURE));
+	close(pipe_fd[WRITE_END]);
+	exit(EXIT_SUCCESS);
+}
+
+static int	ft_exec_heredoc_parent(int *pipe_fd, int pid)
+{
+	int		status;
+
+	if (!pipe_fd || pid < 0)
+		return (-1);
+	close(pipe_fd[WRITE_END]);
+	if (waitpid(pid, &status, 0) == -1)
+	{
+		ft_printf(STDERR_FILENO, "minishell: error with waitpid - %s\n", strerror(errno));
+		close(pipe_fd[READ_END]);
+		return (-1);
+	}
+	return (pipe_fd[READ_END]);
+}
+
 // TODO: parameter can be simplify since delimiter is already part of the redirection
 int	ft_exec_heredoc(t_redirection *redirections, char *delimiter)
 {
 	pid_t	pid;
 	int		pipe_fd[2];
-	int		status;
 
 	if (!redirections || !delimiter)
 		return (-1);
@@ -55,21 +81,6 @@ int	ft_exec_heredoc(t_redirection *redirections, char *delimiter)
 		return (perror("failed to fork"), -1);
 	}
 	if (pid == 0)
-	{
-		close(pipe_fd[READ_END]);
-		if (!ft_fill_heredoc(pipe_fd[WRITE_END], delimiter))
-			return (EXIT_FAILURE);
-		close(pipe_fd[WRITE_END]);
-		exit(EXIT_SUCCESS);
-	}
-	close(pipe_fd[WRITE_END]);
-	if (waitpid(pid, &status, 0) == -1)
-	{
-		ft_printf(STDERR_FILENO, "minishell: error with waitpid - %s\n", strerror(errno));
-		// perror("minishell: waitpid failed");
-		// ft_putstr_fd("error in waitpid of exec_heredoc\n", STDERR_FILENO);
-		close(pipe_fd[READ_END]);
-		return (-1);
-	}
-	return (pipe_fd[READ_END]);
+		ft_exec_heredoc_child(pipe_fd, delimiter);
+	return (ft_exec_heredoc_parent(pipe_fd, pid));
 }

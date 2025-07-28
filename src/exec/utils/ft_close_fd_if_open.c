@@ -1,31 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exec_logical_and.c                              :+:      :+:    :+:   */
+/*   ft_close_fd_if_open.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/25 15:11:35 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/28 20:39:12 by jgossard         ###   ########.fr       */
+/*   Created: 2025/07/28 19:27:37 by jgossard          #+#    #+#             */
+/*   Updated: 2025/07/28 20:15:52 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_exec_logical_and(t_ast_node *node, t_shell *data,
-		t_exec_context *context)
+void	ft_close_fd_if_open(int *fd)
 {
-	int	result;
-
-	if (!node || !data || !context)
-		return (EXIT_FAILURE);
-	result = ft_execute_ast_tree(node->left, data, context);
-	if (result == EXIT_SUCCESS)
-	{
-		context->input_fd = STDIN_FILENO;
-		return (ft_execute_ast_tree(node->right, data, context));
-	}
-	if (context->input_fd != STDIN_FILENO)
-		close(context->input_fd);
-	return (result);
+	if (!fd)
+		return ;
+	close(*fd);
+	*fd = -1;
 }

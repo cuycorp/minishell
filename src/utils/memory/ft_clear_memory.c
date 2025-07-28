@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:57:54 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/23 15:07:12 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/28 20:41:42 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,5 @@ void	ft_clear_memory(t_shell *data)
 		ft_free_char_tab(data->ev);
 	if (data->export)
 		ft_free_char_tab(data->export);
-	if (data->pids)
-		free(data->pids);
 	free(data);
 }
