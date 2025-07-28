@@ -71,19 +71,3 @@ char	*ft_handle_word_quotes(char *str)
 	}
 	return (final);
 }
-
-
-char	*ft_expand_heredoc_delimiter(char *str, t_token_type type)
-{
-	if (type == TOKEN_DOUBLE_QUOTED_WORD)
-		str = ft_remove_quote(str, '\"');
-	else if (type == TOKEN_SINGLE_QUOTED_WORD)
-		str = ft_remove_quote(str, '\'');
-	else if (type == TOKEN_WORD)
-		str = ft_handle_word_quotes(str);
-	else
-		str = ft_strdup(str);
-	printf("expand heredoc delimiter %s\n", str);
-	return (str);
-}
-
