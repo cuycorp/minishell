@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:24:47 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/23 19:08:04 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/28 17:15:54 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	ft_close_program(t_shell *data, int exit_code);
 void	ft_free_redirection(t_redirection **redirection);
 void	ft_free_command(t_command *command);
 void	ft_free_ast_tree(t_ast_node **root);
+void	ft_free_exec_context(t_exec_context *context);
 
 /* String */
 

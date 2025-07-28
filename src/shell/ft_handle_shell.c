@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:28:04 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/28 14:31:24 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/28 20:41:25 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,14 +48,8 @@ static void	ft_reset_shell(t_shell *data)
 		ft_free_tokens_list(&data->tokens_list);
 	if (data->ast_root)
 		ft_free_ast_tree(&data->ast_root);
-	if (data->pids)
-	{
-		free(data->pids);
-		data->pids = NULL;
-	}
 	if (data->ast_root)
 		ft_close_heredocs_fd(data->ast_root);
-	data->pid_count = 0;
 }
 
 static char	*ft_set_prompt(t_shell *data)

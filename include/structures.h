@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:23:56 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/28 14:17:55 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/28 20:42:45 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,25 +122,27 @@ typedef struct s_ast_node
 	t_command 				*command_data;
 }							t_ast_node;
 
-typedef struct s_redirection_result
+typedef struct s_exec_context
 {
-	bool stdin_redirected;
-	bool stdout_redirected;
-} t_redirection_result;
+	pid_t	*pids;
+	int		last_pid; // to keep?
+	int		pid_count;
+	int		command_count;
+	int		input_fd;
+	int		output_fd;
+	bool	needs_fork;
+	bool	is_last_command;
+}	t_exec_context;
 
 typedef struct s_shell
 {
-	char		*input;
-	char		**ev;
-	char		**export;
-	t_token		*tokens_list;
-	t_ast_node	*ast_root;
-	pid_t		*pids;
-	int			exit_code;
-	int			pid_count;
-	int			command_count; // to keep?
-	int			infile; // to keep?
-	int			log_fd; // TODO: to remove
+	char			*input;
+	char			**ev;
+	char			**export;
+	t_token			*tokens_list;
+	t_ast_node		*ast_root;
+	t_exec_context	exec_context;
+	int				exit_code; // TODO: keep here or more it to t_exec_context?
 }	t_shell;
 
 #endif
