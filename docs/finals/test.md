@@ -216,6 +216,28 @@ cat readme.md | cd .. # ⚠️ not working
 ```Shell
 cat readme.md | ls  # ✅ OK
 cat readme.md | wc -l  # ✅ OK
+
+
+
+
+time sleep 5 | sleep 2 # ⚠️⚠️⚠️⚠️⚠️ TODO: not working and create a bug where the prompt is not shown anymore
+# Token[0] : value = time, value length = 4, token type = TOKEN_WORD
+# Token[1] : value = sleep, value length = 5, token type = TOKEN_WORD
+# Token[2] : value = 5, value length = 1, token type = TOKEN_WORD
+# Token[3] : value = |, value length = 1, token type = TOKEN_PIPE
+# Token[4] : value = sleep, value length = 5, token type = TOKEN_WORD
+# Token[5] : value = 2, value length = 1, token type = TOKEN_WORD
+# ft_exec_simple_command_parent: enter function
+# ft_exec_simple_command_parent: end function
+# ft_executor: execute ast tree result: 0
+# ft_exec_simple_command_parent: enter function
+# ft_exec_simple_command_parent: end function
+# exit code = 0
+# /home/jgossard/Documents/42_cursus/08_minishell Oh-My-Shell > 0.00user 0.00system 0:05.00elapsed 0%CPU (0avgtext+0avgdata 2112maxresident)k
+# 0inputs+0outputs (0major+87minor)pagefaults 0swaps
+
+
+
 ```
 
 ### Test Logical operator with simple command + pipe
@@ -236,41 +258,54 @@ true && false && ls # ⚠️ not working
 < Makefile cat < ./include/exec.h
 
 # Multiple Infile with Pipe + multiple Redirect Out
-< Makefile cat < ./include/exec.h | cat > testo1 > testo3 # ✅ OK
+< Makefile cat < ./include/exec.h | cat > out1 > out3 # ✅ OK
 cat readme.md | < ./include/exec.h < ./include/minishell.h cat > out123 > out456 | wc -l  # ✅ OK
 
 # Multiple Infile with Pipe + multiple Append Out
-< Makefile cat < ./include/exec.h | cat >> testo1 >> testo3 # ✅ OK
+< Makefile cat < ./include/exec.h | cat >> out1 >> out3 # ✅ OK
 
 # Multiple Infile with Pipe + mix Redirect Out +  Append Out
-< Makefile cat < ./include/exec.h | cat >> testo1 > testo3 # ✅ OK
-< Makefile cat < ./include/exec.h | cat > testo1 >> testo3 # ✅ OK
+< Makefile cat < ./include/exec.h | cat >> out1 > out3 # ✅ OK
+< Makefile cat < ./include/exec.h | cat > out1 >> out3 # ✅ OK
 < Makefile cat < ./include/exec.h | cat > out1 >> out2 > out3 # ✅ OK
 
 # Heredoc
-<< eof  # ⚠️ not working
+<< eof # ✅ OK
+<< eof << end # ✅ OK
+<< eof << end < infile # ❌ Error with exit code 1
+<< eof << end # ✅ OK
 << eof cat # ✅ OK
 << eof << hello cat # ✅ OK
 < readme.md << eof cat # ✅ OK
 << eof < readme.md cat # ✅ OK
 << hello cat | wc - l # ✅ OK
-<< eof cat | cat | grep 'TODO' # ⚠️ wait for the expansion code
-<< eof cat | cat | grep TODO # ⚠️ wait for the expansion code
+<< eof cat | cat | grep 'TODO' # ✅ OK
+<< eof cat | cat | grep TODO # ✅ OK
 << eof << end cat | cat | grep test # ✅ OK
 << eof << end cat | cat | wc -l # ✅ OK
 << eof << end cat < readme.md | cat | grep test # ✅ OK return with exit code 1 if readme does not have any words "test" else return exit code 0
 << eof << end cat < readme.md | << eof cat | grep hello # ✅ OK
 << eof << end cat < readme.md | << eof cat | << eof grep hello # ✅ OK
 
+// TODO: to fix?
+// seems OK according to bash, need to check with someone else
 << eof << end cat | << cat eof | cat > out11 # ⚠️ not working because teh exit_code is not correct yet=> return exit_code = 0 instead of exit_code = 127
 
 << '$HOME-e$test' # ⚠️ not working
 << '$HOME-e$test' cat # ✅ OK
 
+<< << $USER # ❌ Error, should return error message lilke "bash: syntax error near unexpected token '<<'"
+
+
+<< $USER $test$HOME # ⚠️ execution is working but wrong error message and exit code. should return something like bash: /home/jgossard: Is a directory with exit_code = 126
+
+
 # Multiple Heredoc with multiple type of redirections
 << eof << end cat < readme.md | << eof cat < Makefile| << eof grep # < Makefile # ✅ OK
-<< eof << end cat < readme.md > out1 | << eof cat < Makefile| << eof grep # < Makefile # ✅ OK
-<< eof << end cat < readme.md > out1 | << eof cat < Makefile| << eof grep '#' < Makefile # ⚠️ Not working, need to remove the quote around the `#` to make it works
+<< eof << end cat < readme.md > out1 | << eof cat < Makefile| << eof grep SRC_FILES < Makefile # ✅ OK
+<< eof << end cat < readme.md > out1 | << eof cat < Makefile| << eof grep 'SRC_FILES' < Makefile # ✅ OK
+<< eof << end cat < readme.md >> out1 | << eof cat < Makefile| << eof grep 'SRC_FILES' < Makefile # ✅ OK
+
 ```
 
 ### Subshell
@@ -284,6 +319,8 @@ cat (< readme << eof cat) # ⚠️⚠️⚠️⚠️⚠️ not working
 ```Shell
 cat < readme.md | grep excel && ls
 << EOF cat | ls && echo hi > file
+
+cat file.txt | grep "hello" && echo "Match found" || echo "No match"
 
 false || true | echo hi
 false || false | echo hi
@@ -306,12 +343,26 @@ cat Makefile > test001 | ls | wc -l | cat readme.md | wc -l > testo1 > testo2 �
 # Multiple pipes + mix command and builtins + logical operator
 ```
 
+### Test with Signals
+```Shell
+<< eof
+then CTRL-C
+then try to do a new command : ehco test or << eof
+check leaks
+```
 
 
 tricky tests
 
 ./srcs | echo a => affiche 'a' + message erreurs +
 
+### Wildcard
+```Shell
+touch toto.txt
+touch tata.txt
+echo lalala > *.txt // TODO: not working yet, but should print bash: *.txt: ambiguous redirect if there are several occurences of file terminated by .txt
+cat < *.txt // TODO: not working yet, but should print bash: *.txt: ambiguous redirect if there are several occurences of file terminated by .txt
+```
 
 ### Refactoring test
 

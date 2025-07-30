@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 14:30:33 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/07/09 10:48:01 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/30 16:32:16 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,13 +49,12 @@ static char	*ft_create_new_input(t_shell *data)
 
 
 
-bool	ft_retokenize(t_token **token_list, t_shell *data)
+bool	ft_retokenize(t_shell *data)
 {
 	char	*new_input;
 
-	if (!*token_list || !data)
+	if (!data)
 		return (false);
-	(void)token_list;
 	new_input = ft_create_new_input(data);
 	if(!new_input)
 		return (false);

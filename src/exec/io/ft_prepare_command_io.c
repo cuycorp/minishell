@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 11:33:11 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/28 20:15:24 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/30 09:16:42 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static bool	ft_prepare_command_inputs(t_redirection *redirection,
 		return (false);
 	if (redirection->type == HEREDOC && redirection == last_input)
 	{
-		ft_close_fd_if_open(&context->input_fd);
+		ft_safe_close_and_reset_fd(&context->input_fd);
 		context->input_fd = redirection->heredoc_fd;
 	}
 	else if (redirection->type == REDIRECT_IN)
@@ -50,7 +50,7 @@ static bool	ft_prepare_command_inputs(t_redirection *redirection,
 					redirection->target, strerror(errno)), false);
 		if (redirection == last_input)
 		{
-			ft_close_fd_if_open(&context->input_fd);
+			ft_safe_close_and_reset_fd(&context->input_fd);
 			context->input_fd = fd;
 		}
 		else
@@ -79,7 +79,7 @@ static bool	ft_prepare_command_outputs(t_redirection *redirection,
 				redirection->target, strerror(errno)), false);
 	if (redirection == last_output)
 	{
-		ft_close_fd_if_open(&context->output_fd);
+		ft_safe_close_and_reset_fd(&context->output_fd);
 		context->output_fd = fd;
 	}
 	else

@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:23:56 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/28 20:42:45 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/29 10:59:55 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,6 +130,7 @@ typedef struct s_exec_context
 	int		command_count;
 	int		input_fd;
 	int		output_fd;
+	int		last_exit_code;
 	bool	needs_fork;
 	bool	is_last_command;
 }	t_exec_context;

@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_is_parent_builtins.c                            :+:      :+:    :+:   */
+/*   ft_is_parent_builtin.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/24 09:07:40 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/24 09:08:44 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:13:18 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_is_parent_builtins(char *command_name)
+bool	ft_is_parent_builtin(char *command_name)
 {
 	if (!command_name)
 		return (false);

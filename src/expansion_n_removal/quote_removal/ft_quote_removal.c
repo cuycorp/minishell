@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_quote_removal.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 11:20:58 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/07/01 11:21:02 by mcamaren         ###   ########.fr       */
+/*   Updated: 2025/07/30 17:21:08 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,10 +35,19 @@ static bool	ft_process_heredoc_token(t_token **current)
 {
 	char	*tmp;
 
+	if (!current || !*current)
+		return (false);
 	if (!(*current)->next)
-		return (perror("zsh: parse error near \n"), false);
+	{
+		ft_printf(STDERR_FILENO,
+			"minishell: syntax error near unexpected token `newline'\n");
+		return (false);
+	}
 	if (!ft_is_valid_delimiter_token((*current)->next->type))
-		return (perror("zsh: parse error near"), false);
+	{
+		ft_parse_error(*current, NULL);
+		return (false);
+	}
 	tmp = (*current)->next->value;
 	(*current)->next->value = ft_expand_heredoc_delimiter(tmp,
 			(*current)->next->type);
@@ -49,11 +58,10 @@ static bool	ft_process_heredoc_token(t_token **current)
 	return (true);
 }
 
-bool	ft_quote_removal(t_token **token_list, t_shell *data)
+bool	ft_quote_removal(t_token **token_list)
 {
 	t_token	*current;
 
-	(void)data;
 	if (!*token_list)
 		return (false);
 	current = *token_list;

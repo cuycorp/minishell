@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:07:24 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/28 20:17:24 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/30 17:11:46 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static void	ft_exec_pipe_child(t_ast_node *root, t_shell *data, t_exec_context *
 			exit(EXIT_FAILURE);
 		close(context->input_fd);
 	}
-	exit(ft_execute_ast_tree(root->left, data, context));
+	exit(ft_exec_node_recursive(root->left, data, context));
 }
 
 /**
@@ -85,11 +85,12 @@ static int	ft_exec_pipe_parent(t_ast_node *root, t_shell *data, t_exec_context *
 	close(pipe_fd[WRITE_END]);
 	if (context->input_fd != STDIN_FILENO)
 		close(context->input_fd);
+	// Add child PID to tracking
 	if (context->pid_count < context->command_count)
 		context->pids[context->pid_count++] = pid;
-	context->input_fd = pipe_fd[READ_END];
 	context->last_pid = pid;
-	result = ft_execute_ast_tree(root->right, data, context);
+	context->input_fd = pipe_fd[READ_END];
+	result = ft_exec_node_recursive(root->right, data, context);
 	close(pipe_fd[READ_END]);
 	return (result);
 }

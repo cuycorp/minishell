@@ -21,21 +21,21 @@
 					"text": "-enable-pretty-printing",
 					"ignoreFailures": true
 				},
-				{
-					"description": "Follow fork mode child",
-					"text": "set follow-fork-mode child",
-					"ignoreFailures": false
-				},
 				// {
-				// 	"description": "Follow fork mode parent",
-				// 	"text": "set follow-fork-mode parent",
+				// 	"description": "Follow fork mode child",
+				// 	"text": "set follow-fork-mode child",
 				// 	"ignoreFailures": false
 				// },
 				{
-					"description": "Set detach-on-fork off",
-					"text": "set detach-on-fork off",
+					"description": "Follow fork mode parent",
+					"text": "set follow-fork-mode parent",
 					"ignoreFailures": false
 				},
+				// {
+				// 	"description": "Set detach-on-fork off",
+				// 	"text": "set detach-on-fork off",
+				// 	"ignoreFailures": false
+				// },
 				{
 					"description": "Set Disassembly Flavor to Intel",
 					"text": "-gdb-set disassembly-flavor intel",
