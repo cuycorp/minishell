@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:39:32 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/30 17:28:51 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/30 17:31:22 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,16 +138,16 @@ void			ft_print_tokens_list(t_shell *data);
 void			ft_tokenizer(char *str, t_shell *data);
 
 /* ########  EXPANSION AND QUOTE REMOVAL  ######## */
-void	ft_expansion_n_removal(char *prompt, t_shell *data);
+bool	ft_expansion_n_removal(t_shell *data);
 bool	ft_evaluate_var_expansion(t_token **token_list, t_shell *data);
 char	*ft_expand_var(char *var_name, t_shell *data);
 char	*ft_locate_var(char *str, int *i);
 char	*ft_fill_expanded_variables(char *str, t_shell *data);
 
 char	*ft_handle_dollar_cases(char *str, int *i, char *final, t_shell *data);
-bool	ft_retokenize(t_token **token_list, t_shell *data);
+bool	ft_retokenize(t_shell *data);
 
-bool	ft_quote_removal(t_token **token_list, t_shell *data);
+bool	ft_quote_removal(t_token **token_list);
 char	*ft_char_2_str(char c); //utils
 char	*ft_expand_heredoc_delimiter(char *str, t_token_type type);
 char	*ft_remove_quote(char *str, char quote);
@@ -159,34 +159,29 @@ char *ft_extract_single_quoted_str(char *str, int *i);
 
 /* ########  BUILTINS  ######## */
 
-int	function_cd(t_shell **data, t_command *command);
+int		function_cd(t_shell **data, t_command *command);
 char	*get_new_dir(int len, t_shell *data, t_command *command);
-bool	ft_update_path(t_command *command, char *old_pwd, char *pwd, char *in_chdir);
-int	function_pwd(t_shell *data, t_command *command);
-int function_echo(t_command *command);
+bool	ft_update_path(t_command *command, char *old_pwd, char *pwd,
+			char *in_chdir);
+int		function_pwd(t_shell *data, t_command *command);
+int 	function_echo(t_command *command);
 bool	ft_validate_command(t_command *command, char *commmand_name);
-int	function_export(t_command *command, t_shell *data);
+int		function_export(t_command *command, t_shell *data);
 bool	ft_print_export(t_shell *data);
 bool	ft_evaluate_var_creation(t_command *command, t_shell *data);
 bool	ft_replace_var_definition(char *new_var_definition, char **table);
 bool	ft_var_definition_exists(char *var_definition, char **table);
-bool ft_is_same_var(char *var_name1, char *var_name2);
-int	function_unset(t_command *command, t_shell *data);
+bool	ft_is_same_var(char *var_name1, char *var_name2);
+int		function_unset(t_command *command, t_shell *data);
 bool	ft_unset_var(t_command *command, t_shell *data);
-int	function_env(t_command *command, t_shell *data);
+int		function_env(t_command *command, t_shell *data);
 char	*ft_get_var_name(char *var_definition);
-int	function_exit(t_command *command, t_shell *data);
-
-
-
+int		function_exit(t_command *command, t_shell *data);
 
 /* ########  SHELL PART  ######## */
 
 void		ft_handle_shell(t_shell *data);
 void		ft_handle_history(char *str);
 void		ft_handle_pipe(t_ast_node *root, t_shell *data);
-
-
-
 
 #endif

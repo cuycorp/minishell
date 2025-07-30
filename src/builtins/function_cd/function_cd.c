@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/10 14:11:13 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/06/25 19:07:51 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:16:07 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,3 @@ int	function_cd(t_shell **data, t_command *command)
 	else
 		return (perror("cd: string not in pwd"), EXIT_FAILURE);
 }
-/*
-	printf("variables temporales\nOLD_PWD %s\nPWD %s\n", old_pwd, pwd);
-*/

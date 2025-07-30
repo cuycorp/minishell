@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:29:45 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/25 12:32:26 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/30 10:37:23 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ static bool	ft_handle_heredoc(t_redirection *redirection)
  * @note This function processes each node in the AST recursively, starting
  *       from the root. If any error occurs (such as a failed heredoc creation),
  *       the function will return false. If the root is NULL, the function
- *       returns true immediately.
+ *       returns true immediately since we can have command without heredocs.
  */
 bool	ft_process_heredocs(t_ast_node *root) // TODO: renamed it to something like ft_prepare_all_heredocs
 {

@@ -1,0 +1,130 @@
+## Simple Command
+```
+{
+	root:{
+		type: AST_PIPE,
+		left: {
+			type: AST_SIMPLE_COMMAND,
+			left: NULL,
+			right: NULL,
+			value: NULL,
+			redirection_data: NULL,
+			command_data: {
+				args: ["cat", NULL],
+				name: "/bin/cat",
+				redirection: NULL;
+			}
+		},
+		right: {
+			type: AST_SIMPLE_COMMAND,
+			left: NULL,
+			right: NULL,
+			value: NULL,
+			redirection_data: NULL,
+			command_data: {
+				args: ["ls", NULL],
+				name: "/bin/ls",
+				redirection: NULL;
+			}
+		},
+		value: NULL,
+		redirection_data: NULL,
+		command_data: NULL
+	}
+}
+```
+Ajouter le format des exemples suivants
+<< eof < Makefile
+< infile cat > out
+
+
+| Precedence | Operator | Meaning     |      |            |
+| ---------- | -------- | ----------- | ---- | ---------- |
+| Highest    | \`       | \`          | Pipe |            |
+| Middle     | `&&`     | Logical AND |      |            |
+| Lowest     | \`       |             | \`   | Logical OR |
+
+
+`cat file.txt | grep "hello" && echo "Match found" || echo "No match"`
+
+is the same as : ((cat file.txt | grep "hello") && echo "Match found") || echo "No match"
+
+            ||
+           /  \
+         &&   echo "No match"
+        /  \
+   PIPE     echo "Match found"
+   /   \
+cat    grep "hello"
+
+```JSON
+{
+	root:{
+		type: AST_LOGICAL_OR,
+		left: {
+			type: AST_LOGICAL_AND,
+			left: {
+				type: AST_PIPE,
+				left: {
+					type: AST_SIMPLE_COMMAND,
+					left: NULL,
+					right: NULL,
+					value: NULL,
+					redirection_data: NULL,
+					command_data: {
+						args: ["cat", "file.txt", NULL],
+						name: "/bin/cat",
+						redirection: NULL;
+						}
+				},
+				right: {
+					type: AST_SIMPLE_COMMAND,
+					left: NULL,
+					right: NULL,
+					value: NULL,
+					redirection_data: NULL,
+					command_data: {
+						args: ["grep", "hello", NULL],
+						name: "/bin/grep",
+						redirection: NULL;
+						}
+				},
+				value: NULL,
+				redirection_data: NULL,
+				command_data: NULL,
+			},
+			right: {
+				type: AST_SIMPLE_COMMAND,
+				left: NULL,
+				right: NULL,
+				value: NULL,
+				redirection_data: NULL,
+				command_data: {
+					args: ["echo", "Match found", NULL],
+					name: "echo",
+					redirection: NULL;
+				}
+			},
+			value: NULL,
+			redirection_data: NULL,
+			command_data: NULL,
+		},
+		right: {
+			type: AST_SIMPLE_COMMAND,
+			left: NULL,
+			right: NULL,
+			value: NULL,
+			redirection_data: NULL,
+			command_data: {
+				args: ["echo", "No match", NULL],
+				name: "echo",
+				redirection: NULL;
+			}
+		},
+		value: NULL,
+		redirection_data: NULL,
+		command_data: NULL
+	}
+}
+```
+

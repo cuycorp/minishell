@@ -1,45 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_executor.c                                      :+:      :+:    :+:   */
+/*   ft_run_command_tree.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 11:32:22 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/28 20:39:03 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/30 15:22:55 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-/*
-	pipefd[0] refers to the read end of the pipe.
-	pipefd[1] refers to the write end of the pipe.
-*/
-
-int	ft_execute_ast_tree(t_ast_node *node, t_shell *data, t_exec_context *context)
-{
-	if (!node || !data || !context) // TODO: check on current_infile_fd correct?
-		return (EXIT_FAILURE);
-	if (node->type == AST_PIPE)
-		return (ft_exec_pipe_node(node, data, context));
-	else if (node->type == AST_SIMPLE_COMMAND)
-		return (ft_exec_simple_command(node->command_data, data,context));
-	else if (node->type == AST_LOGICAL_AND)
-		return (ft_exec_logical_and(node, data, context));
-	else if (node->type == AST_LOGICAL_OR)
-		return (ft_exec_logical_or(node, data, context));
-	else if (node->type == AST_REDIRECTION)
-		return (ft_exec_redirections(node->redirection_data, context));
-	return (EXIT_FAILURE);
-}
-
-int	ft_executor(t_ast_node *root, t_shell *data)
+int	ft_run_command_tree(t_ast_node *root, t_shell *data)
 {
 	t_exec_context	*context;
-	int	result;
 
-	if (!root || !data) // TODO: add last_pid
+	if (!root || !data)
 		return (EXIT_FAILURE);
 	context = ft_create_exec_context(root);
 	if (!context)
@@ -53,11 +30,11 @@ int	ft_executor(t_ast_node *root, t_shell *data)
 		ft_free_exec_context(context);
 		return (EXIT_FAILURE);
 	}
-	result = ft_execute_ast_tree(root, data, context);
-	if (context->command_count > 0 && result == EXIT_SUCCESS)
-		ft_wait_all_pids(data, context);
+	ft_exec_node_recursive(root, data, context);
+	if (!ft_wait_all_pids(context))
+		return (EXIT_FAILURE);
 	ft_free_exec_context(context);
-	return (result);
+	return (context->last_exit_code);
 }
 /*
 //         PIPE

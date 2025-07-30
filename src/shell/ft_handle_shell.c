@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:28:04 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/28 20:41:25 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/30 16:35:59 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,10 @@ static void	ft_reset_shell(t_shell *data)
 	if (data->tokens_list)
 		ft_free_tokens_list(&data->tokens_list);
 	if (data->ast_root)
-		ft_free_ast_tree(&data->ast_root);
-	if (data->ast_root)
+	{
 		ft_close_heredocs_fd(data->ast_root);
+		ft_free_ast_tree(&data->ast_root);
+	}
 }
 
 static char	*ft_set_prompt(t_shell *data)
@@ -92,22 +93,29 @@ void	ft_handle_shell(t_shell *data)
 			continue ;
 		}
 		if (!ft_are_quotes_balanced(data->input))
-			return (perror("Unbalanced quotes"), free(prompt), ft_close_program(data, EXIT_FAILURE)); // TODO: we do not want to close program, only print error message and display new prompt
+		{
+			ft_printf(STDERR_FILENO, "minishell: error: unbalanced quotes\n");
+			ft_reset_shell(data);
+			continue ;
+		}
 		// EXIT
 		if (ft_strncmp(data->input, EXIT, ft_strlen(EXIT) + 1) == 0)
 		{
 			ft_putstr_fd(data->input, STDOUT_FILENO);
 			break ;
 		}
-		else
-			ft_printf(STDOUT_FILENO, "%s\n", data->input);
 		// History
 		ft_handle_history(data->input);
 		// TOKENIZATION
 		ft_tokenizer(data->input, data);
 		// Expansion and Quotes Removal
-		ft_expansion_n_removal(prompt, data);
-		ft_print_tokens_list(data); // TODO: remove this line
+		if (!ft_expansion_n_removal(data))
+		{
+			ft_printf(STDERR_FILENO, "minishell: error occured during expansion\n");
+			ft_reset_shell(data);
+			continue ;
+		}
+		// ft_print_tokens_list(data); // TODO: remove this line
 		// Parsing
 		if (data->tokens_list && data->tokens_list->type != TOKEN_END_OF_LINE)
 		{
@@ -122,9 +130,10 @@ void	ft_handle_shell(t_shell *data)
 		// EXECUTION
 		if (data->ast_root)
 		{
-			exit_code = ft_executor(data->ast_root, data);
+			exit_code = ft_run_command_tree(data->ast_root, data);
 			ft_printf(STDOUT_FILENO, "exit code = %d\n", exit_code);
 		}
+
 		ft_reset_shell(data);
 	}
 	// TODO: add clear_history????

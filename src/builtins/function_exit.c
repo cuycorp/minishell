@@ -3,12 +3,13 @@
 /*                                                        :::      ::::::::   */
 /*   function_exit.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 19:42:31 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/07/23 19:42:33 by mcamaren         ###   ########.fr       */
+/*   Updated: 2025/07/30 17:42:21 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	ft_is_number(char *str)
@@ -48,7 +49,7 @@ static int	exit_exact_args(t_command *command, t_shell *data, int len)
 {
 	long long	exit_code;
 
-	exit_code = ft_atol(command->args[1]) % 256;
+	exit_code = ft_atol(command->args[1]) % 256; // TODO: is not supposed to be modulo 255?
 	if (len == 1)
 		return (ft_close_program(data, 0), 0);
 	else

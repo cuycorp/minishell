@@ -1,23 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_exec_command.c                                  :+:      :+:    :+:   */
+/*   ft_exec_external_command.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/03 16:00:15 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/11 20:00:38 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/29 22:24:31 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_error_command_not_found(char *command_name)
-{
-	ft_printf(STDERR_FILENO, "Minishell: %s : command not found\n", command_name);
-}
-
-char	*ft_get_command_path(char *command, char **envp)
+static char	*ft_get_command_path(char *command, char **envp)
 {
 	char	**paths;
 	char	*directory_path;
@@ -59,7 +54,7 @@ char	*ft_get_command_path(char *command, char **envp)
 }
 
 
-int	ft_exec_command(t_command *command, t_shell *data)
+int	ft_exec_external_command(t_command *command, t_shell *data)
 {
 	char *path;
 

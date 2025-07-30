@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/24 10:36:31 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/25 23:43:16 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/30 09:16:42 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ void	ft_free_redirection(t_redirection **redirection)
 			free(current->target);
 			current->target = NULL;
 		}
+		if (current->heredoc_fd != -1)
+			ft_safe_close_and_reset_fd(&current->heredoc_fd);
 		free(current);
 		current = next;
 	}

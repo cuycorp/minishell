@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 10:31:20 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/24 17:50:21 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/30 11:13:47 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@
  *			as constants (e.g., ECHO, CD, etc.), and that command_name is a
  *			null-terminated string.
  */
-bool	ft_is_builtin_function(char *command_name)
+bool	ft_is_child_builtin(char *command_name)
 {
 	if (!command_name)
 		return (false);
