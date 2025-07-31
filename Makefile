@@ -44,12 +44,13 @@ MINISHELL_STATIC_LIB = libminishell.a
 
 VALG_FLAG	= valgrind --leak-check=full --show-leak-kinds=all \
 				--track-origins=yes --track-fds=yes --trace-children=yes \
-				# --suppressions=inc/readline.supp
+				--suppressions=./readline.supp
 
 ################################## EXECUTABLE ##################################
 EXEC = minishell
 MAIN_SRC = $(SRC_DIR)/main.c
 MAIN_OBJ = $(BUILD_DIR)/main.o
+VALGRIND = valgrind
 
 #################################### COLORS ####################################
 DEFAULT_COLOR = \033[0;39m
@@ -83,7 +84,7 @@ debugger:
 	$(CC) $(CFLAGS) -g3 $(SRC_FILES) $(MINISHELL_STATIC_LIB) $(LIBS) $(LDFLAGS) -o $(EXEC)
 
 # TODO: fix relinking on debugger and valgrind rules
-valgrind:
+$(VALGRIND):
 	$(VALG_FLAG) ./$(EXEC)
 
 debug:
