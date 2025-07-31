@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:59:26 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/30 17:17:52 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/31 19:37:12 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ void	ft_error_command_not_found(char *command_name);
 bool	ft_apply_dup2(int oldfd, int newfd);
 int		ft_count_executable_nodes(t_ast_node *node);
 bool	ft_wait_all_pids(t_exec_context *context);
+void	ft_mark_pids_reaped(t_exec_context *context);
 
 #endif

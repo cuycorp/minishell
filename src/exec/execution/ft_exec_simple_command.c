@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 10:59:05 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/30 20:15:35 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/31 20:11:38 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 static void	ft_exec_simple_command_child(t_command *command, t_shell *data,
 		t_exec_context *context)
 {
-	int	exit_code;
-
 	if (!command || !data || !context)
 		exit(EXIT_FAILURE);
 	// Prepare redirection
@@ -37,10 +35,9 @@ static void	ft_exec_simple_command_child(t_command *command, t_shell *data,
 	}
 	// TODO: fix issue with exit_code here
 	if (ft_is_child_builtin(command->name))
-		exit_code = ft_exec_child_builtin(command, data);
+		exit(ft_exec_child_builtin(command, data));
 	else
-		exit_code = ft_exec_external_command(command, data);
-	exit(exit_code);
+		exit(ft_exec_external_command(command, data));
 }
 
 static int	ft_exec_simple_command_parent(t_command *command, t_shell *data,

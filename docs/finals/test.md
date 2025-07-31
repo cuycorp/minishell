@@ -322,9 +322,18 @@ cat < readme.md | grep excel && ls
 
 cat file.txt | grep "hello" && echo "Match found" || echo "No match"
 
-false || true | echo hi
-false || false | echo hi
+true && true | echo hi
+(true && true | echo hi) && echo hola
+(false && true | echo hi) && echo hola
+(true && false | echo hi) && echo hola
 
+false || false
+false || false | echo hi
+false || true | echo hi
+true || false | echo hi
+
+false || false | echo hi | echo hola
+true || false | echo hi | echo hola
 ```
 ### Complex Command
 

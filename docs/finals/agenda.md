@@ -59,7 +59,7 @@ Minishell
 - [x] Refactored the single quote handling?
 - [] Handle `*` Wildcard Token
 - [] Handle unknow character such as `;` which currently close the program...
-- [] Add check on number of quotes and parenthesis -> should be an even number
+- [x] Add check on number of quotes and parenthesis -> should be an even number
 
 #### Example:
 
@@ -86,21 +86,21 @@ Tokens:
 	- [x] Handle syntax errors (e.g., empty pipes, unmatched tokens) (e.g., `| > file`, `cat infile |`)
 - [x] Fix error when line finished with pipe (e.g: `(echo hi && ls) | (grep main || ((echo fallback && exit))) | `)
 - [] Fix tokenizer which seems to close the program when it encountere an unknown character (e.g. `;`, `echo hi &&;` and create leaks)
-- [] Modifu tokenizer to classify all  TOKEN_WORD correctly,
+- [x] Modifu tokenizer to classify all  TOKEN_WORD correctly,
 - [x] Implement var_expansion
-- [] Implement retokenize
+- [x] Implement retokenize
 - [x] Implement quoteremoval
 ---
 
 ## Phase 4: Parsing / Building Command Structures + Environment Management ?
 
 ### Environment Management ?
-- [ ] Load environment variables into internal structure
+- [x] Load environment variables into internal structure
 - [x] Load environment from `envp` into internal list/structure
 	- [] what if the user write `env -i ./minishell` while starting the program,is env well saved in the structures?
 - [ ] Implement `getenv`, `setenv`, `unsetenv` functions
-- [ ] Replace environment variables: `$VAR`, `$?`
-	- [] If an environment variable is used as a limiter with heredoc, the variale should not be extended
+- [x] Replace environment variables: `$VAR`, `$?`
+	- [x] If an environment variable is used as a limiter with heredoc, the variale should not be extended
 - [x] Build the command / Store command in a structure (e.g., `t_command`)
 	- [x] No need to implement linked list since we are using AST tree
 - [x] Build the redirection structure (e.g., `t_command`) and link it with command if needed
@@ -125,7 +125,7 @@ Tokens:
 	- [] 0
 	- [] 1
 	- [] 126 - No such file / redirectory, permission denied
-	- [] 127 - Command not found
+	- [x] 127 - Command not found
 	- [] 130 - 128 + SIGINT (CTRL-C)
 	- [] 131 - 128 + SIGQUIT ("CTR-\")
 
@@ -133,11 +133,21 @@ Tokens:
 - [] Traverse the AST tree to execute the command according to the node priority
 	- [x] Pipe
 	- [x] Redirect In, Out, Append out
-	- [] Heredoc
+	- [x] Heredoc
 	- [x] Simple Command
 	- [x] Logical Operator
-- [] see for order of the expansion in cases like the following: `export TEST="test" && echo $TEST`
+	- [] Wildcard
 - [] handle absolute_path and relative_path (S_ISDIR, )
+- [] implement builtin execution
+	- [x] echo
+	- [x] cd
+	- [x] export
+		- [] see for order of the expansion in cases like the following: `export TEST="test" && echo $TEST`
+	- [x] unset
+	- [x] end
+	- [x] pwd
+	- [] exit
+- [] check all builtin with logical operator
 <!-- Create the Pipe with all the forking and redirection
 Create the AST to execute the command (and get command priority) => C13 from Piscine for Binary Tree -->
 
@@ -177,7 +187,7 @@ Create the AST to execute the command (and get command priority) => C13 from Pis
 
 ## Phase 8: Bonus
 
-- [] Implement `&&` and `||`
+- [x] Implement `&&` and `||`
 	- [] Handle Parenthesis for grouping / priority
 - [] Implement `*` wildcard expansion: should match only files in current working directory
 	- [] Be careful of the behavior with expansion
