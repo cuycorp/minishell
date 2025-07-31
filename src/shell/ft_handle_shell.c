@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:28:04 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/30 16:35:59 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/07/31 20:08:08 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ void	ft_handle_shell(t_shell *data)
 {
 	char	*prompt;
 	// int		last_pid;
-	int		exit_code;
+	// int		exit_code;
 
 	prompt = ft_set_prompt(data);
 	if (!prompt)
@@ -92,6 +92,9 @@ void	ft_handle_shell(t_shell *data)
 			ft_reset_shell(data);
 			continue ;
 		}
+		// History
+		ft_handle_history(data->input);
+		// Quote checking
 		if (!ft_are_quotes_balanced(data->input))
 		{
 			ft_printf(STDERR_FILENO, "minishell: error: unbalanced quotes\n");
@@ -104,8 +107,6 @@ void	ft_handle_shell(t_shell *data)
 			ft_putstr_fd(data->input, STDOUT_FILENO);
 			break ;
 		}
-		// History
-		ft_handle_history(data->input);
 		// TOKENIZATION
 		ft_tokenizer(data->input, data);
 		// Expansion and Quotes Removal
@@ -130,8 +131,8 @@ void	ft_handle_shell(t_shell *data)
 		// EXECUTION
 		if (data->ast_root)
 		{
-			exit_code = ft_run_command_tree(data->ast_root, data);
-			ft_printf(STDOUT_FILENO, "exit code = %d\n", exit_code);
+			data->exit_code = ft_run_command_tree(data->ast_root, data);
+			ft_printf(STDOUT_FILENO, "exit code = %d\n", data->exit_code);
 		}
 
 		ft_reset_shell(data);
