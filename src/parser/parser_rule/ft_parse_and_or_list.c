@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/17 10:17:22 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/01 20:52:54 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:22:32 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static bool	ft_handle_token_advance(t_token **tokens, t_ast_node *left)
 	{
 		ft_free_ast_tree(&left);
 		ft_parse_error(*tokens, NULL);
-		return (NULL);
+		return (false);
 	}
 	return (true);
 }

@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 10:58:22 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/01 19:59:02 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:27:17 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,8 @@ void	ft_parse_error(const t_token *token, const char *msg)
  */
 bool	ft_match_token(t_token **tokens, t_token_type expected)
 {
+	if (!tokens)
+		return (false);
 	if (*tokens && (*tokens)->type == expected)
 	{
 		ft_advance_token(tokens);
