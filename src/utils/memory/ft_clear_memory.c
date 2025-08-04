@@ -6,25 +6,67 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:57:54 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/28 20:41:42 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/04 15:24:06 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static void ft_free_export(t_shell *data)
+{
+	if (data && data->export)
+	{
+		ft_free_char_tab(data->export);
+		data->export = NULL;
+	}
+}
+static void ft_free_tokens(t_shell *data)
+{
+	if (data && data->tokens_list)
+		ft_free_tokens_list(&data->tokens_list);
+}
+
+static void ft_free_tree(t_shell *data)
+{
+	if (data && data->ast_root)
+	{
+		ft_close_heredocs_fd(data->ast_root);
+		ft_free_ast_tree(&data->ast_root);
+		data->ast_root = NULL;
+	}
+}
+
+static void ft_free_context(t_shell *data)
+{
+	if (data && data->context)
+	{
+		ft_free_exec_context(data->context);
+		data->context = NULL;
+	}
+}
 
 void	ft_clear_memory(t_shell *data)
 {
 	if (!data)
 		return ;
 	if (data->input)
+	{
 		free(data->input);
-	if (data->tokens_list)
-		ft_free_tokens_list(&data->tokens_list);
-	if (data->ast_root)
-		ft_free_ast_tree(&data->ast_root);
+		data->input = NULL;
+	}
+	if (data->prompt)
+	{
+		free(data->prompt);
+		data->prompt = NULL;
+	}
 	if (data->ev)
+	{
 		ft_free_char_tab(data->ev);
-	if (data->export)
-		ft_free_char_tab(data->export);
+		data->ev = NULL;
+	}
+	ft_free_export(data);
+	ft_free_tokens(data);
+	ft_free_tree(data);
+	ft_free_context(data);
 	free(data);
 }

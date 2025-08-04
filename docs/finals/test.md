@@ -301,7 +301,7 @@ cat readme.md | < ./include/exec.h < ./include/minishell.h cat > out123 > out456
 
 
 # Multiple Heredoc with multiple type of redirections
-<< eof << end cat < readme.md | << eof cat < Makefile| << eof grep # < Makefile # ✅ OK
+<< eof << end cat < readme.md | << eof cat < Makefile| << eof grep # < Makefile # ✅ OK # ⚠️ open fd to fix
 << eof << end cat < readme.md > out1 | << eof cat < Makefile| << eof grep SRC_FILES < Makefile # ✅ OK
 << eof << end cat < readme.md > out1 | << eof cat < Makefile| << eof grep 'SRC_FILES' < Makefile # ✅ OK
 << eof << end cat < readme.md >> out1 | << eof cat < Makefile| << eof grep 'SRC_FILES' < Makefile # ✅ OK
@@ -320,7 +320,7 @@ cat (< readme << eof cat) # ⚠️⚠️⚠️⚠️⚠️ not working
 cat < readme.md | grep excel && ls
 << EOF cat | ls && echo hi > file
 
-cat file.txt | grep "hello" && echo "Match found" || echo "No match"
+cat file.txt | grep "hello" && echo "Match found" || echo "No match"  # ✅ OK
 
 true && true | echo hi
 (true && true | echo hi) && echo hola

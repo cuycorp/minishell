@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/28 19:27:37 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/30 17:46:39 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/01 11:14:52 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,10 @@
 
 void	ft_safe_close_and_reset_fd(int *fd)
 {
-	if (!fd || *fd == -1 || *fd != STDIN_FILENO || *fd != STDOUT_FILENO)
+	if (!fd || *fd == -1)
 		return ;
+	if (*fd == STDIN_FILENO || *fd == STDOUT_FILENO || *fd == STDERR_FILENO)
+    	return ;
 	close(*fd);
 	*fd = -1;
 }

@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 15:22:57 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/30 17:13:56 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/04 15:00:22 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,16 +15,18 @@
 static bool	ft_fill_heredoc(int write_fd, const char *delimiter)
 {
 	char	*line;
+	size_t	delimiter_len;
 
 	if (write_fd < 0 || !delimiter)
 		return (false);
+	delimiter_len = ft_strlen(delimiter);
 	while (true)
 	{
 		line = readline("> ");
 		if (!line)
 			break ;
-		if (ft_strncmp(line, delimiter, ft_strlen(delimiter)) == 0
-			&& ft_strlen(line) == ft_strlen(delimiter))
+		if (ft_strncmp(line, delimiter, delimiter_len) == 0
+			&& ft_strlen(line) == delimiter_len)
 		{
 			free(line);
 			break ;
@@ -36,26 +38,37 @@ static bool	ft_fill_heredoc(int write_fd, const char *delimiter)
 	return (true);
 }
 
-static void	ft_exec_heredoc_child(int *pipe_fd, const char *delimiter)
+static void	ft_exec_heredoc_child(int *pipe_fd, const char *delimiter, t_shell *data)
 {
-	if (!pipe_fd || !delimiter)
-		exit(EXIT_FAILURE);
+
+	if (!delimiter || !data)
+	{
+		ft_close_fds(pipe_fd);
+		ft_exit_child(data, EXIT_FAILURE);
+	}
+	if (!pipe_fd)
+		ft_exit_child(data, EXIT_FAILURE);
 	close(pipe_fd[READ_END]);
 	if (!ft_fill_heredoc(pipe_fd[WRITE_END], delimiter))
 	{
 		close(pipe_fd[WRITE_END]);
-		exit(EXIT_FAILURE);
+		ft_exit_child(data, EXIT_FAILURE);
 	}
 	close(pipe_fd[WRITE_END]);
-	exit(EXIT_SUCCESS);
+	ft_exit_child(data, EXIT_SUCCESS);
 }
 
 static int	ft_exec_heredoc_parent(int *pipe_fd, int pid)
 {
 	int	status;
 
-	if (!pipe_fd || pid < 0)
+	if (!pipe_fd)
 		return (-1);
+	if (pid < 0)
+	{
+		ft_close_fds(pipe_fd);
+		return (-1);
+	}
 	close(pipe_fd[WRITE_END]);
 	if (waitpid(pid, &status, 0) == -1)
 	{
@@ -67,29 +80,28 @@ static int	ft_exec_heredoc_parent(int *pipe_fd, int pid)
 	return (pipe_fd[READ_END]);
 }
 
-int	ft_exec_heredoc(t_redirection *redirections, char *delimiter)
+int	ft_exec_heredoc(t_redirection *redirections, char *delimiter, t_shell *data)
 {
 	pid_t	pid;
 	int		pipe_fd[2];
 
-	if (!redirections || !delimiter)
+	if (!redirections || !delimiter || !data)
 		return (-1);
 	if (pipe(pipe_fd) == -1)
 	{
-		ft_printf(STDERR_FILENO, "minishell: error: failed to pipe - %s\n",
+		ft_printf(STDERR_FILENO, "minishell: heredoc: failed to pipe - %s\n",
 			strerror(errno));
 		return (-1);
 	}
 	pid = fork();
 	if (pid < 0)
 	{
-		close(pipe_fd[READ_END]);
-		close(pipe_fd[WRITE_END]);
-		ft_printf(STDERR_FILENO, "minishell: error: failed to fork - %s\n",
+		ft_close_fds(pipe_fd);
+		ft_printf(STDERR_FILENO, "minishell: heredoc: failed to fork - %s\n",
 			strerror(errno));
 		return (-1);
 	}
 	if (pid == 0)
-		ft_exec_heredoc_child(pipe_fd, delimiter);
+		ft_exec_heredoc_child(pipe_fd, delimiter, data);
 	return (ft_exec_heredoc_parent(pipe_fd, pid));
 }

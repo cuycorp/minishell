@@ -6,12 +6,16 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 10:37:20 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/23 18:36:13 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/01 10:48:38 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef VARIABLES_H
 # define VARIABLES_H
+
+/* PROMPT */
+
+#define PROMPT ":Oh-My-Shell >$ "
 
 /* BUILT-INS Variable */
 

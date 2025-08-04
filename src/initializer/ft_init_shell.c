@@ -6,21 +6,11 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:04:03 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/28 20:41:14 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/04 10:26:39 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static int	ft_len_env(char **envp)
-{
-	int	i;
-
-	i = 0;
-	while (envp[i])
-		i++;
-	return (i);
-}
 
 static char	**ft_set_env(char **envp)
 {
@@ -28,15 +18,17 @@ static char	**ft_set_env(char **envp)
 	int		i;
 	int		len_env;
 
+	if (!envp || !*envp)
+		return (NULL);
 	i = 0;
-	len_env = ft_len_env(envp);
+	len_env = ft_len_table(envp);
+	if (len_env == 0)
+		return (NULL);
 	ev = (char **)malloc((len_env + 1) * sizeof(char *));
 	if (!ev)
 		return (NULL);
-	while (i < len_env)
+	while (i < len_env && envp[i])
 	{
-		if (!envp[i])
-			return (ft_free_char_tab(ev), NULL);
 		ev[i] = ft_strdup(envp[i]);
 		if (!ev[i])
 			return (ft_free_char_tab(ev), NULL);
@@ -61,5 +53,6 @@ t_shell	*ft_init_shell(char **envp)
 	shell->export = ft_set_env(envp);
 	if (shell->export == NULL)
 		return (ft_clear_memory(shell), NULL);
+	shell->exit_code = 0;
 	return (shell);
 }

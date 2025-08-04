@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_var_expansion.c                                 :+:      :+:    :+:   */
+/*   ft_evaluate_var_expansion.c                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/13 18:45:22 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/07/09 11:23:58 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:09:37 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ bool	ft_evaluate_var_expansion(t_token **token_list, t_shell *data)
 	t_token	*current;
 	char	*tmp;
 
+	if (!token_list || !*token_list || !data)
+		return (false);
 	current = *token_list;
 	while (current)
 	{

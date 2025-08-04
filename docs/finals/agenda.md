@@ -121,6 +121,9 @@ Tokens:
 - [x] Implement `fork`/`execve` with pipes
 - [x] Handle input/output redirection with `dup2`
 - [] Manage file descriptors (prevent leaks): close / open the right fds
+	- [] still unclosed fds with pipe and multiple heredocs (ex: `cat file.txt | grep "hello" && echo "Match found" || echo "No match"`)
+	- [] still unclosed fds with simple command (ex: `<< eof << end > readme.md cat`)
+	- [] still unclosed fds with simple command (ex: `<< eof cat < readme.md`)
 - [] Manage child process exit codes
 	- [] 0
 	- [] 1
@@ -129,7 +132,7 @@ Tokens:
 	- [] 130 - 128 + SIGINT (CTRL-C)
 	- [] 131 - 128 + SIGQUIT ("CTR-\")
 
-- [] implement parse_error (e.g `<< eof >` => should open the heredoc but return an error message since the final redirection is wrongly build)
+- [x] implement parse_error (e.g `<< eof >` => should open the heredoc but return an error message since the final redirection is wrongly build)
 - [] Traverse the AST tree to execute the command according to the node priority
 	- [x] Pipe
 	- [x] Redirect In, Out, Append out
@@ -148,6 +151,15 @@ Tokens:
 	- [x] pwd
 	- [] exit
 - [] check all builtin with logical operator
+- [] fix all leaks
+	- [x] in simple command
+	- [x] in pipe
+	- [x] in redirections
+	- [x] in heredoc
+	- [x] with logical operator
+	- [] with wildcard
+	- [] with builtins
+
 <!-- Create the Pipe with all the forking and redirection
 Create the AST to execute the command (and get command priority) => C13 from Piscine for Binary Tree -->
 

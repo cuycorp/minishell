@@ -6,14 +6,14 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:29:45 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/30 10:37:23 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/05 11:33:31 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 // TODO: renamed it to something like ft_prepare_heredoc
-static bool	ft_handle_heredoc(t_redirection *redirection)
+static bool	ft_handle_heredoc(t_redirection *redirection, t_shell *data)
 {
 	int	fd;
 
@@ -21,9 +21,13 @@ static bool	ft_handle_heredoc(t_redirection *redirection)
 	{
 		if (redirection->type == HEREDOC && redirection->heredoc_fd == -1)
 		{
-			fd = ft_exec_heredoc(redirection, redirection->target);
+			fd = ft_exec_heredoc(redirection, redirection->target, data);
 			if (fd == -1)
+			{
+				ft_safe_close_and_reset_fd(&redirection->heredoc_fd);
 				return (false);
+			}
+			ft_safe_close_and_reset_fd(&redirection->heredoc_fd);
 			redirection->heredoc_fd = fd;
 		}
 		redirection = redirection->next;
@@ -52,20 +56,20 @@ static bool	ft_handle_heredoc(t_redirection *redirection)
  *       the function will return false. If the root is NULL, the function
  *       returns true immediately since we can have command without heredocs.
  */
-bool	ft_process_heredocs(t_ast_node *root) // TODO: renamed it to something like ft_prepare_all_heredocs
+bool	ft_process_heredocs(t_ast_node *root, t_shell *data) // TODO: renamed it to something like ft_prepare_all_heredocs
 {
-	if (!root)
+	if (!root || !data)
 		return (true);
 	if (root->type == AST_REDIRECTION && root->redirection_data)
 	{
-		if (!ft_handle_heredoc(root->redirection_data))
+		if (!ft_handle_heredoc(root->redirection_data, data))
 			return (false);
 	}
 	if (root->type == AST_SIMPLE_COMMAND && root->command_data)
 	{
-		if (!ft_handle_heredoc(root->command_data->redirection))
+		if (!ft_handle_heredoc(root->command_data->redirection, data))
 			return (false);
 	}
 	return (
-		ft_process_heredocs(root->left) && ft_process_heredocs(root->right));
+		ft_process_heredocs(root->left, data) && ft_process_heredocs(root->right, data));
 }

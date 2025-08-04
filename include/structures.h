@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:23:56 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/29 10:59:55 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/04 10:26:11 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,14 +101,14 @@ typedef enum e_ast_node_type
 	// AST_SHELL,
 	// AST_COMMAND_LINE,
 	// AST_AND_OR_LIST,
-	AST_LOGICAL_OR,
-	AST_LOGICAL_AND,
-	AST_PIPE,
-	AST_SIMPLE_COMMAND,
 	// AST_GROUPED_PIPELINE,
-	AST_REDIRECTION,
 	// AST_ENV_VARIABLE,
 	// AST_WORD,
+	AST_LOGICAL_AND,
+	AST_LOGICAL_OR,
+	AST_PIPE,
+	AST_REDIRECTION,
+	AST_SIMPLE_COMMAND,
 	AST_NONE,
 }							t_ast_node_type;
 
@@ -125,24 +125,23 @@ typedef struct s_ast_node
 typedef struct s_exec_context
 {
 	pid_t	*pids;
-	int		last_pid; // to keep?
+	int		last_pid;
 	int		pid_count;
 	int		command_count;
 	int		input_fd;
 	int		output_fd;
 	int		last_exit_code;
-	bool	needs_fork;
-	bool	is_last_command;
 }	t_exec_context;
 
 typedef struct s_shell
 {
 	char			*input;
+	char			*prompt;
 	char			**ev;
 	char			**export;
 	t_token			*tokens_list;
 	t_ast_node		*ast_root;
-	t_exec_context	exec_context;
+	t_exec_context	*context;
 	int				exit_code; // TODO: keep here or more it to t_exec_context?
 }	t_shell;
 

@@ -6,18 +6,20 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 16:58:08 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/30 17:12:46 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/04 23:31:13 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_exec_redirections(t_redirection *redirection, t_exec_context *context)
+int	ft_exec_redirections(t_redirection *redirection, t_shell *data)
 {
-	pid_t	pid;
+	t_exec_context	*context;
+	pid_t			pid;
 
-	if (!redirection || !context)
+	if (!redirection || !data || !data->context)
 		return (EXIT_FAILURE);
+	context = data->context;
 	pid = fork();
 	if (pid < 0)
 	{
@@ -28,8 +30,8 @@ int	ft_exec_redirections(t_redirection *redirection, t_exec_context *context)
 	if (pid == 0)
 	{
 		if (!ft_prepare_command_io(redirection, context))
-			exit(EXIT_FAILURE);
-		exit(EXIT_SUCCESS);
+			ft_exit_child(data, EXIT_FAILURE);
+		ft_exit_child(data, EXIT_SUCCESS);
 	}
 	if (context->pid_count < context->command_count)
 	{

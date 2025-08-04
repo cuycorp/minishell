@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 11:32:22 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/31 11:46:33 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/04 13:58:54 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,27 @@
 
 int	ft_run_command_tree(t_ast_node *root, t_shell *data)
 {
-	t_exec_context	*context;
-
 	if (!root || !data)
 		return (EXIT_FAILURE);
-	context = ft_create_exec_context(root);
-	if (!context)
+	data->context = ft_create_exec_context(root);
+	if (!data->context)
 	{
 		ft_printf(STDERR_FILENO, "minishell: context structure creation failed: %s\n", strerror(errno));
 		return (EXIT_FAILURE);
 	}
 	// Process Heredocs
-	if (!ft_process_heredocs(root))
+	if (!ft_process_heredocs(root, data))
 	{
-		ft_free_exec_context(context);
+		ft_free_exec_context(data->context);
 		return (EXIT_FAILURE);
 	}
-	ft_exec_node_recursive(root, data, context);
-	if (!ft_wait_all_pids(context))
-	{
-		dprintf(STDERR_FILENO, "ft_run_command_tree: issue with wait pid\n");
+	ft_exec_node_recursive(root, data, data->context);
+	if (!ft_wait_all_pids(data->context))
 		return (EXIT_FAILURE);
-	}
-	ft_free_exec_context(context);
-	return (context->last_exit_code);
+	data->exit_code = data->context->last_exit_code;
+	return (data->exit_code);
 }
+
 /*
 //         PIPE
 //       /      \
