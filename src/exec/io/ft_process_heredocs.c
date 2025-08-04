@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 // TODO: renamed it to something like ft_prepare_heredoc
-static bool	ft_handle_heredoc(t_redirection *redirection, t_exec_context *context)
+static bool	ft_handle_heredoc(t_redirection *redirection)
 {
 	int	fd;
 
@@ -21,7 +21,7 @@ static bool	ft_handle_heredoc(t_redirection *redirection, t_exec_context *contex
 	{
 		if (redirection->type == HEREDOC && redirection->heredoc_fd == -1)
 		{
-			fd = ft_exec_heredoc(redirection, redirection->target, context);
+			fd = ft_exec_heredoc(redirection, redirection->target);
 			if (fd == -1)
 				return (false);
 			redirection->heredoc_fd = fd;
@@ -52,22 +52,20 @@ static bool	ft_handle_heredoc(t_redirection *redirection, t_exec_context *contex
  *       the function will return false. If the root is NULL, the function
  *       returns true immediately since we can have command without heredocs.
  */
-bool	ft_process_heredocs(t_ast_node *root, t_exec_context *context) // TODO: renamed it to something like ft_prepare_all_heredocs
+bool	ft_process_heredocs(t_ast_node *root) // TODO: renamed it to something like ft_prepare_all_heredocs
 {
-	if (!context)
-		return (false);
 	if (!root)
 		return (true);
 	if (root->type == AST_REDIRECTION && root->redirection_data)
 	{
-		if (!ft_handle_heredoc(root->redirection_data, context))
+		if (!ft_handle_heredoc(root->redirection_data))
 			return (false);
 	}
 	if (root->type == AST_SIMPLE_COMMAND && root->command_data)
 	{
-		if (!ft_handle_heredoc(root->command_data->redirection, context))
+		if (!ft_handle_heredoc(root->command_data->redirection))
 			return (false);
 	}
 	return (
-		ft_process_heredocs(root->left, context) && ft_process_heredocs(root->right, context));
+		ft_process_heredocs(root->left) && ft_process_heredocs(root->right));
 }

@@ -13,12 +13,11 @@
 #include "minishell.h"
 
 static void	ft_exec_simple_command_child(t_command *command, t_shell *data,
-		t_exec_context *context, bool flag_sigquit)
+		t_exec_context *context)
 {
 	if (!command || !data || !context)
 		exit(EXIT_FAILURE);
 	// Prepare redirection
-	ft_set_signal_child(flag_sigquit);
 	if (!ft_prepare_command_io(command->redirection, context))
 		exit(EXIT_FAILURE);
 	// Apply pipe or redirection fds
@@ -41,30 +40,8 @@ static void	ft_exec_simple_command_child(t_command *command, t_shell *data,
 		exit(ft_exec_external_command(command, data));
 }
 
-static int	ft_exec_simple_command_parent(t_command *command,
-		t_exec_context *context, int pid, t_signal_child sig)
-{
-	if (!command || !context || pid < 0)
-		return (EXIT_FAILURE);
-	if (context->input_fd != STDIN_FILENO)
-		close(context->input_fd);
-	if (context->output_fd != STDOUT_FILENO)
-		close(context->output_fd);
-	if (context->pid_count < context->command_count)
-	{
-		context->pids[context->pid_count] = pid;
-		// context->pid_count++;
-		context->last_pid = pid;
-	}
-	if (ft_waitpid(pid, context) == false)
-		return (EXIT_FAILURE);
-	ft_restore_signal_parent_n_exit_simple_command(&sig, context);
-	return (EXIT_SUCCESS);
-}
-
-/*
 static int	ft_exec_simple_command_parent(t_command *command, t_shell *data,
-		t_exec_context *context, int pid, t_signal_child sig)
+		t_exec_context *context, int pid)
 {
 	if (!command || !data || !context || pid < 0)
 		return (EXIT_FAILURE);
@@ -72,8 +49,6 @@ static int	ft_exec_simple_command_parent(t_command *command, t_shell *data,
 		close(context->input_fd);
 	if (context->output_fd != STDOUT_FILENO)
 		close(context->output_fd);
-	sigaction(SIGINT, &sig.sa_old_int, NULL);
-	sigaction(SIGINT, &sig.sa_old_quit, NULL);
 	if (context->pid_count < context->command_count)
 	{
 		context->pids[context->pid_count] = pid;
@@ -82,15 +57,13 @@ static int	ft_exec_simple_command_parent(t_command *command, t_shell *data,
 	}
 	return (EXIT_SUCCESS);
 }
-*/
 
 int	ft_exec_simple_command(t_command *command, t_shell *data,
 		t_exec_context *context)
 {
-	pid_t			pid;
-	int				exit_code;
-	bool			is_parent_builtin;
-	t_signal_child	sig;
+	pid_t	pid;
+	int		exit_code;
+	bool	is_parent_builtin;
 
 	if (!command || !data || !context)
 		return (EXIT_FAILURE);
@@ -100,7 +73,6 @@ int	ft_exec_simple_command(t_command *command, t_shell *data,
 		exit_code = ft_exec_parent_builtin(command, data);
 		return (exit_code);
 	}
-	ft_set_signal_parent(&sig);
 	// FORK
 	pid = fork();
 	if (pid < 0)
@@ -112,6 +84,6 @@ int	ft_exec_simple_command(t_command *command, t_shell *data,
 		return (EXIT_FAILURE);
 	}
 	if (pid == 0)
-		ft_exec_simple_command_child(command, data, context, true);
-	return (ft_exec_simple_command_parent(command, context, pid, sig));
+		ft_exec_simple_command_child(command, data, context);
+	return (ft_exec_simple_command_parent(command, data, context, pid));
 }

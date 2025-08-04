@@ -25,15 +25,19 @@ int	ft_run_command_tree(t_ast_node *root, t_shell *data)
 		return (EXIT_FAILURE);
 	}
 	// Process Heredocs
-	if (!ft_process_heredocs(root, context))
+	if (!ft_process_heredocs(root))
 	{
 		ft_free_exec_context(context);
 		return (EXIT_FAILURE);
 	}
 	ft_exec_node_recursive(root, data, context);
-	data->exit_code = context->last_exit_code;
+	if (!ft_wait_all_pids(context))
+	{
+		dprintf(STDERR_FILENO, "ft_run_command_tree: issue with wait pid\n");
+		return (EXIT_FAILURE);
+	}
 	ft_free_exec_context(context);
-	return (data->exit_code);
+	return (context->last_exit_code);
 }
 /*
 //         PIPE
@@ -43,8 +47,3 @@ int	ft_run_command_tree(t_ast_node *root, t_shell *data)
 //  cmd1  cmd2 */
 
 // cat infile | ls | wc -l
-
-// [cmd1, cm2, cm3]
-// N command
-// pipe = n-1
-// fork = n

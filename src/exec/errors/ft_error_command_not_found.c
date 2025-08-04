@@ -14,6 +14,5 @@
 
 void	ft_error_command_not_found(char *command_name)
 {
-	if (command_name)
-		ft_printf(STDERR_FILENO, "Minishell: %s : command not found\n", command_name);
+	ft_printf(STDERR_FILENO, "Minishell: %s : command not found\n", command_name);
 }

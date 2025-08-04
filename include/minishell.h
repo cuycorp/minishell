@@ -82,7 +82,6 @@
 									rl_replace_line, rl_redisplay */
 # include <readline/history.h> /* add_history */
 # include <linux/limits.h> /*max size of path PATH_MAX */
-# include <signal.h> /*ctrl_c ctrl_d ctrl_\*/
 
 /* Personnal Libraries */
 # include "ft_printf.h"
@@ -184,18 +183,5 @@ int		function_exit(t_command *command, t_shell *data);
 void		ft_handle_shell(t_shell *data);
 void		ft_handle_history(char *str);
 void		ft_handle_pipe(t_ast_node *root, t_shell *data);
-
-
-/* ########  SIGNALS  ######## */
-void	ft_ctrl_d(t_shell *data, char *prompt);
-void	ft_ctrl_slash(void);
-void	ft_ctrl_c();
-
-
-bool	ft_interactive_ctrl_c(t_shell *data);
-void	ft_set_signal_child(bool simple_command);
-void	ft_set_signal_parent(t_signal_child *sig);
-bool	ft_restore_signal_parent_n_exit_simple_command(t_signal_child *sig, t_exec_context *context);
-bool	ft_restore_signal_parent_n_exit_heredoc(t_signal_child *sig, int status, int fd, t_exec_context *context);
 
 #endif
