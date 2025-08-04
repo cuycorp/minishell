@@ -169,6 +169,7 @@ int 	function_echo(t_command *command);
 bool	ft_validate_command(t_command *command, char *commmand_name);
 int		function_export(t_command *command, t_shell *data);
 bool	ft_print_export(t_shell *data);
+char	*ft_create_var_definition(char *arguments, int *j, int *to_env);
 bool	ft_evaluate_var_creation(t_command *command, t_shell *data);
 bool	ft_replace_var_definition(char *new_var_definition, char **table);
 bool	ft_var_definition_exists(char *var_definition, char **table);

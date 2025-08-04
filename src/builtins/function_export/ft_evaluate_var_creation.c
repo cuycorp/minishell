@@ -28,9 +28,11 @@ static bool	ft_is_valid_var_name(char *var_declaration, int *j)
 					" %s\n", var_declaration), false);
 		(*j)++;
 	}
+	if (*j == 0 && var_declaration[*j] == '=')
+		return (ft_printf(STDERR_FILENO, "export: `%s': not a valid identifier",
+				var_declaration), false);
 	return (true);
 }
-
 
 static char	**ft_append_str_to_table(char *new_str, char **table)
 {
@@ -57,7 +59,6 @@ static char	**ft_append_str_to_table(char *new_str, char **table)
 	ft_free_char_tab(table);
 	return (new_table);
 }
-
 
 static bool	ft_add_vars_to_table(int to_env, char *var_definition,
 		t_shell *data)
@@ -88,28 +89,45 @@ static bool	ft_add_vars_to_table(int to_env, char *var_definition,
 	return (true);
 }
 
-static char	*ft_create_var_definition(char *arguments, int *j, int *to_env)
+static void	ft_init_evaluate_var_creation(int *i, int *j, int *to_env,
+		int *exit_value)
 {
-	char	*var_definition;
-	char	*var_name;
-
-	if (!arguments)
-		return (false);
-	var_name = ft_substr(arguments, 0, *j);
-	if (!var_name)
-		return (NULL);
-	if (arguments[*j] == '=')
-	{
-		*to_env = 1;
-		var_definition = ft_strjoin(var_name, &arguments[*j]);
-		if (!var_definition)
-			return (free(var_name), NULL);
-		return (free(var_name), var_definition);
-	}
-	else
-		return (var_name);
+	*exit_value = true;
+	*i = 1;
+	*j = 0;
+	*to_env = 0;
 }
 
+bool	ft_evaluate_var_creation(t_command *command, t_shell *data)
+{
+	char	*var_definition;
+	int		i;
+	int		j;
+	int		to_env;
+	int		exit_value;
+
+	ft_init_evaluate_var_creation(&i, &j, &to_env, &exit_value);
+	while (command->args[i++])
+	{
+		if (ft_is_valid_var_name(command->args[i - 1], &j) == true)
+		{
+			var_definition = ft_create_var_definition(command->args[i - 1], &j,
+					&to_env);
+			if (var_definition == NULL)
+				return (false);
+			if (ft_add_vars_to_table(to_env, var_definition, data) == false)
+				return (free(var_definition), false);
+			free(var_definition);
+		}
+		else
+			exit_value = false;
+		j = 0;
+		to_env = 0;
+	}
+	return (exit_value);
+}
+
+/*
 bool	ft_evaluate_var_creation(t_command *command, t_shell *data)
 {
 	char	*var_definition;
@@ -138,3 +156,4 @@ bool	ft_evaluate_var_creation(t_command *command, t_shell *data)
 	}
 	return (true);
 }
+*/
