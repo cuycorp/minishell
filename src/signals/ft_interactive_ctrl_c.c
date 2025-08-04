@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 static void	ft_close_heredocs_fd(t_ast_node *node)
 {
 	t_redirection	*redirection;
@@ -56,6 +55,8 @@ static void	ft_reset_shell(t_shell *data)
 
 bool	ft_interactive_ctrl_c(t_shell *data)
 {
+	if (!data->input)
+		return (false);
 	if (g_signal == 1 && ft_strncmp(data->input, "$?", ft_strlen("$?")) == 0)
 	{
 		data->exit_code = 130;
