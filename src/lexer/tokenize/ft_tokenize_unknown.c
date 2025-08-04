@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 17:03:00 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/06/30 10:07:04 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:07:52 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@ void	ft_tokenize_unknown(char *str, unsigned int *pos, t_shell *data)
 	char	*token;
 	int		length;
 
+	if (!str || !data || !pos)
+		return ;
 	length = 1;
 	(*pos) += length;
 	token = ft_strdup(str);

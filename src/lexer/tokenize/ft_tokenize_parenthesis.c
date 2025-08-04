@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/30 17:40:44 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/27 15:51:26 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:03:53 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	ft_tokenize_parenthesis(char *str, unsigned int *pos, t_shell *data)
 	unsigned int	start_index;
 	int				length;
 
-	if (!str)
+	if (!str || !pos || !data)
 		return ;
 	start_index = *pos;
 	if (str[*pos] == '(')

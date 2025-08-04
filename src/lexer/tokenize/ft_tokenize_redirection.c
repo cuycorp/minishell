@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/29 15:08:43 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/27 19:28:34 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:01:46 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_tokenize_redirection(char *str, unsigned int *pos, t_shell *data)
 	unsigned int	start_index;
 	int				length;
 
-	if (!str)
+	if (!str || !pos || !data)
 		return ;
 	start_index = *pos;
 	token_type = ft_parse_redirection_token_type(str, pos);

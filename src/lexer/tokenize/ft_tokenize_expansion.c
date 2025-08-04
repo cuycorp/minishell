@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 10:34:17 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/09 11:27:54 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:04:09 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	ft_tokenize_expansion(char *str, unsigned int *pos, t_shell *data)
 	unsigned int	start_index;
 	t_token_type	type;
 
-	if (!str)
+	if (!str || !pos || !data)
 		return ;
 	type = TOKEN_EXPANSION;
 	start_index = *pos;

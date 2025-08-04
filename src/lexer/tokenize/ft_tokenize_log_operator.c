@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/03 15:13:43 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/06/27 15:52:00 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:03:19 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	ft_tokenize_log_operator(char *str, unsigned int *pos, t_shell *data)
 	unsigned int	start_index;
 	int				length;
 
-	if (!str)
+	if (!str || !pos || !data)
 		return ;
 	start_index = *pos;
 	token_type = ft_get_logical_operator_token_type(str, pos);

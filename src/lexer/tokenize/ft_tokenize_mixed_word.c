@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/02 11:08:10 by jgossard          #+#    #+#             */
-/*   Updated: 2025/06/05 11:18:10 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/01 15:07:35 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
  * - `"` : Can be included by escaping it with \"
  */
 
- /**
+/**
  * @brief Advances the position pointer past a double-quoted string segment.
  *
  * Handles escaped double quotes (i.e., `\"`) inside the string. The position
@@ -38,7 +38,7 @@
  * the entire string.
  *
  * @param str   The input string.
- * @param pos   A pointer to the current position in the string; will be updated.
+ * @param pos   A pointer to the current position in the string; will be updated
  */
 static void	ft_advance_past_double_quotes(char *str, unsigned int *pos)
 {
@@ -65,7 +65,7 @@ static void	ft_advance_past_single_quotes(char *str, unsigned int *pos)
 	while (str[*pos] != '\'')
 	{
 		if (!str[*pos])
-			break;
+			break ;
 		(*pos)++;
 	}
 	(*pos)++;
@@ -80,7 +80,8 @@ static void	ft_advance_past_single_quotes(char *str, unsigned int *pos)
  * @param has_quote Boolean flag indicating whether quotes were found.
  * @return t_token_type The appropriate token type.
  */
-static t_token_type	ft_get_token_type(bool has_double_quote, bool has_single_quote)
+static t_token_type	ft_get_token_type(bool has_double_quote,
+		bool has_single_quote)
 {
 	if (has_double_quote && !has_single_quote)
 		return (TOKEN_DOUBLE_QUOTED_WORD);
@@ -109,7 +110,7 @@ void	ft_tokenize_mixed_word(char *str, unsigned int *pos, t_shell *data)
 	bool			has_double_quote;
 	bool			has_single_quote;
 
-	if (!str)
+	if (!str || !data || !pos)
 		return ;
 	start_index = *pos;
 	has_double_quote = false;
@@ -119,7 +120,7 @@ void	ft_tokenize_mixed_word(char *str, unsigned int *pos, t_shell *data)
 		if (str[*pos] == '\'')
 		{
 			has_single_quote = true;
-			ft_advance_past_single_quotes(str ,pos);
+			ft_advance_past_single_quotes(str, pos);
 		}
 		else if (str[*pos] == '"')
 		{
