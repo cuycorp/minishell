@@ -18,6 +18,8 @@ static void	ft_exec_simple_command_child(t_command *command, t_shell *data,
 	if (!command || !data || !context)
 		exit(EXIT_FAILURE);
 	// Prepare redirection
+	dprintf(STDERR_FILENO, "ft_exec_simple_command_child: in function\n");
+
 	ft_set_signal_child(flag_sigquit);
 	if (!ft_prepare_command_io(command->redirection, context))
 		exit(EXIT_FAILURE);
@@ -35,6 +37,7 @@ static void	ft_exec_simple_command_child(t_command *command, t_shell *data,
 		close(context->output_fd);
 	}
 	// TODO: fix issue with exit_code here
+	dprintf(STDERR_FILENO, "ft_exec_simple_command_child: end function\n");
 	if (ft_is_child_builtin(command->name))
 		exit(ft_exec_child_builtin(command, data));
 	else
@@ -46,19 +49,24 @@ static int	ft_exec_simple_command_parent(t_command *command,
 {
 	if (!command || !context || pid < 0)
 		return (EXIT_FAILURE);
+	dprintf(STDERR_FILENO, "ft_exec_simple_command: in function\n");
 	if (context->input_fd != STDIN_FILENO)
 		close(context->input_fd);
 	if (context->output_fd != STDOUT_FILENO)
 		close(context->output_fd);
-	if (context->pid_count < context->command_count)
-	{
-		context->pids[context->pid_count] = pid;
-		// context->pid_count++;
-		context->last_pid = pid;
-	}
+	// if (context->pid_count < context->command_count)
+	// {
+	// 	context->pids[context->pid_count] = pid;
+	// 	// context->pid_count++;
+	// 	context->last_pid = pid;
+	// }
 	if (ft_waitpid(pid, context) == false)
+	{
+		dprintf(STDERR_FILENO, "ft_exec_simple_command: waitpid failed\n");
 		return (EXIT_FAILURE);
+	}
 	ft_restore_signal_parent_n_exit_simple_command(&sig, context);
+	dprintf(STDERR_FILENO, "ft_exec_simple_command: end of function\n");
 	return (EXIT_SUCCESS);
 }
 

@@ -41,12 +41,16 @@ static void	ft_exec_heredoc_child(int *pipe_fd, const char *delimiter)
 	if (!pipe_fd || !delimiter)
 		exit(EXIT_FAILURE);
 	close(pipe_fd[READ_END]);
+	dprintf(STDERR_FILENO, "ft_exec_heredoc_child: in function\n");
+
 	if (!ft_fill_heredoc(pipe_fd[WRITE_END], delimiter))
 	{
 		close(pipe_fd[WRITE_END]);
 		exit(EXIT_FAILURE);
 	}
+
 	close(pipe_fd[WRITE_END]);
+	dprintf(STDERR_FILENO, "ft_exec_heredoc_child: end of function\n");
 	exit(EXIT_SUCCESS);
 }
 
@@ -56,21 +60,28 @@ static int	ft_exec_heredoc_parent(int *pipe_fd, int pid, t_signal_child sig,
 	// int	status;
 	if (!pipe_fd || pid < 0 || !context)
 		return (-1);
+	dprintf(STDERR_FILENO, "ft_exec_heredoc_parent: in function\n");
+
 	close(pipe_fd[WRITE_END]);
 	// TODO: to keep?
-	if (context->pid_count < context->command_count)
-	{
-		ft_printf(STDERR_FILENO, "will add pid into context->pids\n");
-		context->pids[context->pid_count] = pid;
-		// context->pid_count++;
-		context->last_pid = pid;
-	}
+	// if (context->pid_count < context->command_count)
+	// {
+	// 	ft_printf(STDERR_FILENO, "will add pid into context->pids\n");
+	// 	context->pids[context->pid_count] = pid;
+	// 	// context->pid_count++;
+	// 	context->last_pid = pid;
+	// }
 	if (ft_waitpid(pid, context) == false)
 		return (-1);
+	dprintf(STDERR_FILENO, "ft_exec_heredoc_parent: after waitpid\n");
 	if (!ft_restore_signal_parent_n_exit_heredoc(&sig, context->last_exit_code,
 			pipe_fd[READ_END], context))
 		return (-1);
-	context->pids[context->pid_count++] = -1;
+	dprintf(STDERR_FILENO, "ft_exec_heredoc_parent: after ft_restore_signal_parent_n_exit_heredoc\n");
+
+	// context->pids[context->pid_count++] = -1;
+	dprintf(STDERR_FILENO, "ft_exec_heredoc_parent: in function\n");
+	ft_printf(STDERR_FILENO, "ft_exec_heredoc_parent: context->last_exit_code = %d\n", context->last_exit_code);
 	return (pipe_fd[READ_END]);
 }
 

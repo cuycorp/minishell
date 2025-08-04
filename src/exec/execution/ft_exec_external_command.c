@@ -60,12 +60,15 @@ int	ft_exec_external_command(t_command *command, t_shell *data)
 
 	if (!data || !command)
 		return (EXIT_FAILURE);
+	dprintf(STDERR_FILENO, "ft_exec_external_command: in function\n");
+
 	path = ft_get_command_path(command->name, data->ev);
 	if (!path)
 	{
 		ft_error_command_not_found(command->name);
 		return (EXIT_COMMAND_NOT_FOUND); // TODO: check if it is the correct exit code
 	}
+	dprintf(STDERR_FILENO, "ft_exec_external_command: end function\n");
 	execve(path, command->args, data->ev);
 	ft_printf(STDERR_FILENO, "Error: %s - %s\n", command->name, strerror(errno));
 	free(path);

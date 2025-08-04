@@ -17,14 +17,21 @@ bool ft_restore_signal_parent_n_exit_heredoc(t_signal_child *sig, int status, in
 {
 	if (!context)
 		return (false);
-	sigaction(SIGINT, &sig->sa_old_int, NULL);
+	dprintf(STDERR_FILENO, "ft_restore_signal_parent_n_exit_heredoc: in function\n");
+
+	if (sigaction(SIGINT, &sig->sa_old_int, NULL) == -1)
+	{
+		close(fd);
+		return (false);
+	}
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGINT)
 	{
 		ft_printf(STDERR_FILENO, "in SIGINT %d\n", status); //debug line
 		ft_putstr_fd("\n", STDERR_FILENO);
-		context->last_exit_code = 128 + WTERMSIG(status);
-		close(fd);
-		return (true);
+		context->last_exit_code =  status;
+		//context->last_exit_code = 128 + WTERMSIG(status);
+		// return (true);
 	}
-	return (false);
+	dprintf(STDERR_FILENO, "ft_restore_signal_parent_n_exit_heredoc: end function\n");
+	return (true);
 }

@@ -31,6 +31,7 @@ int	ft_run_command_tree(t_ast_node *root, t_shell *data)
 		return (EXIT_FAILURE);
 	}
 	ft_exec_node_recursive(root, data, context);
+	dprintf(STDERR_FILENO, "ft_run_command-tree: context->last_exit_code: %d\n", context->last_exit_code);
 	data->exit_code = context->last_exit_code;
 	ft_free_exec_context(context);
 	return (data->exit_code);
