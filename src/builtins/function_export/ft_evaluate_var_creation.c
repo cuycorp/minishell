@@ -20,12 +20,12 @@ static bool	ft_is_valid_var_name(char *var_declaration, int *j)
 	{
 		if (*j == 0 && !(ft_isalpha(var_declaration[*j])
 				|| var_declaration[*j] == '_'))
-			return (perror("not a valid identifier:"), ft_printf(STDERR_FILENO,
-					" %s\n", var_declaration), false);
+		return (ft_printf(STDERR_FILENO, "export: `%s': not a valid identifier",
+				var_declaration), false);
 		else if (!(ft_isalnum(var_declaration[*j])
 				|| var_declaration[*j] == '_'))
-			return (perror("not a valid identifier:"), ft_printf(STDERR_FILENO,
-					" %s\n", var_declaration), false);
+		return (ft_printf(STDERR_FILENO, "export: `%s': not a valid identifier",
+				var_declaration), false);
 		(*j)++;
 	}
 	if (*j == 0 && var_declaration[*j] == '=')
