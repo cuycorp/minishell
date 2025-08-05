@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 10:59:05 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/04 23:31:49 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/05 16:52:16 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ static void	ft_exec_simple_command_child(t_command *command, t_shell *data)
 
 	if (!command || !data || !data->context)
 		ft_exit_child(data, EXIT_FAILURE);
+	ft_set_signal_child(true);
 	context = data->context;
 	// Prepare redirection
 	if (!ft_prepare_command_io(command->redirection, context))
@@ -44,7 +45,7 @@ static void	ft_exec_simple_command_child(t_command *command, t_shell *data)
 	ft_exit_child(data, exit_code);
 }
 
-static int	ft_exec_simple_command_parent(t_command *command, t_shell *data, int pid)
+static int	ft_exec_simple_command_parent(t_command *command, t_shell *data, int pid, t_signal_child sig)
 {
 	t_exec_context	*context;
 
@@ -61,6 +62,13 @@ static int	ft_exec_simple_command_parent(t_command *command, t_shell *data, int 
 		context->pid_count++;
 		context->last_pid = pid;
 	}
+	if (waitpid(pid, &context->last_exit_code, 0) == -1)
+	{
+		dprintf(STDERR_FILENO, "minishell: waitpid failed\n");
+		return (EXIT_FAILURE);
+	}
+	ft_restore_signal_parent_n_exit_simple_command(&sig, data);
+	ft_mark_pids_reaped(context);
 	return (EXIT_SUCCESS);
 }
 
@@ -70,6 +78,7 @@ int	ft_exec_simple_command(t_command *command, t_shell *data)
 	pid_t			pid;
 	int				exit_code;
 	bool			is_parent_builtin;
+	t_signal_child	sig;
 
 	if (!command || !data || !data->context)
 		return (EXIT_FAILURE);
@@ -80,6 +89,7 @@ int	ft_exec_simple_command(t_command *command, t_shell *data)
 		exit_code = ft_exec_parent_builtin(command, data);
 		return (exit_code);
 	}
+	ft_set_signal_parent(&sig);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -89,5 +99,5 @@ int	ft_exec_simple_command(t_command *command, t_shell *data)
 	}
 	if (pid == 0)
 		ft_exec_simple_command_child(command, data);
-	return (ft_exec_simple_command_parent(command, data, pid));
+	return (ft_exec_simple_command_parent(command, data, pid, sig));
 }

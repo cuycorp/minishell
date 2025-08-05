@@ -95,7 +95,7 @@ void	ft_handle_shell(t_shell *data)
 		if (data->ast_root)
 		{
 			data->exit_code = ft_run_command_tree(data->ast_root, data);
-			ft_printf(STDOUT_FILENO, "exit code = %d\n", data->exit_code);
+			//ft_printf(STDOUT_FILENO, "exit code after execution= %d\n", data->exit_code);
 		}
 		ft_reset_shell(data);
 	}

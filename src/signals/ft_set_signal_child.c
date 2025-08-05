@@ -1,30 +1,26 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   signals.h                                          :+:      :+:    :+:   */
+/*   ft_set_signal_child.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/05 11:50:19 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/08/05 16:51:50 by jgossard         ###   ########.fr       */
+/*   Created: 2025/08/05 14:38:31 by mcamaren          #+#    #+#             */
+/*   Updated: 2025/08/05 16:50:37 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef SIGNALS_H
-# define SIGNALS_H
+#include "minishell.h"
 
-typedef struct s_signal_child
+void	ft_set_signal_child(bool is_simple_command)
 {
-	struct sigaction	sa_ignore;
-	struct sigaction	sa_old_int;
-	//struct sigaction	sa_old_quit;
-}						t_signal_child;
+	struct sigaction	sig_child;
 
-void					ft_ctrl_c(void);
-
-void	ft_restore_signal_parent_n_exit_simple_command(t_signal_child *sig,
-			t_shell *data);
-void	ft_set_signal_child(bool is_simple_command);
-void	ft_set_signal_parent(t_signal_child *sig);
-
-#endif
+	(void)is_simple_command;
+	sig_child.sa_handler = SIG_DFL;
+	sigemptyset(&sig_child.sa_mask);
+	sig_child.sa_flags = 0;
+	sigaction(SIGINT, &sig_child, NULL);
+	// if (is_simple_command == true)
+	///	sigaction(SIGQUIT, &sig_child, NULL);
+}
