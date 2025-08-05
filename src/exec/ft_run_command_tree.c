@@ -31,7 +31,6 @@ int	ft_run_command_tree(t_ast_node *root, t_shell *data)
 	ft_exec_node_recursive(root, data, data->context);
 	if (!ft_wait_all_pids(data->context))
 		return (EXIT_FAILURE);
-	data->exit_code = data->context->last_exit_code;
 	return (data->exit_code);
 }
 

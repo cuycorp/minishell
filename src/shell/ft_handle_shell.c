@@ -46,8 +46,7 @@ void	ft_handle_shell(t_shell *data)
 		if (!data->prompt)
 			break ;
 		data->input = readline(data->prompt);
-		if (!data->input)
-			break ;
+		ft_ctrl_d(data);
 		if (*data->input == '\0')
 		{
 			ft_reset_shell(data);

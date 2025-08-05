@@ -20,7 +20,8 @@ typedef struct s_signal_child
 	//struct sigaction	sa_old_quit;
 }						t_signal_child;
 
-void					ft_ctrl_c(void);
+void	ft_ctrl_c(void);
+void	ft_ctrl_d(t_shell *data);
 
 void	ft_restore_signal_parent_n_exit_simple_command(t_signal_child *sig,
 			t_shell *data);
