@@ -93,6 +93,7 @@
 # include "parser.h"
 # include "exec.h"
 # include "utils.h"
+# include "signals.h"
 
 #include <limits.h>  /*atoll*/
 

@@ -22,7 +22,8 @@ static char	*ft_set_prompt(t_shell *data)
 	if (!data)
 		return (NULL);
 	i = 0;
-	while (data->ev[i] && ft_strncmp(data->ev[i], "PWD=", ft_strlen("PWD=")) != 0)
+	while (data->ev[i] && ft_strncmp(data->ev[i], "PWD=",
+			ft_strlen("PWD=")) != 0)
 		i++;
 	if (!data->ev[i])
 		return (ft_strdup(PROMPT));
@@ -38,11 +39,12 @@ void	ft_handle_shell(t_shell *data)
 {
 	if (!data)
 		return ;
+	ft_ctrl_c();
 	while (1)
 	{
 		data->prompt = ft_set_prompt(data);
 		if (!data->prompt)
-			break;
+			break ;
 		data->input = readline(data->prompt);
 		if (!data->input)
 			break ;
@@ -72,7 +74,8 @@ void	ft_handle_shell(t_shell *data)
 		// Expansion and Quotes Removal
 		if (!ft_expansion_n_removal(data))
 		{
-			ft_printf(STDERR_FILENO, "minishell: error occured during expansion\n");
+			ft_printf(STDERR_FILENO,
+				"minishell: error occured during expansion\n");
 			ft_reset_shell(data);
 			continue ;
 		}

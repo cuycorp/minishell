@@ -12,14 +12,13 @@
 
 #include "minishell.h"
 
+int	g_exit_code = -1;
+
 int	main(int argc, char **argv, char **envp)
 {
-	t_shell		*data;
-
+	t_shell	*data;
 
 	(void)argv;
-	// (void)argc;
-
 	data = ft_init_shell(envp);
 	if (!data)
 		return (EXIT_FAILURE);

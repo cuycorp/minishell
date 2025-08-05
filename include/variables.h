@@ -13,9 +13,11 @@
 #ifndef VARIABLES_H
 # define VARIABLES_H
 
+extern int	g_exit_code;
+
 /* PROMPT */
 
-#define PROMPT ":Oh-My-Shell >$ "
+# define PROMPT ":Oh-My-Shell >$ "
 
 /* BUILT-INS Variable */
 
