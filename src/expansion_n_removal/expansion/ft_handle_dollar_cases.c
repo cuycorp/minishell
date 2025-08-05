@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:15:59 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/07/31 20:13:52 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/05 14:26:12 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,12 @@ static char	*ft_handle_question_expansion(int *i, char *final, t_shell *data)
 	char	*exp;
 
 	(*i)+=2;
+	if (g_exit_code == 130)
+	{
+		data->exit_code = g_exit_code;
+		ft_printf(STDOUT_FILENO, "ft_handle_question_expansion: exit code = %d\n", data->exit_code); // TODO: remove this logs
+		g_exit_code = -1;
+	}
 	exp = ft_strdup(ft_itoa(data->exit_code));
 	if (!exp)
 		return (NULL);
