@@ -26,5 +26,7 @@ void	ft_restore_signal_parent_n_exit_simple_command(t_signal_child *sig,
 			t_shell *data);
 void	ft_set_signal_child(bool is_simple_command);
 void	ft_set_signal_parent(t_signal_child *sig);
+bool	ft_restore_signal_parent_heredoc(t_signal_child *sig, t_shell *data,
+		int fd);
 
 #endif

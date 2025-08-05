@@ -38,9 +38,9 @@ static bool	ft_fill_heredoc(int write_fd, const char *delimiter)
 	return (true);
 }
 
-static void	ft_exec_heredoc_child(int *pipe_fd, const char *delimiter, t_shell *data)
+static void	ft_exec_heredoc_child(int *pipe_fd, const char *delimiter,
+		t_shell *data)
 {
-
 	if (!delimiter || !data)
 	{
 		ft_close_fds(pipe_fd);
@@ -48,6 +48,7 @@ static void	ft_exec_heredoc_child(int *pipe_fd, const char *delimiter, t_shell *
 	}
 	if (!pipe_fd)
 		ft_exit_child(data, EXIT_FAILURE);
+	ft_set_signal_child(true);
 	close(pipe_fd[READ_END]);
 	if (!ft_fill_heredoc(pipe_fd[WRITE_END], delimiter))
 	{
@@ -58,11 +59,11 @@ static void	ft_exec_heredoc_child(int *pipe_fd, const char *delimiter, t_shell *
 	ft_exit_child(data, EXIT_SUCCESS);
 }
 
-static int	ft_exec_heredoc_parent(int *pipe_fd, int pid)
+static int	ft_exec_heredoc_parent(int *pipe_fd, int pid, t_signal_child sig,
+		t_shell *data)
 {
-	int	status;
 
-	if (!pipe_fd)
+	if (!pipe_fd || !data || !data->context)
 		return (-1);
 	if (pid < 0)
 	{
@@ -70,20 +71,24 @@ static int	ft_exec_heredoc_parent(int *pipe_fd, int pid)
 		return (-1);
 	}
 	close(pipe_fd[WRITE_END]);
-	if (waitpid(pid, &status, 0) == -1)
+	if (waitpid(pid, &data->context->last_exit_code, 0) == -1)
 	{
 		ft_printf(STDERR_FILENO, "minishell: error: error with waitpid - %s\n",
 			strerror(errno));
 		close(pipe_fd[READ_END]);
 		return (-1);
 	}
+	if (!ft_restore_signal_parent_heredoc(&sig, data, pipe_fd[READ_END]))
+		return (-1);
+	ft_mark_pids_reaped(data->context);
 	return (pipe_fd[READ_END]);
 }
 
 int	ft_exec_heredoc(t_redirection *redirections, char *delimiter, t_shell *data)
 {
-	pid_t	pid;
-	int		pipe_fd[2];
+	pid_t			pid;
+	int				pipe_fd[2];
+	t_signal_child	sig;
 
 	if (!redirections || !delimiter || !data)
 		return (-1);
@@ -93,6 +98,7 @@ int	ft_exec_heredoc(t_redirection *redirections, char *delimiter, t_shell *data)
 			strerror(errno));
 		return (-1);
 	}
+	ft_set_signal_parent(&sig);
 	pid = fork();
 	if (pid < 0)
 	{
@@ -103,5 +109,5 @@ int	ft_exec_heredoc(t_redirection *redirections, char *delimiter, t_shell *data)
 	}
 	if (pid == 0)
 		ft_exec_heredoc_child(pipe_fd, delimiter, data);
-	return (ft_exec_heredoc_parent(pipe_fd, pid));
+	return (ft_exec_heredoc_parent(pipe_fd, pid, sig, data));
 }
