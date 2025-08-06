@@ -21,6 +21,6 @@ void ft_set_signal_parent(t_signal_child *sig)
 	sig->sa_ignore.sa_flags = 0;
 	if (sigaction(SIGINT, &sig->sa_ignore, &sig->sa_old_int) == -1)
 		dprintf(STDERR_FILENO, "ft_set_signal_parent: Error with CTRL-C\n");
-	//if (sigaction(SIGQUIT, &sig->sa_ignore, &sig->sa_old_quit) == -1)
-	//	dprintf(STDERR_FILENO, "ft_set_signal_parent: Error with CTRL-slash \n");
+	if (sigaction(SIGQUIT, &sig->sa_ignore, &sig->sa_old_quit) == -1)
+		dprintf(STDERR_FILENO, "ft_set_signal_parent: Error with CTRL-slash \n");
 }

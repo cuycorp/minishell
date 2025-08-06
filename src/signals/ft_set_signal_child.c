@@ -16,11 +16,10 @@ void	ft_set_signal_child(bool is_simple_command)
 {
 	struct sigaction	sig_child;
 
-	(void)is_simple_command;
 	sig_child.sa_handler = SIG_DFL;
 	sigemptyset(&sig_child.sa_mask);
 	sig_child.sa_flags = 0;
 	sigaction(SIGINT, &sig_child, NULL);
-	// if (is_simple_command == true)
-	///	sigaction(SIGQUIT, &sig_child, NULL);
+	if (is_simple_command == true)
+		sigaction(SIGQUIT, &sig_child, NULL);
 }

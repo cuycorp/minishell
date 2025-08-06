@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_restore_signal_parent_n_exit_simple_comm        :+:      :+:    :+:   */
+/*   ft_restore_signal_parent_simple_command            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -12,8 +12,8 @@
 
 #include "minishell.h"
 
-// t_exec_context *context)
-void	ft_restore_signal_parent_n_exit_simple_command(t_signal_child *sig, t_shell *data)
+void	ft_restore_signal_parent_simple_command(t_signal_child *sig,
+		t_shell *data)
 {
 	t_exec_context	*context;
 	int				sig_num;
@@ -31,15 +31,13 @@ void	ft_restore_signal_parent_n_exit_simple_command(t_signal_child *sig, t_shell
 			g_exit_code = 128 + sig_num;
 			ft_putstr_fd("\n", STDOUT_FILENO);
 		}
-		// else if (sig_num == SIGQUIT)
-		// {
-		// 	dprintf(STDERR_FILENO, "ft_exec_simple_command_parent: in sig_num == SIGQUIT case\n");
-		// 	ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
-		// 	g_exit_code = 128 + sig_num;
-		// }
+		 else if (sig_num == SIGQUIT)
+		 {
+		 	ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
+		 	g_exit_code = 128 + sig_num;
+		 }
 	}
 	else
 		data->exit_code = EXIT_FAILURE;
 	sigaction(SIGINT, &sig->sa_old_int, NULL);
-	// return (true);
 }

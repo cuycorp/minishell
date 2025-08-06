@@ -40,6 +40,7 @@ void	ft_handle_shell(t_shell *data)
 	if (!data)
 		return ;
 	ft_ctrl_c();
+	ft_ctrl_slash();
 	while (1)
 	{
 		data->prompt = ft_set_prompt(data);

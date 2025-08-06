@@ -15,7 +15,7 @@
 static void	ft_exec_simple_command_child(t_command *command, t_shell *data)
 {
 	t_exec_context	*context;
-	int	exit_code;
+	int				exit_code;
 
 	if (!command || !data || !data->context)
 		ft_exit_child(data, EXIT_FAILURE);
@@ -45,7 +45,8 @@ static void	ft_exec_simple_command_child(t_command *command, t_shell *data)
 	ft_exit_child(data, exit_code);
 }
 
-static int	ft_exec_simple_command_parent(t_command *command, t_shell *data, int pid, t_signal_child sig)
+static int	ft_exec_simple_command_parent(t_command *command, t_shell *data,
+		int pid, t_signal_child sig)
 {
 	t_exec_context	*context;
 
@@ -67,7 +68,7 @@ static int	ft_exec_simple_command_parent(t_command *command, t_shell *data, int 
 		dprintf(STDERR_FILENO, "minishell: waitpid failed\n");
 		return (EXIT_FAILURE);
 	}
-	ft_restore_signal_parent_n_exit_simple_command(&sig, data);
+	ft_restore_signal_parent_simple_command(&sig, data);
 	ft_mark_pids_reaped(context);
 	return (EXIT_SUCCESS);
 }

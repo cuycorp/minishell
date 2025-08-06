@@ -18,7 +18,7 @@ static char	*ft_handle_question_expansion(int *i, char *final, t_shell *data)
 	char	*exp;
 
 	(*i)+=2;
-	if (g_exit_code == 130)
+	if (g_exit_code == 130 || g_exit_code == 131)
 	{
 		data->exit_code = g_exit_code;
 		ft_printf(STDOUT_FILENO, "ft_handle_question_expansion: exit code = %d\n", data->exit_code); // TODO: remove this logs
