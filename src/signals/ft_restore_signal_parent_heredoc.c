@@ -31,21 +31,11 @@ bool	ft_restore_signal_parent_heredoc(t_signal_child *sig, t_shell *data,
 			g_exit_code = 128 + sig_num;
 			ft_putstr_fd("\n", STDOUT_FILENO);
 		}
-		// else if (sig_num == SIGQUIT)
-		// {
-		// 	dprintf(STDERR_FILENO,
-				//"ft_exec_simple_command_parent: in sig_num == SIGQUIT case\n");
-				// 	ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
-				// 	g_exit_code = 128 + sig_num;
-				// }
 	}
 	else
 		data->exit_code = EXIT_FAILURE;
 	if (sigaction(SIGINT, &sig->sa_old_int, NULL) == -1)
-	{
-		close(fd);
-		ft_printf(STDERR_FILENO, "minishell: sigaction failed\n");
-		return (false);
-	}
+		return (close(fd), ft_printf(STDERR_FILENO,
+				"minishell: sigaction failed\n"), false);
 	return (true);
 }

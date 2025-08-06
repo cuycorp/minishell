@@ -48,7 +48,7 @@ static void	ft_exec_heredoc_child(int *pipe_fd, const char *delimiter,
 	}
 	if (!pipe_fd)
 		ft_exit_child(data, EXIT_FAILURE);
-	ft_set_signal_child(true);
+	ft_set_signal_child(false);
 	close(pipe_fd[READ_END]);
 	if (!ft_fill_heredoc(pipe_fd[WRITE_END], delimiter))
 	{
