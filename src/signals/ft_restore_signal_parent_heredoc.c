@@ -22,13 +22,23 @@ bool	ft_restore_signal_parent_heredoc(t_signal_child *sig, t_shell *data,
 		return (close(fd), false);
 	context = data->context;
 	if (WIFEXITED(context->last_exit_code))
-		data->exit_code = WEXITSTATUS(context->last_exit_code);
-	else if (WIFSIGNALED(context->last_exit_code))
+	{
+		int exit_status = WEXITSTATUS(context->last_exit_code);
+		if (exit_status == 130) // Child exited due to SIGINT
+		{
+			g_exit_code = 130;
+			data->exit_code = 130;
+		}
+		else
+			data->exit_code = exit_status;
+	}
+	else if (WIFSIGNALED(context->last_exit_code)) // TODO: check if still useful
 	{
 		sig_num = WTERMSIG(context->last_exit_code);
 		if (sig_num == SIGINT)
 		{
 			g_exit_code = 128 + sig_num;
+			data->exit_code = 128 + sig_num; // TODO: redundant with the one in handle_dollar_cases?
 			ft_putstr_fd("\n", STDOUT_FILENO);
 		}
 	}

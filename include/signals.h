@@ -31,4 +31,7 @@ void	ft_set_signal_parent(t_signal_child *sig);
 bool	ft_restore_signal_parent_heredoc(t_signal_child *sig, t_shell *data,
 		int fd);
 
+
+void	ft_set_signal_child_heredoc(void);
+
 #endif

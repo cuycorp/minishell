@@ -20,8 +20,10 @@ static char	*ft_handle_question_expansion(int *i, char *final, t_shell *data)
 	(*i)+=2;
 	if (g_exit_code == 130 || g_exit_code == 131)
 	{
+		ft_printf(STDERR_FILENO, "ft_handle_question_expansion before updating exit code\n");
 		data->exit_code = g_exit_code;
 		g_exit_code = -1;
+		ft_printf(STDERR_FILENO, "ft_handle_question_expansion Updated exit code\n");
 	}
 	exp = ft_strdup(ft_itoa(data->exit_code));
 	if (!exp)

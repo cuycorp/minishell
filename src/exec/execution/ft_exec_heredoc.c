@@ -6,25 +6,29 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 15:22:57 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/04 15:00:22 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/07 15:53:39 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static bool	ft_fill_heredoc(int write_fd, const char *delimiter)
+static int	ft_fill_heredoc(int write_fd, const char *delimiter)
 {
 	char	*line;
 	size_t	delimiter_len;
 
 	if (write_fd < 0 || !delimiter)
-		return (false);
+		return (EXIT_FAILURE);
 	delimiter_len = ft_strlen(delimiter);
 	while (true)
 	{
 		line = readline("> ");
 		if (!line)
-			break ;
+		{
+			if (g_exit_code == 130)
+				return (130);
+			return (0); // TODO: check if there are cases where in this case it should not be 0
+		}
 		if (ft_strncmp(line, delimiter, delimiter_len) == 0
 			&& ft_strlen(line) == delimiter_len)
 		{
@@ -35,12 +39,14 @@ static bool	ft_fill_heredoc(int write_fd, const char *delimiter)
 		ft_putstr_fd("\n", write_fd);
 		free(line);
 	}
-	return (true);
+	return (EXIT_SUCCESS);
 }
 
 static void	ft_exec_heredoc_child(int *pipe_fd, const char *delimiter,
 		t_shell *data)
 {
+	int	result;
+
 	if (!delimiter || !data)
 	{
 		ft_close_fds(pipe_fd);
@@ -48,21 +54,16 @@ static void	ft_exec_heredoc_child(int *pipe_fd, const char *delimiter,
 	}
 	if (!pipe_fd)
 		ft_exit_child(data, EXIT_FAILURE);
-	ft_set_signal_child(false);
+	ft_set_signal_child_heredoc();
 	close(pipe_fd[READ_END]);
-	if (!ft_fill_heredoc(pipe_fd[WRITE_END], delimiter))
-	{
-		close(pipe_fd[WRITE_END]);
-		ft_exit_child(data, EXIT_FAILURE);
-	}
+	result = ft_fill_heredoc(pipe_fd[WRITE_END], delimiter);
 	close(pipe_fd[WRITE_END]);
-	ft_exit_child(data, EXIT_SUCCESS);
+	ft_exit_child(data, result);
 }
 
 static int	ft_exec_heredoc_parent(int *pipe_fd, int pid, t_signal_child sig,
 		t_shell *data)
 {
-
 	if (!pipe_fd || !data || !data->context)
 		return (-1);
 	if (pid < 0)

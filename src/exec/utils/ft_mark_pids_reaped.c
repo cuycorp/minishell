@@ -14,11 +14,12 @@
 
 void	ft_mark_pids_reaped(t_exec_context *context)
 {
-	int	i = 0;
+	int	i;
 
+	i = 0;
 	if (!context || !context->pids)
 		return;
-	while (context->pids[i])
+	while (i < context->pid_count)
 	{
 		context->pids[i] = -1;
 		i++;

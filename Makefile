@@ -75,7 +75,7 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(EXEC): $(LIBS) $(MINISHELL_STATIC_LIB) $(MAIN_OBJ)
-	@$(CC) $(CFLAGS) $(SRC_FILES) $(MINISHELL_STATIC_LIB) $(LIBS) $(LDFLAGS) $(GFLAG) -o $@
+	@$(CC) $(CFLAGS) $(MAIN_OBJ) $(MINISHELL_STATIC_LIB) $(LIBS) $(LDFLAGS) $(GFLAG) -o $@
 	@echo "$(GREEN_COLOR)Executable: $(DEFAULT_COLOR)$(EXEC) created!✅"
 
 # TODO: fix relinking on debugger and valgrind rules
