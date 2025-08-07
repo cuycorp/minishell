@@ -12,24 +12,27 @@
 
 #include "minishell.h"
 
-
 static char	*ft_handle_question_expansion(int *i, char *final, t_shell *data)
 {
 	char	*exp;
+	char	*tmp;
 
-	(*i)+=2;
+	(*i) += 2;
 	if (g_exit_code == 130 || g_exit_code == 131)
 	{
-		ft_printf(STDERR_FILENO, "ft_handle_question_expansion before updating exit code\n");
+		ft_printf(STDERR_FILENO,
+			"ft_handle_question_expansion before updating exit code\n");
 		data->exit_code = g_exit_code;
 		g_exit_code = -1;
-		ft_printf(STDERR_FILENO, "ft_handle_question_expansion Updated exit code\n");
+		ft_printf(STDERR_FILENO,
+			"ft_handle_question_expansion Updated exit code\n");
 	}
-	exp = ft_strdup(ft_itoa(data->exit_code));
+	exp = ft_itoa(data->exit_code);
 	if (!exp)
 		return (NULL);
+	tmp = final;
 	final = ft_strjoin(final, exp);
-	return (free(exp), final);
+	return (free(tmp), free(exp), final);
 }
 
 static char	*ft_handle_dollar_variable(char *str, int *i, char *final,
