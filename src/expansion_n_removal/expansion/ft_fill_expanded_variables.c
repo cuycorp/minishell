@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-
-
 static char	*ft_append_char(char *str, char c)
 {
 	char	*final;
@@ -72,5 +70,3 @@ char	*ft_fill_expanded_variables(char *str, t_shell *data)
 	}
 	return (final);
 }
-
-

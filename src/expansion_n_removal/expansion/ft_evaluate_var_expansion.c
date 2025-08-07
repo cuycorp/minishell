@@ -12,9 +12,10 @@
 
 #include "minishell.h"
 
-static bool ft_is_expandable(t_token_type type)
+static bool	ft_is_expandable(t_token_type type)
 {
-	if (type == TOKEN_DOUBLE_QUOTED_WORD || type == TOKEN_WORD || type == TOKEN_SINGLE_QUOTED_WORD ||  type == TOKEN_EXPANSION)
+	if (type == TOKEN_DOUBLE_QUOTED_WORD || type == TOKEN_WORD
+		|| type == TOKEN_SINGLE_QUOTED_WORD || type == TOKEN_EXPANSION)
 		return (true);
 	return (false);
 }
@@ -37,7 +38,7 @@ bool	ft_evaluate_var_expansion(t_token **token_list, t_shell *data)
 			if (ft_is_expandable(current->type))
 			{
 				tmp = current->value;
-				current->value  = ft_fill_expanded_variables(tmp, data);
+				current->value = ft_fill_expanded_variables(tmp, data);
 				free(tmp);
 				if (!current->value)
 					return (false);
@@ -47,15 +48,3 @@ bool	ft_evaluate_var_expansion(t_token **token_list, t_shell *data)
 	}
 	return (true);
 }
-
-
-/*
-	TODO:
-	=> since the function ft_append_char does not end the program,
-		* a truthy return value should be 1
-		* and a falsy return value should be 0,
-	here this is the opposite so it is not correct
-	- convert function from int -> Bool type to reduce interpretatiion of return value of 1 and 0
-	- OR create variable to store the value and call them instead of doing return (1) / return (0);
-*/
-
