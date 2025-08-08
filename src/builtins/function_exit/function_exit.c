@@ -48,13 +48,15 @@ static int	exit_extra_args(t_command *command, t_shell *data)
 static int	exit_exact_args(t_command *command, t_shell *data, int len)
 {
 	long long	exit_code;
+	bool		is_valid_num;
 
-	exit_code = ft_atol(command->args[1]) % 256; // TODO: is not supposed to be modulo 255?
+	is_valid_num = true;
+	exit_code = ft_atoll(command->args[1], &is_valid_num) % 256;
 	if (len == 1)
 		return (ft_close_program(data, 0), 0);
 	else
 	{
-		if (ft_is_number(command->args[1]))
+		if (ft_is_number(command->args[1]) && is_valid_num)
 			return (ft_close_program(data, exit_code), exit_code);
 		else
 		{
@@ -64,6 +66,7 @@ static int	exit_exact_args(t_command *command, t_shell *data, int len)
 	}
 	return (data->exit_code);
 }
+
 int	function_exit(t_command *command, t_shell *data)
 {
 	int	len;
@@ -76,5 +79,5 @@ int	function_exit(t_command *command, t_shell *data)
 		return (exit_extra_args(command, data));
 	else if (len == 2)
 		return (exit_exact_args(command, data, len));
-	return (data->exit_code);
+	return (printf ("default exit"), data->exit_code);
 }

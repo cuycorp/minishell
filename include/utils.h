@@ -52,9 +52,10 @@ int		ft_len_table(char **table);
 void	ft_print_table(char **str);
 
 /* Environment */
-
 char	*ft_get_env_value(char *key, char **envp);
 char	**ft_split_env_value(char *key, char **envp);
 
+/* Atoi */
+long long	ft_atoll(const char *nptr, bool *is_valid_num);
 
 #endif
