@@ -202,12 +202,13 @@ Create the AST to execute the command (and get command priority) => C13 from Pis
 - [x] Implement `&&` and `||`
 	- [] Handle Parenthesis for grouping / priority
 - [] Implement `*` wildcard expansion: should match only files in current working directory
+	- [] add error message with wilcard when use with redirection
 	- [] Be careful of the behavior with expansion
 	```
-		echo $PAT*
+	[]	echo $PAT*
 		build docs include lib libminishell.a Makefile minishell readline.supp readme.md src
 
-		echo $PATH*
+	[x] echo $PATH*
 		/home/jgossard/.local/funcheck/host:/home/jgossard/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/games:/snap/bin*
 
 	```

@@ -56,7 +56,7 @@ static char	*ft_get_command_path(char *command, char **envp)
 
 int	ft_exec_external_command(t_command *command, t_shell *data)
 {
-	char *path;
+	char	*path;
 
 	if (!data || !command)
 		return (EXIT_FAILURE);
@@ -65,6 +65,12 @@ int	ft_exec_external_command(t_command *command, t_shell *data)
 	{
 		ft_error_command_not_found(command->name);
 		return (EXIT_COMMAND_NOT_FOUND); // TODO: check if it is the correct exit code
+	}
+	command->args = ft_expand_arguments_with_wildcards(command->args);
+	if (!command->args)
+	{
+		ft_printf(STDERR_FILENO, "minishell: errors occured during wildcardexpansion \n");
+		return (EXIT_FAILURE);
 	}
 	execve(path, command->args, data->ev);
 	ft_printf(STDERR_FILENO, "Error: %s - %s\n", command->name, strerror(errno));

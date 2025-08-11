@@ -371,6 +371,13 @@ touch toto.txt
 touch tata.txt
 echo lalala > *.txt // TODO: not working yet, but should print bash: *.txt: ambiguous redirect if there are several occurences of file terminated by .txt
 cat < *.txt // TODO: not working yet, but should print bash: *.txt: ambiguous redirect if there are several occurences of file terminated by .txt
+
+cat << *.txt
+
+ls *.txt | grep foo
+ls *.txt && echo "done"
+ls *.txt || echo "done"
+ls *.txt || echo "fail"
 ```
 
 ### Refactoring test
