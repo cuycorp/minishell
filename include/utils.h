@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:24:47 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/30 09:16:42 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/11 16:54:13 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include "structures.h"
 
 /* Validation */
+
 void	ft_validate_args(int argc, t_shell *data);
 
 /* Memory */
@@ -57,5 +58,7 @@ char	**ft_split_env_value(char *key, char **envp);
 
 /* Atoi */
 long long	ft_atoll(const char *nptr, bool *is_valid_num);
+
+bool	ft_has_wildcard(const char *str);
 
 #endif

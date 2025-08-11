@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 10:37:20 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/01 10:48:38 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/11 17:09:43 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,9 @@ extern int	g_exit_code;
 # define EQUAL_SIGN '='
 # define SLASH_CHARACTER '/'
 # define SLASH_STRING "/"
+# define WILDCARD_CHARACTER '*'
+# define CURRENT_DIRECTORY "."
+# define DOT_CHARACTER '.'
 
 /* Variables */
 

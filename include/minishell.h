@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:39:32 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/30 17:31:22 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/08 16:21:10 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@
 /* Internal Headers*/
 # include "structures.h"
 # include "variables.h"
+# include "expander.h"
 # include "parser.h"
 # include "exec.h"
 # include "utils.h"
@@ -138,24 +139,7 @@ void			ft_free_tokens_list(t_token **tokens_list);
 void			ft_print_tokens_list(t_shell *data);
 void			ft_tokenizer(char *str, t_shell *data);
 
-/* ########  EXPANSION AND QUOTE REMOVAL  ######## */
-bool	ft_expansion_n_removal(t_shell *data);
-bool	ft_evaluate_var_expansion(t_token **token_list, t_shell *data);
-char	*ft_expand_var(char *var_name, t_shell *data);
-char	*ft_locate_var(char *str, int *i);
-char	*ft_fill_expanded_variables(char *str, t_shell *data);
 
-char	*ft_handle_dollar_cases(char *str, int *i, char *final, t_shell *data);
-bool	ft_retokenize(t_shell *data);
-
-bool	ft_quote_removal(t_token **token_list);
-char	*ft_char_2_str(char c); //utils
-char	*ft_expand_heredoc_delimiter(char *str, t_token_type type);
-char	*ft_remove_quote(char *str, char quote);
-char	*ft_remove_quotes_of_token_word(char *str);
-bool	ft_is_valid_delimiter_token(t_token_type type);
-//adding advanced expansion logic
-char *ft_extract_single_quoted_str(char *str, int *i);
 
 
 /* ########  BUILTINS  ######## */

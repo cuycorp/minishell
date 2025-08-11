@@ -20,3 +20,7 @@
 * [Mes conseils si je devais recommencer minishell - medium article]([Mes conseils si je devais recommencer minishell - medium article](https://medium.com/@mostafa.omrane/mes-conseils-si-je-devais-recommencer-minishell-a9783c51ba1b))
 * [Minishell: Building a mini-bash (@42 project)](https://m4nnb3ll.medium.com/minishell-building-a-mini-bash-a-42-project-b55a10598218)
 
+## Wildcard Resources
+* [Glob Programming](https://en.wikipedia.org/wiki/Glob_(programming))
+* [A Beginner's Guide: Glob Patterns](https://www.malikbrowne.com/blog/a-beginners-guide-glob-patterns/)
+

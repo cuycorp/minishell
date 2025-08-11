@@ -6,8 +6,24 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/06 16:09:43 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/07/01 19:59:22 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/08 16:12:37 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+bool	ft_has_wildcard(const char *str)
+{
+	int	i;
+
+	if (!str)
+		return (false);
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == WILDCARD_CHARACTER)
+			return (true);
+		i++;
+	}
+	return (false);
+}
