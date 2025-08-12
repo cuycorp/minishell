@@ -128,6 +128,7 @@ void			ft_tokenize_mixed_word(char *str, unsigned int *pos,
 void			ft_tokenize_expansion(char *str, unsigned int *pos,
 					t_shell *data);
 void			ft_tokenize_end_of_line(unsigned int *pos, t_shell *data);
+void			ft_tokenize_semicolon(char *str, unsigned int *pos, t_shell *data);
 
 /* Token  function */
 

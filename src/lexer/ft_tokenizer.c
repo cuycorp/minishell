@@ -36,6 +36,8 @@ void	ft_tokenizer(char *str, t_shell *data)
 			ft_tokenize_parenthesis(str, &i, data);
 		else if (str[i] == '$')
 			ft_tokenize_expansion(str, &i, data);
+		else if (str[i] == ';')
+			ft_tokenize_semicolon(str, &i, data);
 		else if (str[i] == '"' || str[i] == '\'' || ft_is_unquoted_char(str[i]))
 			ft_tokenize_mixed_word(str, &i, data);
 		else
