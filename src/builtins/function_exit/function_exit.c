@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 19:42:31 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/07/30 17:42:21 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/11 20:47:26 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,5 +79,5 @@ int	function_exit(t_command *command, t_shell *data)
 		return (exit_extra_args(command, data));
 	else if (len == 2)
 		return (exit_exact_args(command, data, len));
-	return (printf ("default exit"), data->exit_code);
+	return (printf ("default exit"), data->exit_code); // TODO: remove printf
 }

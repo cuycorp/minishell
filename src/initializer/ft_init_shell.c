@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:04:03 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/04 10:26:39 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/13 13:06:33 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,6 @@ t_shell	*ft_init_shell(char **envp)
 	if (shell->export == NULL)
 		return (ft_clear_memory(shell), NULL);
 	shell->exit_code = 0;
+	shell->has_raised_error = false;
 	return (shell);
 }

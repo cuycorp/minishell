@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 16:46:24 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/11 14:00:27 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/13 12:38:36 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,8 @@
 static bool	ft_match_exact_char(const char *pattern, const char *str,
 		int *pattern_index, int *str_index)
 {
+	if (!pattern || !pattern_index || !str_index || !str)
+		return (false);
 	if (pattern[*pattern_index] == str[*str_index])
 	{
 		(*pattern_index)++;
@@ -49,10 +51,11 @@ static void	ft_handle_wildcard(int *pattern_index, int *str_index,
  * @retval true if backtracking was possible (a previous wildcard exists),
  * @retval false if no wildcard was found before the mismatch (match failed).
  */
-
 static bool	ft_backtrack_to_wildcard(int *pattern_index, int *str_index,
 		int last_wildcard_index, int *resume_match_idx)
 {
+	if (!pattern_index || !str_index || !resume_match_idx)
+		return (false);
 	if (last_wildcard_index == -1)
 		return (false);
 	*pattern_index = last_wildcard_index + 1;
@@ -111,18 +114,13 @@ bool	ft_check_wildcard_pattern(const char *pattern, const char *str)
 {
 	int	pattern_index;
 	int	str_index;
-	int	last_wildcard_index;
-	int	resume_match_idx;
 
 	if (!pattern || !str)
 		return (false);
 	pattern_index = 0;
 	str_index = 0;
-	last_wildcard_index = -1;
-	resume_match_idx = 0;
 	if (!ft_match_pattern_loop(pattern, str, &pattern_index, &str_index))
 		return (false);
-	// Handle remaining asterisks at the end of pattern
 	while (pattern[pattern_index] == WILDCARD_CHARACTER)
 		pattern_index++;
 	return (pattern[pattern_index] == '\0');
