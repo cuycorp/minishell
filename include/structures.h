@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:23:56 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/04 10:26:11 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/13 13:14:36 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,16 +133,29 @@ typedef struct s_exec_context
 	int		last_exit_code;
 }	t_exec_context;
 
+typedef struct s_wildcard_context
+{
+	DIR				*directory;
+	struct dirent	*entry;
+	char			**matches;
+	unsigned int	match_count;
+	char			*pattern;
+	char			*directory_part;
+	char			*basename_part;
+}	t_wildcard_context;
+
 typedef struct s_shell
 {
-	char			*input;
-	char			*prompt;
-	char			**ev;
-	char			**export;
-	t_token			*tokens_list;
-	t_ast_node		*ast_root;
-	t_exec_context	*context;
-	int				exit_code; // TODO: keep here or more it to t_exec_context?
+	char				*input;
+	char				*prompt;
+	char				**ev;
+	char				**export;
+	t_token				*tokens_list;
+	t_ast_node			*ast_root;
+	t_exec_context		*context;
+	t_wildcard_context	*wildcard;
+	int					exit_code;
+	bool				has_raised_error;
 }	t_shell;
 
 #endif

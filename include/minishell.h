@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:39:32 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/08 16:21:10 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/12 12:39:45 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,11 +102,12 @@
 
 /* INITIALIZER */
 
-t_shell			*ft_init_shell(char **envp);
-// t_redirection_result	ft_init_redirection_result(void);
-t_redirection	*ft_create_redirection(t_redirection_type type, char *target);
-t_command		*ft_create_command(int argc);
-t_exec_context	*ft_create_exec_context(t_ast_node *root);
+t_shell				*ft_init_shell(char **envp);
+t_redirection		*ft_create_redirection(t_redirection_type type,
+						char *target);
+t_command			*ft_create_command(int argc);
+t_exec_context		*ft_create_exec_context(t_ast_node *root);
+t_wildcard_context	*ft_create_wildcard_context(const char *pattern);
 
 /* ########  LEXER PART  ######## */
 

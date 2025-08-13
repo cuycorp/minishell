@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 16:11:52 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/11 13:56:39 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/13 12:30:26 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,13 @@
  *            @p length elements. This function does not allocate memory
  *            or add a NULL terminator.
  */
-static void	ft_copy_string_array_content(char **dest, char **src, int length)
+static void	ft_copy_string_array_content(char **dest, char **src,
+	unsigned int length)
 {
-	int	i;
+	unsigned int	i;
 
+	if (!dest || !src || length < 1)
+		return ;
 	i = 0;
 	while (i < length)
 	{
@@ -70,28 +73,23 @@ static void	ft_copy_string_array_content(char **dest, char **src, int length)
  *
  * @see ft_strdup
  */
-bool	ft_append_to_string_array(char ***array, int *length, const char *str)
+bool	ft_append_to_string_array(char ***array, unsigned int *length,
+	const char *str)
 {
 	char	**resized_array;
-	int		index;
 
 	if (!array || !str || !length)
 		return (false);
 	resized_array = malloc(sizeof(char *) * (*length + 2));
 	if (!resized_array)
 		return (false);
-	index = 0;
-	// Copy existing strings (only if *tabs is not NULL) into new array
 	if (*array)
 		ft_copy_string_array_content(resized_array, *array, *length);
-	// Add new string
 	resized_array[*length] = ft_strdup(str);
 	if (!resized_array[*length])
 		return (free(resized_array), false);
-	// Update length and add NULL terminator
 	(*length)++;
 	resized_array[*length] = NULL;
-	// Free old array and update pointer
 	if (*array)
 		free(*array);
 	*array = resized_array;

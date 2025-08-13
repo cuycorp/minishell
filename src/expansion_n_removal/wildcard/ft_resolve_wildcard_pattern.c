@@ -6,27 +6,11 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/08 16:10:37 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/08 17:46:16 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/13 12:29:30 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-static bool	ft_process_entry(const char *filename, const char *pattern,
-		char ***matches, int *match_count)
-{
-	if (!filename || !pattern || !matches || !match_count)
-		return (false);
-	if (filename[0] != DOT_CHARACTER || pattern[0] == DOT_CHARACTER)
-	{
-		if (ft_check_wildcard_pattern(pattern, filename))
-		{
-			if (!ft_append_to_string_array(matches, match_count, filename))
-				return (false);
-		}
-	}
-	return (true);
-}
 
 static bool	ft_handle_no_matches(
 	int match_count, char ***matches, const char *pattern)
@@ -40,23 +24,48 @@ static bool	ft_handle_no_matches(
 			return (false);
 		(*matches)[0] = ft_strdup(pattern);
 		if (!(*matches)[0])
-			return (free(matches), false);
+		{
+			free(*matches);
+			*matches = NULL;
+			return (false);
+		}
 		(*matches)[1] = NULL;
 	}
 	return (true);
 }
 
-static bool	ft_setup_wildcard_search(
-	DIR **directory, char ***matches, int *match_count, struct dirent **entry)
+static bool	ft_wildcard_setup(t_shell *data, const char *pattern)
 {
-	if (!directory || !matches || !match_count || !entry)
+	if (!data || !pattern)
 		return (false);
-	*directory = opendir(CURRENT_DIRECTORY);
-	if (!*directory)
+	data->wildcard = ft_create_wildcard_context(pattern);
+	if (!data->wildcard)
 		return (false);
-	*matches = NULL;
-	*match_count = 0;
-	*entry = readdir(*directory);
+	return (true);
+}
+
+static bool	ft_wildcard_process_entries(t_wildcard_context *context)
+{
+	if (!context)
+		return (false);
+	while (context->entry)
+	{
+		if (!ft_process_entry(context))
+			return (false);
+		context->entry = readdir(context->directory);
+	}
+	return (true);
+}
+
+static bool	ft_wildcard_finalize(t_wildcard_context *context,
+	const char *pattern)
+{
+	if (!context || !pattern)
+		return (false);
+	closedir(context->directory);
+	context->directory = NULL;
+	if (!ft_handle_no_matches(context->match_count, &context->matches, pattern))
+		return (false);
 	return (true);
 }
 
@@ -93,29 +102,29 @@ static bool	ft_setup_wildcard_search(
  * @see ft_append_to_string_array
  * @see ft_free_char_tab
  */
-char	**ft_resolve_wildcard_pattern(const char *pattern)
+char	**ft_resolve_wildcard_pattern(const char *pattern, t_shell *data)
 {
-	DIR				*directory;
-	struct dirent	*entry;
-	char			**matches;
-	int				match_count;
+	t_wildcard_context	*context;
+	char				**result;
 
-	if (!pattern)
+	if (!pattern || !data)
 		return (NULL);
-	if (!ft_setup_wildcard_search(&directory, &matches, &match_count, &entry))
+	if (!ft_wildcard_setup(data, pattern))
 		return (NULL);
-	while (entry)
+	context = data->wildcard;
+	if (!ft_wildcard_process_entries(context))
 	{
-		if (!ft_process_entry(entry->d_name, pattern, &matches, &match_count))
-		{
-			ft_free_char_tab(matches);
-			closedir(directory);
-			return (NULL);
-		}
-		entry = readdir(directory);
+		ft_free_wildcard_context(context);
+		data->wildcard = NULL;
+		return (NULL);
 	}
-	closedir(directory);
-	if (!ft_handle_no_matches(match_count, &matches, pattern))
-		return (ft_free_char_tab(matches), NULL);
-	return (matches);
+	if (!ft_wildcard_finalize(context, pattern))
+	{
+		ft_free_wildcard_context(context);
+		data->wildcard = NULL;
+		return (NULL);
+	}
+	result = context->matches;
+	context->matches = NULL;
+	return (result);
 }

@@ -380,6 +380,20 @@ ls *.txt || echo "done"
 ls *.txt || echo "fail"
 ```
 
+| Case | Command                | Expected Behavior                                             |
+| ---- | ---------------------- | ------------------------------------------------------------- |
+| 1    | `echo *.c`             | Expands to all `.c` files in current dir                      |
+| 2    | `echo "*.c"`           | Prints literal `*.c`                                          |
+| 3    | `echo a*`              | Expands to all files starting with `a`                        |
+| 4    | `echo dir/*.c`         | Expands only matching `.c` files in `dir/`                    |
+| 5    | `cat > *.txt`          | If more than 1 match → `bash: *.txt: ambiguous redirect`      |
+| 6    | `cat > file.txt`       | Creates file.txt (no expansion)                               |
+| 7    | `cat > no_match_*.txt` | Creates file literally named `no_match_*.txt` (if no matches) |
+| 8    | `ls ??.c`              | Matches exactly 2-character filenames ending in `.c`          |
+| 9    | `ls "file*"`           | Prints literal `file*` (no expansion)                         |
+| 10   | `ls ./src/*.c`         | Expands only `.c` files in `src` subdir                       |
+
+
 ### Refactoring test
 
 echo hello > file.txt
@@ -388,3 +402,54 @@ cat << EOF
 cat << EOF | cat
 echo hello >> out.txt
 ls | grep minishell > result.txt
+
+
+
+
+
+
+
+
+
+## Wildcard test with redirection
+
+
+### 1. Normal wildcard expansion
+touch a.txt b.txt c.c
+echo *.txt         # → a.txt b.txt
+
+### 2. Quoted wildcard → no expansion
+echo "*.txt"       # → *.txt
+echo '*.txt'       # → *.txt
+
+### 3. No match → keep as-is (Bash default)
+echo *.nope        # → *.nope
+
+### 4. Path wildcard
+mkdir dir
+
+
+### 5. Redirection with single match
+echo hello > a.txt # works fine
+
+### 6. Redirection with no match
+cat < *.nope       # minishell: *.nope: No such file or directory
+
+### 7. Redirection with multiple matches
+cat < *.txt        # minishell: *.txt: ambiguous redirect
+
+
+
+<< eof*.txt
+ls *
+ls "*"
+ls "*.txt"
+cat readme.md > *1.txt
+cat readme.md > *.txt
+cat readme.md > "*1.txt"
+cat readme.md > "*.txt"
+cat < *2.txt > "*.txt"
+cat < *2.txt > "*.txt"
+cat < *.txt > "*.txt"
+cat < *.txt > "*123.txt"
+cat > "*123.txt" < *.txt # ⚠️ not working because the file is not created

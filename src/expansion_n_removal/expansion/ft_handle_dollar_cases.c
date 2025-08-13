@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/22 17:15:59 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/08/05 14:26:12 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/12 11:16:45 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ char	*ft_handle_dollar_cases(char *str, int *i, char *final, t_shell *data)
 {
 	if (!str || !i || !final || !data)
 		return (free(final), NULL); // TODO: Mr A added these checks, really need to free here?
-	if (ft_isalnum(str[*i + 1]) || str[*i + 1] == '_')
+	if (str[*i + 1] && (ft_isalnum(str[*i + 1]) || str[*i + 1] == '_'))
 		return (ft_handle_dollar_variable(str, i, final, data));
-	else if (str[*i + 1] == '?')
+	else if (str[*i + 1] && str[*i + 1] == '?')
 		return (ft_handle_question_expansion(i, final, data));
 	else
 		return (free(final), NULL);

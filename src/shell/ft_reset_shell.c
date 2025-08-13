@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 23:32:50 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/05 14:26:29 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/13 13:06:48 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,12 @@ void	ft_reset_shell(t_shell *data)
 		ft_free_exec_context(data->context);
 		data->context = NULL;
 	}
+	if (data->wildcard)
+	{
+		ft_free_wildcard_context(data->wildcard);
+		data->wildcard = NULL;
+	}
+	data->has_raised_error = false;
 	// data->exit_code = 0; // TODO: to keep when signal will be implemented?
 	// g_exit_code = -1; // TODO: to keep?
 }

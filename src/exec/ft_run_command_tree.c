@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 11:32:22 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/04 13:58:54 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/13 13:07:59 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int	ft_run_command_tree(t_ast_node *root, t_shell *data)
 	ft_exec_node_recursive(root, data, data->context);
 	if (!ft_wait_all_pids(data->context))
 		return (EXIT_FAILURE);
+	if (data->has_raised_error)
+		data->exit_code = 1;
 	return (data->exit_code);
 }
 
