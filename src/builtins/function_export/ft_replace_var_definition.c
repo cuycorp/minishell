@@ -29,11 +29,6 @@ char	*ft_get_var_name(char *var_definition)
 		return (NULL);
 	return (var_name);
 }
-/*
-v a r
-0 1 2
-v a r =
-*/
 
 bool	ft_var_definition_exists(char *var_definition, char **table)
 {
@@ -62,9 +57,10 @@ bool	ft_var_definition_exists(char *var_definition, char **table)
 	return (free(incoming_var_name), false);
 }
 
-bool ft_is_same_var(char *var_name1, char *var_name2)
+bool	ft_is_same_var(char *var_name1, char *var_name2)
 {
-	if (ft_strlen(var_name1) == ft_strlen(var_name2) && ft_strncmp(var_name1, var_name2, ft_strlen(var_name1)) == 0)
+	if (ft_strlen(var_name1) == ft_strlen(var_name2) && ft_strncmp(var_name1,
+			var_name2, ft_strlen(var_name1)) == 0)
 		return (true);
 	return (false);
 }
@@ -96,18 +92,3 @@ bool	ft_replace_var_definition(char *new_var_definition, char **table)
 	}
 	return (free(in_vname), true);
 }
-/*
-1. get full variable_name of table
-2. get full variable_name of var_definition
-3. verify if they are the same // discard by len and strncmp
-*/
-
-/*
-for redeclaration, if variable is full defined, it always updates
-export var || export var = 2
-export		var = 3 --> replace new value, add to env
----
-export var=aa, var exists on env and export
-export var --> do nothig, new declaration only exist in export(its empty)
-
-*/

@@ -14,7 +14,6 @@
 
 static void	ft_handle_ctrl_c_heredoc(int sig)
 {
-
 	if (sig == SIGINT)
 	{
 		ft_printf(STDERR_FILENO, "\n");

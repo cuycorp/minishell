@@ -1,28 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_expansion_n_removal.c                           :+:      :+:    :+:   */
+/*   ft_is_valid_start.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/07/22 12:40:17 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/08/13 15:41:58 by jgossard         ###   ########.fr       */
+/*   Created: 2025/08/14 19:19:32 by mcamaren          #+#    #+#             */
+/*   Updated: 2025/08/19 18:18:48 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-bool	ft_expansion_n_removal(t_shell *data)
+bool	ft_is_valid_expansion_start(char c)
 {
-	if (!data)
-		return (false);
-	if (!ft_evaluate_var_expansion(&data->tokens_list, data))
-		return (false);
-	if (!ft_retokenize(data))
-		return (false);
-	if (!ft_expand_wildcards_in_token_list(&data->tokens_list, data))
-		return (false);
-	if (!ft_quote_removal(&data->tokens_list))
-		return (false);
-	return (true);
+	if (ft_isalnum(c) || c == '_' || c == '?')
+		return (true);
+	return (false);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoll.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/07 18:32:07 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/08/07 18:32:08 by mcamaren         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:02:00 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static bool	ft_verify_limits(long long sign, long long result, long long digit,
 		*is_valid_num = false;
 		return (false);
 	}
-	if (sign == -1 && -result < (LLONG_MIN + digit) / 10)
+	if (sign == -1 && ((-result) < (LLONG_MIN + digit) / 10))
 	{
 		*is_valid_num = false;
 		return (false);

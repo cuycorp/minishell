@@ -57,7 +57,7 @@ static char	*ft_handle_dollar_variable(char *str, int *i, char *final,
 char	*ft_handle_dollar_cases(char *str, int *i, char *final, t_shell *data)
 {
 	if (!str || !i || !final || !data)
-		return (free(final), NULL); // TODO: Mr A added these checks, really need to free here?
+		return (free(final), NULL);
 	if (str[*i + 1] && (ft_isalnum(str[*i + 1]) || str[*i + 1] == '_'))
 		return (ft_handle_dollar_variable(str, i, final, data));
 	else if (str[*i + 1] && str[*i + 1] == '?')

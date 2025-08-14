@@ -33,7 +33,7 @@ void	ft_tokenize_expansion(char *str, unsigned int *pos, t_shell *data)
 			else
 				break ;
 		}
-	}
+	} //basic variable 
 	while (str[*pos])
 	{
 		if (ft_is_valid_expansion(str[*pos]))

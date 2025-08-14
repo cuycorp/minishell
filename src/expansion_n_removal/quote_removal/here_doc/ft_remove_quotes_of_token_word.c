@@ -12,7 +12,6 @@
 
 #include "minishell.h"
 
-
 static char	*ft_quote_2_str(char *str, int *i, char quote)
 {
 	char	*new;
@@ -59,7 +58,6 @@ static char	*append_quoted_segment(char *final, char *str, int *i, char quote)
 	return (free(final), result);
 }
 
-
 static char	*append_unquoted_char(char *final, char c)
 {
 	char	*to_str;
@@ -76,7 +74,6 @@ static char	*append_unquoted_char(char *final, char c)
 		return (free(final), NULL);
 	return (free(final), result);
 }
-
 
 char	*ft_remove_quotes_of_token_word(char *str)
 {

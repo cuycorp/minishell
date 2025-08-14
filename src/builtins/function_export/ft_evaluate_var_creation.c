@@ -31,7 +31,6 @@ static bool	ft_is_valid_var_name(char *var_declaration, int *j)
 	return (true);
 }
 
-
 static char	**ft_append_str_to_table(char *new_str, char **table)
 {
 	int		i;
@@ -57,7 +56,6 @@ static char	**ft_append_str_to_table(char *new_str, char **table)
 	ft_free_char_tab(table);
 	return (new_table);
 }
-
 
 static bool	ft_add_vars_to_table(int to_env, char *var_definition,
 		t_shell *data)

@@ -45,7 +45,7 @@ static int	exit_extra_args(t_command *command, t_shell *data)
 		if (data->exit_code == 0)
 			data->exit_code = 1;
 		return (ft_printf(STDERR_FILENO, "bash: exit: too many arguments\n"),
-		data->exit_code);
+			data->exit_code);
 	}
 }
 
@@ -84,5 +84,5 @@ int	function_exit(t_command *command, t_shell *data)
 		return (exit_extra_args(command, data));
 	else if (len == 2)
 		return (exit_exact_args(command, data, len));
-	return (printf ("default exit"), data->exit_code); // TODO: remove printf
+	return (data->exit_code);
 }

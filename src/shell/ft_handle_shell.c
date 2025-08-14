@@ -85,7 +85,7 @@ void	ft_handle_shell(t_shell *data)
 			ft_reset_shell(data);
 			continue ;
 		}
-		// ft_print_tokens_list(data); // TODO: remove this line
+		//ft_print_tokens_list(data); // TODO: remove this line
 		// Parsing
 		if (data->tokens_list && data->tokens_list->type != TOKEN_END_OF_LINE)
 		{

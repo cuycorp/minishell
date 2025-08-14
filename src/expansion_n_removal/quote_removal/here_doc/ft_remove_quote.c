@@ -52,7 +52,3 @@ char	*ft_remove_quote(char *str, char quote)
 	}
 	return (new);
 }
-
-
-
-

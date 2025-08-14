@@ -12,8 +12,6 @@
 
 #include "minishell.h"
 
-
-
 static char	*ft_find_env_value(char *full_var, char **env)
 {
 	int		i;
@@ -52,38 +50,3 @@ char	*ft_expand_var(char *var_name, t_shell *data)
 	free(full_var);
 	return (expanded_value);
 }
-
-
-
-/*
-char	*ft_expand_var(char *var_name, t_shell *data)
-{
-	int		i;
-	int		len;
-	char	*full_var;
-	char	*expanded_value;
-
-	if (!var_name || !data)
-		return (NULL);
-	i = 0;
-	full_var = ft_strjoin(var_name, "=");
-	if (!full_var)
-		return (NULL);
-	len = ft_strlen(full_var);
-	while (data->ev[i])
-	{
-		if (data->ev[i] && ft_strncmp(data->ev[i], full_var, len) == 0)
-		{
-			expanded_value = ft_strdup(&data->ev[i][len]);
-			if (!expanded_value)
-				return (free(full_var), NULL);
-			return (free(full_var), expanded_value);
-		}
-		i++;
-	}
-	expanded_value = ft_strdup(""); //divide into expanded_value
-	if (!expanded_value)
-		return (free(full_var), NULL);
-	return (free(full_var), expanded_value);
-}
-*/

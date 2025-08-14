@@ -47,8 +47,6 @@ static char	*ft_create_new_input(t_shell *data)
 	return (ft_append_tokens(data->tokens_list));
 }
 
-
-
 bool	ft_retokenize(t_shell *data)
 {
 	char	*new_input;
@@ -56,9 +54,9 @@ bool	ft_retokenize(t_shell *data)
 	if (!data)
 		return (false);
 	new_input = ft_create_new_input(data);
-	if(!new_input)
+	if (!new_input)
 		return (false);
-	free(data->input); // TODO: Questions: does the input really need to be free here?
+	free(data->input);
 	ft_free_tokens_list(&data->tokens_list);
 	data->input = ft_strdup(new_input);
 	if (data->input == NULL)

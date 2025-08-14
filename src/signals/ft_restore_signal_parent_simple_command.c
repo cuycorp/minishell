@@ -31,11 +31,11 @@ void	ft_restore_signal_parent_simple_command(t_signal_child *sig,
 			g_exit_code = 128 + sig_num;
 			ft_putstr_fd("\n", STDOUT_FILENO);
 		}
-		 else if (sig_num == SIGQUIT)
-		 {
-		 	ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
-		 	g_exit_code = 128 + sig_num;
-		 }
+		else if (sig_num == SIGQUIT)
+		{
+			ft_putstr_fd("Quit (core dumped)\n", STDERR_FILENO);
+			g_exit_code = 128 + sig_num;
+		}
 	}
 	else
 		data->exit_code = EXIT_FAILURE;

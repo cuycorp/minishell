@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/13 09:43:25 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/13 09:46:50 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/19 18:05:52 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ static char	*ft_build_path(const char *directory, const char *filename)
 	directory_len = ft_strlen(directory);
 	filename_len = ft_strlen(filename);
 	need_slash = (directory_len > 0
-		&& (directory[directory_len - 1] != SLASH_CHARACTER));
+			&& (directory[directory_len - 1] != SLASH_CHARACTER));
 	total_len = directory_len + filename_len + 1;
 	if (need_slash)
 		total_len++;
@@ -55,7 +55,7 @@ bool	ft_process_entry(t_wildcard_context *context)
 		if (ft_check_wildcard_pattern(context->basename_part, filename))
 		{
 			full_path = ft_build_path(context->directory_part,
-				context->entry->d_name);
+					context->entry->d_name);
 			if (!full_path)
 				return (false);
 			if (!ft_append_to_string_array(&context->matches,

@@ -1,30 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   function_pwd.c                                     :+:      :+:    :+:   */
+/*   ft_append_char.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/06/10 14:11:27 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/06/10 14:11:28 by mcamaren         ###   ########.fr       */
+/*   Created: 2025/08/14 19:17:49 by mcamaren          #+#    #+#             */
+/*   Updated: 2025/08/14 19:17:51 by mcamaren         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	function_pwd(t_shell *data, t_command *command)
+char	*ft_append_char(char *str, char c)
 {
-	char	*pwd;
-	int		i;
+	char	*final;
+	char	*char_str;
 
-	i = 0;
-	if (ft_validate_command(command, "pwd") == false)
-		return (EXIT_FAILURE);
-	while (data->ev[i] && ft_strncmp(data->ev[i], "PWD=",
-			ft_strlen("PWD=")) != 0)
-		i++;
-	pwd = data->ev[i];
-	pwd += 4;
-	ft_printf(STDOUT_FILENO, "%s\n", pwd);
-	return (EXIT_SUCCESS);
+	if (!str)
+		return (NULL);
+	char_str = ft_char_2_str(c);
+	if (!char_str)
+		return (NULL);
+	final = ft_strjoin(str, char_str);
+	free(char_str);
+	if (!final)
+		return (free(str), NULL);
+	return (free(str), final);
 }

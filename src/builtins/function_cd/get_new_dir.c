@@ -24,8 +24,6 @@ static char	*ft_get_home_path(t_shell *data)
 	return (home_path);
 }
 
-
-
 char	*get_new_dir(int len, t_shell *data, t_command *command)
 {
 	char	*new_dir;

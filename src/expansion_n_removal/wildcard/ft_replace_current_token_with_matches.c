@@ -26,7 +26,7 @@ static void	ft_free_token_list(t_token *token)
 }
 
 static bool	ft_update_first_token_value(t_token *current, char *match,
-	char **matches)
+		char **matches)
 {
 	if (!current || !match)
 		return (false);
@@ -41,7 +41,7 @@ static bool	ft_update_first_token_value(t_token *current, char *match,
 }
 
 static bool	ft_handle_insert_error(t_token *first_inserted, t_token *current,
-	t_token *current_next)
+		t_token *current_next)
 {
 	if (!current)
 		return (false);
@@ -54,7 +54,7 @@ static bool	ft_handle_insert_error(t_token *first_inserted, t_token *current,
 }
 
 static bool	ft_insert_remaining_tokens(t_token *current, char **matches,
-	t_token *current_next, t_token **last_inserted)
+		t_token *current_next, t_token **last_inserted)
 {
 	t_token	*node;
 	t_token	*first_inserted;
@@ -69,7 +69,7 @@ static bool	ft_insert_remaining_tokens(t_token *current, char **matches,
 		node = ft_create_token(matches[i], TOKEN_WORD);
 		if (!node)
 			return (ft_handle_insert_error(first_inserted, current,
-				current_next));
+					current_next));
 		if (!first_inserted)
 			first_inserted = node;
 		(*last_inserted)->next = node;
@@ -93,9 +93,8 @@ t_token	*ft_replace_current_token_with_matches(t_token *current, char **matches)
 	if (!ft_update_first_token_value(current, matches[0], matches))
 		return (NULL);
 	if (!ft_insert_remaining_tokens(current, matches, current_next,
-		&last_inserted))
+			&last_inserted))
 		return (NULL);
 	last_inserted->next = current_next;
 	return (last_inserted);
 }
-
