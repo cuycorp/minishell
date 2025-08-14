@@ -77,7 +77,6 @@ int	ft_exec_simple_command(t_command *command, t_shell *data)
 {
 	t_exec_context	*context;
 	pid_t			pid;
-	int				exit_code;
 	bool			is_parent_builtin;
 	t_signal_child	sig;
 
@@ -87,8 +86,8 @@ int	ft_exec_simple_command(t_command *command, t_shell *data)
 	is_parent_builtin = ft_is_parent_builtin(command->name);
 	if (is_parent_builtin && context->input_fd == STDIN_FILENO)
 	{
-		exit_code = ft_exec_parent_builtin(command, data);
-		return (exit_code);
+		data->exit_code = ft_exec_parent_builtin(command, data);
+		return (data->exit_code);
 	}
 	ft_set_signal_parent(&sig);
 	pid = fork();

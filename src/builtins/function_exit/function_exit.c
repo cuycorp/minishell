@@ -41,8 +41,12 @@ static int	exit_extra_args(t_command *command, t_shell *data)
 		return (ft_close_program(data, 2), 2);
 	}
 	else
+	{
+		if (data->exit_code == 0)
+			data->exit_code = 1;
 		return (ft_printf(STDERR_FILENO, "bash: exit: too many arguments\n"),
-			1);
+		data->exit_code);
+	}
 }
 
 static int	exit_exact_args(t_command *command, t_shell *data, int len)
@@ -60,7 +64,8 @@ static int	exit_exact_args(t_command *command, t_shell *data, int len)
 			return (ft_close_program(data, exit_code), exit_code);
 		else
 		{
-			ft_printf(STDERR_FILENO, "bash: exit: %s: numeric argument required\n", command->args[1]);
+			ft_printf(STDERR_FILENO, "bash: exit: %s: numeric argument \
+				required\n", command->args[1]);
 			return (ft_close_program(data, 2), 2);
 		}
 	}

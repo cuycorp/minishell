@@ -28,7 +28,7 @@ int	ft_exec_child_builtin(t_command *command, t_shell *data)
 		return (function_unset(command, data));
 	else if (ft_strncmp(command->name, ENV, ft_strlen(ENV)) == 0)
 		return (function_env(command, data));
-	// else if (ft_strncmp(command->name, EXIT, ft_strlen(EXIT)) == 0)
-	// return (function_exit(command, data));
+	else if (ft_strncmp(command->name, EXIT, ft_strlen(EXIT)) == 0)
+		return (function_exit(command, data));
 	return (EXIT_FAILURE);
 }
