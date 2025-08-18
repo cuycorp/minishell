@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 15:22:57 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/07 15:53:39 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/18 17:01:13 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static void	ft_exec_heredoc_child(int *pipe_fd, const char *delimiter,
 
 	if (!delimiter || !data)
 	{
-		ft_close_fds(pipe_fd);
+		ft_close_pipe_fds(pipe_fd);
 		ft_exit_child(data, EXIT_FAILURE);
 	}
 	if (!pipe_fd)
@@ -68,14 +68,13 @@ static int	ft_exec_heredoc_parent(int *pipe_fd, int pid, t_signal_child sig,
 		return (-1);
 	if (pid < 0)
 	{
-		ft_close_fds(pipe_fd);
+		ft_close_pipe_fds(pipe_fd);
 		return (-1);
 	}
 	close(pipe_fd[WRITE_END]);
 	if (waitpid(pid, &data->context->last_exit_code, 0) == -1)
 	{
-		ft_printf(STDERR_FILENO, "minishell: error: error with waitpid - %s\n",
-			strerror(errno));
+		ft_error_failed_waitpid("ft_exec_heredoc_parent");
 		close(pipe_fd[READ_END]);
 		return (-1);
 	}
@@ -85,27 +84,25 @@ static int	ft_exec_heredoc_parent(int *pipe_fd, int pid, t_signal_child sig,
 	return (pipe_fd[READ_END]);
 }
 
-int	ft_exec_heredoc(t_redirection *redirections, char *delimiter, t_shell *data)
+int	ft_exec_heredoc(t_redirection *redirection, char *delimiter, t_shell *data)
 {
 	pid_t			pid;
 	int				pipe_fd[2];
 	t_signal_child	sig;
 
-	if (!redirections || !delimiter || !data)
+	if (!redirection || !delimiter || !data)
 		return (-1);
 	if (pipe(pipe_fd) == -1)
 	{
-		ft_printf(STDERR_FILENO, "minishell: heredoc: failed to pipe - %s\n",
-			strerror(errno));
+		ft_error_failed_to_pipe("ft_exec_heredoc");
 		return (-1);
 	}
 	ft_set_signal_parent(&sig);
 	pid = fork();
 	if (pid < 0)
 	{
-		ft_close_fds(pipe_fd);
-		ft_printf(STDERR_FILENO, "minishell: heredoc: failed to fork - %s\n",
-			strerror(errno));
+		ft_close_pipe_fds(pipe_fd);\
+		ft_error_failed_to_fork("ft_exec_heredoc");
 		return (-1);
 	}
 	if (pid == 0)

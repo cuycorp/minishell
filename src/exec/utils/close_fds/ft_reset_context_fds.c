@@ -1,21 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_close_fds.c                                     :+:      :+:    :+:   */
+/*   ft_reset_context_fds.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2025/08/01 14:48:09 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/04 11:30:41 by jgossard         ###   ########.fr       */
+/*   Created: 2025/08/14 19:01:15 by jgossard          #+#    #+#             */
+/*   Updated: 2025/08/14 19:01:31 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	ft_close_fds(int *pipe_fd)
+void	ft_reset_context_fds(t_exec_context *context)
 {
-	if (!pipe_fd)
-		return ;
-	close(pipe_fd[READ_END]);
-	close(pipe_fd[WRITE_END]);
+	if (!context)
+		return;
+	if (context->input_fd != STDIN_FILENO)
+		ft_safe_close_and_reset_fd(&context->input_fd);
+	if (context->output_fd != STDOUT_FILENO)
+		ft_safe_close_and_reset_fd(&context->output_fd);
+	context->input_fd = STDIN_FILENO;
+	context->output_fd = STDOUT_FILENO;
 }

@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:07:24 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/05 09:57:25 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/18 17:53:17 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,21 +47,20 @@ static void	ft_exec_pipe_child(t_ast_node *root, t_shell *data, int *pipe_fd)
 
 	if (!root || !data || !data->context)
 	{
-		ft_close_fds(pipe_fd);
+		ft_close_pipe_fds(pipe_fd);
 		ft_exit_child(data, EXIT_FAILURE);
 	}
 	if (!pipe_fd)
 		ft_exit_child(data, EXIT_FAILURE);
 	context = data->context;
 	close(pipe_fd[READ_END]);
-	if (!ft_apply_dup2(pipe_fd[WRITE_END], STDOUT_FILENO))
-		ft_exit_child(data, EXIT_FAILURE);
-	close(pipe_fd[WRITE_END]);
+	if (context->output_fd != STDOUT_FILENO && context->output_fd > STDERR_FILENO)
+		ft_safe_close_and_reset_fd(&context->output_fd);
+	ft_handle_dup2_and_close_fd(pipe_fd[WRITE_END], STDOUT_FILENO, data);
 	if (context->input_fd != STDIN_FILENO)
 	{
-		if (!ft_apply_dup2(context->input_fd, STDIN_FILENO))
-			ft_exit_child(data, EXIT_FAILURE);
-		close(context->input_fd);
+		ft_handle_dup2_and_close_fd(context->input_fd, STDIN_FILENO, data);
+		context->input_fd = STDIN_FILENO;
 	}
 	exit_code = ft_exec_node_recursive(root->left, data, context);
 	ft_exit_child(data, exit_code);
@@ -86,29 +85,34 @@ static void	ft_exec_pipe_child(t_ast_node *root, t_shell *data, int *pipe_fd)
  * - Cause the pipe's read end to never receive EOF, making read() hang.
  * - Lead to too many open file descriptors in long pipelines.
  */
-static int	ft_exec_pipe_parent(t_ast_node *root, t_shell *data, pid_t pid, int *pipe_fd)
+static int	ft_exec_pipe_parent(t_ast_node *root, t_shell *data, pid_t pid,
+	int *pipe_fd)
 {
 	t_exec_context	*context;
 	int				result;
+	int				read_end_saved;
 
 	if (!pipe_fd)
 		ft_exit_child(data, EXIT_FAILURE);
 	if (!root || !data || !data->context || pid < 0)
 	{
-		ft_close_fds(pipe_fd);
+		ft_close_pipe_fds(pipe_fd);
 		ft_exit_child(data, EXIT_FAILURE);
 	}
 	context = data->context;
 	close(pipe_fd[WRITE_END]);
 	if (context->input_fd != STDIN_FILENO)
-		close(context->input_fd);
-	// Add child PID to tracking
+		ft_safe_close_and_reset_fd(&context->input_fd);
+	read_end_saved = pipe_fd[READ_END];
+	context->input_fd = read_end_saved;
+	// Todo: still usefull?
 	if (context->pid_count < context->command_count)
 		context->pids[context->pid_count++] = pid;
 	context->last_pid = pid;
-	context->input_fd = pipe_fd[READ_END];
 	result = ft_exec_node_recursive(root->right, data, context);
-	close(pipe_fd[READ_END]);
+	close(read_end_saved);
+	if (context->input_fd == read_end_saved)
+		context->input_fd = STDIN_FILENO;
 	return (result);
 }
 
@@ -120,14 +124,13 @@ int	ft_exec_pipe_node(t_ast_node *root, t_shell *data)
 	if (!root || !data)
 		return (EXIT_FAILURE);
 	if (pipe(pipe_fd) == -1)
-		return (perror("Pipe failed!"), EXIT_FAILURE);
+		return (ft_error_failed_to_pipe("ft_exec_pipe_node"), EXIT_FAILURE);
 	pid = fork();
 	if (pid < 0)
 	{
-		ft_close_fds(pipe_fd);
-		if (data->context && data->context->input_fd != STDIN_FILENO)
-			close(data->context->input_fd);
-		return (perror("failed to fork"), EXIT_FAILURE);
+		ft_close_pipe_fds(pipe_fd);
+		ft_error_failed_to_fork("ft_exec_pipe_node");
+		return ( EXIT_FAILURE);
 	}
 	if (pid == 0)
 		ft_exec_pipe_child(root, data, pipe_fd);

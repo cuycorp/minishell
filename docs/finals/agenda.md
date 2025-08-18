@@ -85,11 +85,11 @@ Tokens:
 	- [x] Handle syntax errors ? (unclosed quotes, invalid chars)
 	- [x] Handle syntax errors (e.g., empty pipes, unmatched tokens) (e.g., `| > file`, `cat infile |`)
 - [x] Fix error when line finished with pipe (e.g: `(echo hi && ls) | (grep main || ((echo fallback && exit))) | `)
-- [] Fix tokenizer which seems to close the program when it encountere an unknown character (e.g. `;`, `echo hi &&;` and create leaks)
+- [x] Fix tokenizer which seems to close the program when it encountere an unknown character (e.g. `;`, `echo hi &&;` and create leaks)
 - [x] Modifu tokenizer to classify all  TOKEN_WORD correctly,
 - [x] Implement var_expansion
 - [x] Implement retokenize
-- [x] Implement quoteremoval
+- [x] Implement quote removal
 ---
 
 ## Phase 4: Parsing / Building Command Structures + Environment Management ?
