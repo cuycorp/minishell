@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/25 15:11:35 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/04 14:52:14 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:07:32 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@ int	ft_exec_logical_and(t_ast_node *node, t_shell *data,
 	ft_exec_node_recursive(node->left, data, context);
 	if (!ft_wait_all_pids(context))
 	{
-		dprintf(STDERR_FILENO, "ft_exec_logical_and: issue with wait pid\n"); // TODO: remove this dprintf
+		ft_error_failed_waitpid("ft_exec_logical_and");
 		return (EXIT_FAILURE);
 	}
 	ft_mark_pids_reaped(context);
 	if (context->last_exit_code == EXIT_SUCCESS)
 	{
-		context->input_fd = STDIN_FILENO;
+		ft_reset_context_fds(context);
 		return (ft_exec_node_recursive(node->right, data, context));
 	}
 	return (context->last_exit_code);

@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:29:45 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/05 11:33:31 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/18 15:57:48 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,12 @@ static bool	ft_handle_heredoc(t_redirection *redirection, t_shell *data)
  *       the function will return false. If the root is NULL, the function
  *       returns true immediately since we can have command without heredocs.
  */
-bool	ft_process_heredocs(t_ast_node *root, t_shell *data) // TODO: renamed it to something like ft_prepare_all_heredocs
+// TODO: renamed it to something like ft_prepare_all_heredocs
+bool	ft_process_heredocs(t_ast_node *root, t_shell *data)
 {
+	bool	left_result;
+	bool	right_result;
+
 	if (!root || !data)
 		return (true);
 	if (root->type == AST_REDIRECTION && root->redirection_data)
@@ -70,6 +74,7 @@ bool	ft_process_heredocs(t_ast_node *root, t_shell *data) // TODO: renamed it to
 		if (!ft_handle_heredoc(root->command_data->redirection, data))
 			return (false);
 	}
-	return (
-		ft_process_heredocs(root->left, data) && ft_process_heredocs(root->right, data));
+	left_result = ft_process_heredocs(root->left, data);
+	right_result = ft_process_heredocs(root->right, data);
+	return (left_result && right_result);
 }

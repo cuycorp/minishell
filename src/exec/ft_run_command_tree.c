@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 11:32:22 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/13 13:07:59 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/18 16:59:25 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,10 +19,11 @@ int	ft_run_command_tree(t_ast_node *root, t_shell *data)
 	data->context = ft_create_exec_context(root);
 	if (!data->context)
 	{
-		ft_printf(STDERR_FILENO, "minishell: context structure creation failed: %s\n", strerror(errno));
+		ft_printf(STDERR_FILENO,
+			"minishell: data->context: constructor failed: %s\n",
+			strerror(errno));
 		return (EXIT_FAILURE);
 	}
-	// Process Heredocs
 	if (!ft_process_heredocs(root, data))
 	{
 		ft_free_exec_context(data->context);
@@ -31,6 +32,9 @@ int	ft_run_command_tree(t_ast_node *root, t_shell *data)
 	ft_exec_node_recursive(root, data, data->context);
 	if (!ft_wait_all_pids(data->context))
 		return (EXIT_FAILURE);
+	ft_close_heredocs_fd(root);
+	ft_free_exec_context(data->context);
+	data->context = NULL;
 	if (data->has_raised_error)
 		data->exit_code = 1;
 	return (data->exit_code);
