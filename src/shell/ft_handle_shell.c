@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 09:28:04 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/14 19:05:47 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/19 09:41:07 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,11 @@ void	ft_handle_shell(t_shell *data)
 		}
 		// TOKENIZATION
 		ft_tokenizer(data->input, data);
+		if (data->tokens_list && data->tokens_list->type == TOKEN_END_OF_LINE)
+		{
+			ft_reset_shell(data);
+			continue ;
+		}
 		// Expansion and Quotes Removal
 		// ft_print_tokens_list(data); // TODO: remove this line
 		if (!ft_expansion_n_removal(data))
