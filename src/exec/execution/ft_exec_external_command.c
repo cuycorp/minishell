@@ -18,7 +18,7 @@ int	ft_exec_external_command(t_command *command, t_shell *data)
 
 	if (!data || !command)
 		return (EXIT_FAILURE);
-	path = ft_get_command_path(command->name, data->ev);
+	path = ft_get_command_path(command->name, data->ev, &data->error_message);
 	if (!path)
 	{
 		ft_error_command_not_found(command->name, data->exit_code);

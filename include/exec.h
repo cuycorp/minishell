@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:59:26 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/18 17:29:21 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/19 10:53:34 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void	ft_close_heredocs_fd(t_ast_node *node);
 void	ft_reset_shell(t_shell *data);
 void	ft_reset_context_fds(t_exec_context *context);
 void	ft_handle_dup2_and_close_fd(int oldfd, int newfd, t_shell *data);
-char	*ft_get_command_path(char *command, char **envp);
+char	*ft_get_command_path(char *command, char **envp, char **error_message);
 
 void	ft_track_open_fds(int fd);               // TODO: remove this line
 void	ft_debug_list_open_fds(const char *tag); // TODO: delete this line

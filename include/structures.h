@@ -156,6 +156,7 @@ typedef struct s_shell
 	t_wildcard_context	*wildcard;
 	int					exit_code;
 	bool				has_raised_error;
+	char				*error_message;
 }	t_shell;
 
 #endif
