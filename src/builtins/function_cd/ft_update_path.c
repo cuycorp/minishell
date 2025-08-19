@@ -24,7 +24,6 @@ bool	ft_update_path(t_command *command, char *old_pwd, char *pwd,
 	if (chdir(in_chdir) != 0)
 	{
 		perror("cd");
-		ft_printf(STDERR_FILENO, ": %s\n", command->args[0]);
 		return (free(in_chdir), false);
 	}
 	if (!ft_save_wd(pwd))

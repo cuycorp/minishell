@@ -71,5 +71,6 @@ int	function_cd(t_shell **data, t_command *command)
 		return (EXIT_SUCCESS);
 	}
 	else
-		return (perror("cd: string not in pwd"), EXIT_FAILURE);
+		return (ft_printf(STDERR_FILENO, "cd: too many arguments\n"),
+			EXIT_FAILURE);
 }
