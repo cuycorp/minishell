@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:24:47 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/12 12:27:41 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/19 12:32:03 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ void	print_char_tab(char **tabs); // TODO: to remove
 /* Token */
 
 char		*ft_stringify_token_type(t_token_type type);
+char		*ft_stringify_redirection_type(t_redirection_type type);
+char		*ft_stringify_node_type(t_ast_node_type type);
 bool		ft_is_redirection_type(t_token_type type);
 bool		ft_is_word_like_type(t_token_type type);
 bool		ft_is_argument_type(t_token_type type);
