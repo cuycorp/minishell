@@ -92,39 +92,41 @@ static t_token_type	ft_get_token_type(bool has_double_quote,
 }
 
 /**
- * @brief Tokenizes a sequence of characters that may contain both quoted and unquoted parts.
+
+	* @brief Tokenizes a sequence of characters that may contain both quoted
+	* and unquoted parts.
  *
- * This function handles shell-like behavior where adjacent quoted and unquoted strings
- * form a single token (e.g., "hello"world → helloworld). It processes both unquoted
- * characters and double-quoted segments, and determines the appropriate token type based
+
+	* This function handles shell-like behavior where adjacent quoted and
+ * unquoted strings form a single token (e.g.,
+	"hello"world → helloworld). It processes both unquoted
+ * characters and double-quoted segments,
+	and determines the appropriate token type based
  * on whether quotes were encountered.
  *
  * @param str   The full input string to tokenize.
- * @param pos   A pointer to the current position in the input string; will be updated.
+
+	* @param pos   A pointer to the current position in the input string;
+	*will be updated.
  * @param data  Pointer to the shell state or token storage structure.
  */
-void	ft_tokenize_mixed_word(char *str, unsigned int *pos, t_shell *data)
-{
-	t_token_type	token_type;
-	unsigned int	start_index;
-	bool			has_double_quote;
-	bool			has_single_quote;
 
-	if (!str || !data || !pos)
-		return ;
+static unsigned int	ft_scan_mixed_word(char *str, unsigned int *pos,
+		bool *has_double_quote, bool *has_single_quote)
+{
+	unsigned int	start_index;
+
 	start_index = *pos;
-	has_double_quote = false;
-	has_single_quote = false;
 	while (str[*pos])
 	{
 		if (str[*pos] == '\'')
 		{
-			has_single_quote = true;
+			*has_single_quote = true;
 			ft_advance_past_single_quotes(str, pos);
 		}
 		else if (str[*pos] == '"')
 		{
-			has_double_quote = true;
+			*has_double_quote = true;
 			ft_advance_past_double_quotes(str, pos);
 		}
 		else if (ft_is_special_operator(str[*pos]))
@@ -134,6 +136,22 @@ void	ft_tokenize_mixed_word(char *str, unsigned int *pos, t_shell *data)
 		else
 			break ;
 	}
+	return (start_index);
+}
+
+void	ft_tokenize_mixed_word(char *str, unsigned int *pos, t_shell *data)
+{
+	t_token_type	token_type;
+	unsigned int	start_index;
+	bool			has_double_quote;
+	bool			has_single_quote;
+
+	if (!str || !data || !pos)
+		return ;
+	has_double_quote = false;
+	has_single_quote = false;
+	start_index = ft_scan_mixed_word(str, pos, &has_double_quote,
+			&has_single_quote);
 	token_type = ft_get_token_type(has_double_quote, has_single_quote);
 	ft_add_token_from_range(data, start_index, *pos, token_type);
 }

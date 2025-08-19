@@ -31,4 +31,3 @@ void	ft_tokenize_semicolon(char *str, unsigned int *pos, t_shell *data)
 	free(token);
 	(*pos)++;
 }
-
