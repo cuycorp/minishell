@@ -147,6 +147,7 @@ void			ft_tokenizer(char *str, t_shell *data);
 /* ########  BUILTINS  ######## */
 
 int		function_cd(t_shell **data, t_command *command);
+bool	ft_save_wd(char *variable);
 char	*get_new_dir(int len, t_shell *data, t_command *command);
 bool	ft_update_path(t_command *command, char *old_pwd, char *pwd,
 			char *in_chdir);

@@ -81,7 +81,7 @@ static bool	ft_unset_vars_from_table(char **args, char ***table)
 	i = 1;
 	while (args[i])
 	{
-		if (ft_var_name_exists(args[i], *table))
+		if (ft_var_name_exists(args[i], *table) && ft_strncmp("_", args[i], 2))
 		{
 			*table = ft_remove_var_of_table(args[i], *table);
 			if (*table == NULL)

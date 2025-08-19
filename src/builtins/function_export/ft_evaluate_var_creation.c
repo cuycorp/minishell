@@ -16,6 +16,8 @@ static bool	ft_is_valid_var_name(char *var_declaration, int *j)
 {
 	if (!var_declaration)
 		return (false);
+	if (!ft_strncmp(var_declaration, "_=", 2))
+		return (false);
 	while (var_declaration[*j] && var_declaration[*j] != '=')
 	{
 		if (*j == 0 && !(ft_isalpha(var_declaration[*j])

@@ -14,7 +14,7 @@
 
 t_exec_context	*ft_create_exec_context(t_ast_node *root)
 {
-	t_exec_context *context;
+	t_exec_context	*context;
 
 	if (!root)
 		return (NULL);

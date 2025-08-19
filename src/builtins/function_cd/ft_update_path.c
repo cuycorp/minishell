@@ -12,13 +12,6 @@
 
 #include "minishell.h"
 
-static bool	ft_save_wd(char *variable)
-{
-	if (!getcwd(variable, PATH_MAX))
-		return (false);
-	return (true);
-}
-
 bool	ft_update_path(t_command *command, char *old_pwd, char *pwd,
 		char *in_chdir)
 {
