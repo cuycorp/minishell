@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:23:56 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/13 13:14:36 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/19 22:40:38 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,6 +157,7 @@ typedef struct s_shell
 	int					exit_code;
 	bool				has_raised_error;
 	char				*error_message;
+	t_redirection		*last_redirection;
 }	t_shell;
 
 #endif

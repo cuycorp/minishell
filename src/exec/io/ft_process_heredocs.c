@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:29:45 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/18 15:57:48 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/19 22:44:49 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ static bool	ft_handle_heredoc(t_redirection *redirection, t_shell *data)
 	{
 		if (redirection->type == HEREDOC && redirection->heredoc_fd == -1)
 		{
+			if (data->last_redirection)
+				ft_safe_close_and_reset_fd(&data->last_redirection->heredoc_fd);
 			fd = ft_exec_heredoc(redirection, redirection->target, data);
 			if (fd == -1)
 			{
@@ -29,6 +31,7 @@ static bool	ft_handle_heredoc(t_redirection *redirection, t_shell *data)
 			}
 			ft_safe_close_and_reset_fd(&redirection->heredoc_fd);
 			redirection->heredoc_fd = fd;
+			data->last_redirection = redirection;
 		}
 		redirection = redirection->next;
 	}

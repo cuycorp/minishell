@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/23 16:04:03 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/13 13:06:33 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 17:15:33 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,9 @@ static char	**ft_set_env(char **envp)
 static char	**ft_set_env2(void)
 {
 	char	**ev;
-	int		i;
 	int		len_env;
 	char	path[PATH_MAX];
 
-	i = 0;
 	len_env = 3;
 	ev = (char **)malloc((len_env + 1) * sizeof(char *));
 	if (!ev)
@@ -67,11 +65,9 @@ static char	**ft_set_env2(void)
 static char	**ft_set_exp2(void)
 {
 	char	**ev;
-	int		i;
 	int		len_env;
 	char	path[PATH_MAX];
 
-	i = 0;
 	len_env = 3;
 	ev = (char **)malloc((len_env + 1) * sizeof(char *));
 	if (!ev)

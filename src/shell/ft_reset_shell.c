@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 23:32:50 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/13 13:06:48 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 10:00:55 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	ft_reset_shell(t_shell *data)
 	{
 		ft_close_heredocs_fd(data->ast_root);
 		ft_free_ast_tree(&data->ast_root);
+		data->last_redirection = NULL;
 	}
 	if (data->context)
 	{
@@ -44,6 +45,8 @@ void	ft_reset_shell(t_shell *data)
 		data->wildcard = NULL;
 	}
 	data->has_raised_error = false;
+	if (data->last_redirection)
+		free(data->last_redirection);
 	// data->exit_code = 0; // TODO: to keep when signal will be implemented?
 	// g_exit_code = -1; // TODO: to keep?
 }

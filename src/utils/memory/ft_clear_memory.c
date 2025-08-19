@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:57:54 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/12 18:58:37 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 10:00:41 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ static void	ft_free_tree(t_shell *data)
 		ft_close_heredocs_fd(data->ast_root);
 		ft_free_ast_tree(&data->ast_root);
 		data->ast_root = NULL;
+		data->last_redirection = NULL;
 	}
 }
 
@@ -71,5 +72,7 @@ void	ft_clear_memory(t_shell *data)
 	ft_free_context(data);
 	if (data->wildcard)
 		ft_free_wildcard_context(data->wildcard);
+	if (data->last_redirection)
+		free(data->last_redirection);
 	free(data);
 }
