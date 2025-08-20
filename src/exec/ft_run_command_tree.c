@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 11:32:22 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/18 16:59:25 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:50:19 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,6 @@ int	ft_run_command_tree(t_ast_node *root, t_shell *data)
 		return (EXIT_FAILURE);
 	}
 	ft_exec_node_recursive(root, data, data->context);
-	if (!ft_wait_all_pids(data->context))
-		return (EXIT_FAILURE);
-	ft_close_heredocs_fd(root);
 	ft_free_exec_context(data->context);
 	data->context = NULL;
 	if (data->has_raised_error)

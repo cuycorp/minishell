@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:23:56 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/19 22:40:38 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:45:16 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,10 @@ typedef struct s_ast_node
 
 typedef struct s_exec_context
 {
-	pid_t	*pids;
-	int		last_pid;
-	int		pid_count;
-	int		command_count;
+	// pid_t	*pids;
+	// int		last_pid;
+	// int		pid_count;
+	// int		command_count;
 	int		input_fd;
 	int		output_fd;
 	int		last_exit_code;

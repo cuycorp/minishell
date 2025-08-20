@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 15:22:57 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/18 17:01:13 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:40:56 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ static int	ft_exec_heredoc_parent(int *pipe_fd, int pid, t_signal_child sig,
 	}
 	if (!ft_restore_signal_parent_heredoc(&sig, data, pipe_fd[READ_END]))
 		return (-1);
-	ft_mark_pids_reaped(data->context);
 	return (pipe_fd[READ_END]);
 }
 

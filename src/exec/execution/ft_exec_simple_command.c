@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 10:59:05 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/20 14:53:45 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:43:21 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,20 +45,12 @@ static int	ft_exec_simple_command_parent(t_command *command, t_shell *data,
 		return (EXIT_FAILURE);
 	context = data->context;
 	ft_reset_context_fds(data->context);
-	// TODO: not usefull anymore to add pid to pids??
-	if (context->pid_count < context->command_count)
-	{
-		context->pids[context->pid_count] = pid;
-		context->pid_count++;
-		context->last_pid = pid;
-	}
 	if (waitpid(pid, &context->last_exit_code, 0) == -1)
 	{
 		ft_error_failed_waitpid("ft_exec_simple_command_parent");
 		return (EXIT_FAILURE);
 	}
 	ft_restore_signal_parent_simple_command(&sig, data);
-	ft_mark_pids_reaped(context); // TODO: still usefull?
 	return (EXIT_SUCCESS);
 }
 

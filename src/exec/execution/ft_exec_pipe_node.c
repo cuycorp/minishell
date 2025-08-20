@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:07:24 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/18 17:53:17 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 15:41:20 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,6 @@ static int	ft_exec_pipe_parent(t_ast_node *root, t_shell *data, pid_t pid,
 		ft_safe_close_and_reset_fd(&context->input_fd);
 	read_end_saved = pipe_fd[READ_END];
 	context->input_fd = read_end_saved;
-	// Todo: still usefull?
-	if (context->pid_count < context->command_count)
-		context->pids[context->pid_count++] = pid;
-	context->last_pid = pid;
 	result = ft_exec_node_recursive(root->right, data, context);
 	close(read_end_saved);
 	if (context->input_fd == read_end_saved)
