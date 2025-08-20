@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 14:48:01 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/19 10:07:08 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 17:49:09 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ char	*ft_get_command_path(char *command, char **envp, char **error_message)
 	char	**paths;
 	char	*result;
 
-	if (!command || !error_message)
+	if (!command || !*command || !error_message)
 		return (NULL);
 	if (ft_strchr(command, SLASH_CHARACTER))
 	{
