@@ -155,6 +155,8 @@ int		function_pwd(t_shell *data, t_command *command);
 int 	function_echo(t_command *command);
 bool	ft_validate_command(t_command *command, char *commmand_name);
 int		function_export(t_command *command, t_shell *data);
+char	*ft_set_var_definition(char *arguments, int *j, int *to_env);
+bool	ft_is_valid_var_name(char *var_declaration, int *j);
 bool	ft_print_export(t_shell *data);
 bool	ft_evaluate_var_creation(t_command *command, t_shell *data);
 bool	ft_replace_var_definition(char *new_var_definition, char **table);

@@ -12,27 +12,6 @@
 
 #include "minishell.h"
 
-static bool	ft_is_valid_var_name(char *var_declaration, int *j)
-{
-	if (!var_declaration)
-		return (false);
-	if (!ft_strncmp(var_declaration, "_=", 2))
-		return (false);
-	while (var_declaration[*j] && var_declaration[*j] != '=')
-	{
-		if (*j == 0 && !(ft_isalpha(var_declaration[*j])
-				|| var_declaration[*j] == '_'))
-			return (ft_printf(STDERR_FILENO, "export:\
-					%s : not a valid identifier\n", var_declaration), false);
-		else if (!(ft_isalnum(var_declaration[*j])
-				|| var_declaration[*j] == '_'))
-			return (ft_printf(STDERR_FILENO, "export:\
-					%s : not a valid identifier\n", var_declaration), false);
-		(*j)++;
-	}
-	return (true);
-}
-
 static char	**ft_append_str_to_table(char *new_str, char **table)
 {
 	int		i;
@@ -88,53 +67,49 @@ static bool	ft_add_vars_to_table(int to_env, char *var_definition,
 	return (true);
 }
 
-static char	*ft_create_var_definition(char *arguments, int *j, int *to_env)
+static void	ft_init_evaluate_var_creation(int *i, int *j, int *to_env,
+		bool *ret)
 {
-	char	*var_definition;
-	char	*var_name;
+	*ret = true;
+	*i = 1;
+	*j = 0;
+	*to_env = 0;
+}
 
-	if (!arguments)
-		return (false);
-	var_name = ft_substr(arguments, 0, *j);
-	if (!var_name)
-		return (NULL);
-	if (arguments[*j] == '=')
-	{
-		*to_env = 1;
-		var_definition = ft_strjoin(var_name, &arguments[*j]);
-		if (!var_definition)
-			return (free(var_name), NULL);
-		return (free(var_name), var_definition);
-	}
-	else
-		return (var_name);
+static void	ft_reset_evaluate_var_creation(int *i, int *j, int *to_env)
+{
+	if (!i)
+		return ;
+	(*i)++;
+	*j = 0;
+	*to_env = 0;
 }
 
 bool	ft_evaluate_var_creation(t_command *command, t_shell *data)
 {
-	char	*var_definition;
+	char	*definition;
 	int		i;
 	int		j;
 	int		to_env;
+	bool	ret;
 
-	i = 1;
-	j = 0;
-	to_env = 0;
+	if (!command || !data)
+		return (false);
+	ft_init_evaluate_var_creation(&i, &j, &to_env, &ret);
 	while (command->args[i])
 	{
 		if (ft_is_valid_var_name(command->args[i], &j) == true)
 		{
-			var_definition = ft_create_var_definition(command->args[i], &j,
-					&to_env);
-			if (var_definition == NULL)
+			definition = ft_set_var_definition(command->args[i], &j, &to_env);
+			if (definition == NULL)
 				return (false);
-			if (ft_add_vars_to_table(to_env, var_definition, data) == false)
-				return (free(var_definition), false);
-			free(var_definition);
+			if (ft_add_vars_to_table(to_env, definition, data) == false)
+				return (free(definition), false);
+			free(definition);
 		}
-		j = 0;
-		to_env = 0;
-		i++;
+		else
+			ret = false;
+		ft_reset_evaluate_var_creation(&i, &j, &to_env);
 	}
-	return (true);
+	return (ret);
 }
