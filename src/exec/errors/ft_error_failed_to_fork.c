@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 13:55:24 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/18 15:03:59 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 16:24:18 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,5 +19,5 @@ void	ft_error_failed_to_fork(char *scope)
 			scope, strerror(errno));
 	else
 		ft_printf(STDERR_FILENO, "minishell: error: failed to fork - %s\n",
-		strerror(errno));
+			strerror(errno));
 }

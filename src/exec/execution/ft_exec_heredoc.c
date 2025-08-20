@@ -6,11 +6,18 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/11 15:22:57 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/20 15:40:56 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 16:22:45 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+static int	ft_handle_empty_line_exit_code(void)
+{
+	if (g_exit_code == 130)
+		return (130);
+	return (0);
+}
 
 static int	ft_fill_heredoc(int write_fd, const char *delimiter)
 {
@@ -24,11 +31,7 @@ static int	ft_fill_heredoc(int write_fd, const char *delimiter)
 	{
 		line = readline("> ");
 		if (!line)
-		{
-			if (g_exit_code == 130)
-				return (130);
-			return (0); // TODO: check if there are cases where in this case it should not be 0
-		}
+			return (ft_handle_empty_line_exit_code());
 		if (ft_strncmp(line, delimiter, delimiter_len) == 0
 			&& ft_strlen(line) == delimiter_len)
 		{
@@ -100,7 +103,7 @@ int	ft_exec_heredoc(t_redirection *redirection, char *delimiter, t_shell *data)
 	pid = fork();
 	if (pid < 0)
 	{
-		ft_close_pipe_fds(pipe_fd);\
+		ft_close_pipe_fds(pipe_fd);
 		ft_error_failed_to_fork("ft_exec_heredoc");
 		return (-1);
 	}

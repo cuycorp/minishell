@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:07:24 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/20 15:41:20 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 16:23:21 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static void	ft_exec_pipe_child(t_ast_node *root, t_shell *data, int *pipe_fd)
 		ft_exit_child(data, EXIT_FAILURE);
 	context = data->context;
 	close(pipe_fd[READ_END]);
-	if (context->output_fd != STDOUT_FILENO && context->output_fd > STDERR_FILENO)
+	if (context->output_fd != STDOUT_FILENO
+		&& context->output_fd > STDERR_FILENO)
 		ft_safe_close_and_reset_fd(&context->output_fd);
 	ft_handle_dup2_and_close_fd(pipe_fd[WRITE_END], STDOUT_FILENO, data);
 	if (context->input_fd != STDIN_FILENO)
@@ -73,7 +74,6 @@ static void	ft_exec_pipe_child(t_ast_node *root, t_shell *data, int *pipe_fd)
  *
  * @param root     Current AST node.
  * @param data     Shell state.
- * @param context  Execution context.
  * @param pid      PID of the forked child process.
  * @param pipe_fd  Pipe file descriptors [READ, WRITE].
  *
@@ -90,7 +90,6 @@ static int	ft_exec_pipe_parent(t_ast_node *root, t_shell *data, pid_t pid,
 {
 	t_exec_context	*context;
 	int				result;
-	int				read_end_saved;
 
 	if (!pipe_fd)
 		ft_exit_child(data, EXIT_FAILURE);
@@ -103,11 +102,10 @@ static int	ft_exec_pipe_parent(t_ast_node *root, t_shell *data, pid_t pid,
 	close(pipe_fd[WRITE_END]);
 	if (context->input_fd != STDIN_FILENO)
 		ft_safe_close_and_reset_fd(&context->input_fd);
-	read_end_saved = pipe_fd[READ_END];
-	context->input_fd = read_end_saved;
+	context->input_fd = pipe_fd[READ_END];
 	result = ft_exec_node_recursive(root->right, data, context);
-	close(read_end_saved);
-	if (context->input_fd == read_end_saved)
+	close(pipe_fd[READ_END]);
+	if (context->input_fd == pipe_fd[READ_END])
 		context->input_fd = STDIN_FILENO;
 	return (result);
 }
@@ -120,19 +118,21 @@ int	ft_exec_pipe_node(t_ast_node *root, t_shell *data)
 	if (!root || !data)
 		return (EXIT_FAILURE);
 	if (pipe(pipe_fd) == -1)
-		return (ft_error_failed_to_pipe("ft_exec_pipe_node"), EXIT_FAILURE);
+	{
+		ft_error_failed_to_pipe("ft_exec_pipe_node");
+		return (EXIT_FAILURE);
+	}
 	pid = fork();
 	if (pid < 0)
 	{
 		ft_close_pipe_fds(pipe_fd);
 		ft_error_failed_to_fork("ft_exec_pipe_node");
-		return ( EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
 	if (pid == 0)
 		ft_exec_pipe_child(root, data, pipe_fd);
 	return (ft_exec_pipe_parent(root, data, pid, pipe_fd));
 }
-
 
 /*
 //       PIPE

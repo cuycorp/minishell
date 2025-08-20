@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:24:47 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/19 12:32:03 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 16:21:26 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,8 @@ void		ft_free_ast_tree(t_ast_node **root);
 void		ft_free_exec_context(t_exec_context *context);
 void		ft_safe_close_and_reset_fd(int *fd);
 void		ft_free_wildcard_context(t_wildcard_context *context);
+void		ft_close_heredocs_fd(t_ast_node *node);
+
 
 /* String */
 

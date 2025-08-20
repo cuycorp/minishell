@@ -6,13 +6,12 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:29:45 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/19 22:44:49 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 16:18:03 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-// TODO: renamed it to something like ft_prepare_heredoc
 static bool	ft_handle_heredoc(t_redirection *redirection, t_shell *data)
 {
 	int	fd;
@@ -59,7 +58,6 @@ static bool	ft_handle_heredoc(t_redirection *redirection, t_shell *data)
  *       the function will return false. If the root is NULL, the function
  *       returns true immediately since we can have command without heredocs.
  */
-// TODO: renamed it to something like ft_prepare_all_heredocs
 bool	ft_process_heredocs(t_ast_node *root, t_shell *data)
 {
 	bool	left_result;

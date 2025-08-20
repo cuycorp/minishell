@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:59:26 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/19 10:53:34 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 16:21:01 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,25 +56,18 @@ void	ft_error_failed_to_pipe(char *scope);
 /* UTILS */
 
 /* Close FDS*/
+void	ft_close_pipe_fds(int *pipe_fd);
 void	ft_close_unused_heredocs(t_redirection *redirections,
 			t_redirection *last_input);
-void	ft_close_context_fds_before_fork(t_exec_context *context);
-void	ft_close_command_redirection_fds_thorough(t_command *command);
-
+void	ft_handle_dup2_and_close_fd(int oldfd, int newfd, t_shell *data);
+void	ft_reset_context_fds(t_exec_context *context);
 
 bool	ft_apply_dup2(int oldfd, int newfd);
 int		ft_count_executable_nodes(t_ast_node *node);
 bool	ft_wait_all_pids(t_exec_context *context);
 void	ft_mark_pids_reaped(t_exec_context *context);
-void	ft_close_pipe_fds(int *pipe_fd);
 void	ft_exit_child(t_shell *data, int exit_code);
-void	ft_close_heredocs_fd(t_ast_node *node);
 void	ft_reset_shell(t_shell *data);
-void	ft_reset_context_fds(t_exec_context *context);
-void	ft_handle_dup2_and_close_fd(int oldfd, int newfd, t_shell *data);
 char	*ft_get_command_path(char *command, char **envp, char **error_message);
-
-void	ft_track_open_fds(int fd);               // TODO: remove this line
-void	ft_debug_list_open_fds(const char *tag); // TODO: delete this line
 
 #endif
