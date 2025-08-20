@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void ft_free_matches_array(t_wildcard_context *context)
+static void	ft_free_matches_array(t_wildcard_context *context)
 {
 	if (context && context->matches)
 	{

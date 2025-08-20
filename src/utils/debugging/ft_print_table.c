@@ -12,9 +12,9 @@
 
 #include "minishell.h"
 
-void	ft_print_table(char **str) // debug function
+void	ft_print_table(char **str)
 {
-	int k;
+	int	k;
 
 	k = 0;
 	if (!str)

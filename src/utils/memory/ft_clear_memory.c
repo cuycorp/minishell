@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static void ft_free_export(t_shell *data)
+static void	ft_free_export(t_shell *data)
 {
 	if (data && data->export)
 	{
@@ -20,13 +20,14 @@ static void ft_free_export(t_shell *data)
 		data->export = NULL;
 	}
 }
-static void ft_free_tokens(t_shell *data)
+
+static void	ft_free_tokens(t_shell *data)
 {
 	if (data && data->tokens_list)
 		ft_free_tokens_list(&data->tokens_list);
 }
 
-static void ft_free_tree(t_shell *data)
+static void	ft_free_tree(t_shell *data)
 {
 	if (data && data->ast_root)
 	{
@@ -36,7 +37,7 @@ static void ft_free_tree(t_shell *data)
 	}
 }
 
-static void ft_free_context(t_shell *data)
+static void	ft_free_context(t_shell *data)
 {
 	if (data && data->context)
 	{
@@ -72,4 +73,3 @@ void	ft_clear_memory(t_shell *data)
 		ft_free_wildcard_context(data->wildcard);
 	free(data);
 }
-

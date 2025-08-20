@@ -13,7 +13,7 @@
 #include "minishell.h"
 
 static size_t	ft_get_path_end_without_trailing_slashes(const char *path,
-	size_t len)
+		size_t len)
 {
 	if (!path)
 		return (0);
@@ -39,7 +39,7 @@ static bool	ft_is_only_slashes(const char *path, size_t end)
 }
 
 static size_t	ft_find_last_slash_index_before_basename(const char *path,
-	size_t end)
+		size_t end)
 {
 	size_t	i;
 
@@ -90,7 +90,7 @@ char	*ft_get_dir_part(const char *path)
 	if (trimmed_length == 0 || ft_is_only_slashes(path, trimmed_length))
 		return (ft_strdup(SLASH_STRING));
 	last_slash_index = ft_find_last_slash_index_before_basename(path,
-		trimmed_length);
+			trimmed_length);
 	if (last_slash_index == 0)
 		return (ft_strdup(CURRENT_DIRECTORY));
 	directory_value = malloc(sizeof(char) * (last_slash_index + 1));
@@ -100,4 +100,3 @@ char	*ft_get_dir_part(const char *path)
 	directory_value[last_slash_index] = '\0';
 	return (directory_value);
 }
-

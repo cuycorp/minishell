@@ -33,7 +33,6 @@ void		ft_free_wildcard_context(t_wildcard_context *context);
 /* String */
 
 bool		ft_is_unquoted_char(char c);
-bool		ft_is_double_quoted_char(char c);
 bool		ft_is_special_operator(char c);
 bool		ft_is_valid_expansion(char c);
 void	print_char_tab(char **tabs); // TODO: to remove

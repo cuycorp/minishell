@@ -51,7 +51,7 @@ char	*ft_get_basename_part(const char *path)
 	if (basename_end == 0)
 		return (ft_strdup(""));
 	basename_start = basename_end;
-	while (basename_start >0 && path[basename_start - 1] != SLASH_CHARACTER)
+	while (basename_start > 0 && path[basename_start - 1] != SLASH_CHARACTER)
 		basename_start--;
 	basename_len = basename_end - basename_start;
 	return (ft_substr(path, basename_start, basename_len));

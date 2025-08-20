@@ -22,14 +22,6 @@ bool	ft_is_unquoted_char(char c)
 	return (true);
 }
 
-// TODO: unused function so far, to remove
-bool	ft_is_double_quoted_char(char c)
-{
-	if (c == '\0' || c == '"')
-		return (false);
-	return (ft_isprint(c));
-}
-
 bool	ft_is_special_operator(char c)
 {
 	return (c == '|' || c == ';' || c == '&' || c == '<' || c == '>' || c == '('
@@ -40,6 +32,6 @@ bool	ft_is_valid_expansion(char c)
 {
 	return ((c == '.' || c == '-' || c == '(' || c == ')' || c == '{'
 			|| c == '}' || c == '\'' || c == '"' || c == '$' || c == '*'
-			|| c == ':') || c == '='|| c == '%' || c == '+' || c == '~'
-			|| c == '!');
+			|| c == ':') || c == '=' || c == '%' || c == '+' || c == '~'
+		|| c == '!');
 }
