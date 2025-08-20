@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 10:59:05 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/18 17:53:26 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 14:53:45 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ static void	ft_exec_simple_command_child(t_command *command, t_shell *data)
 	// Apply pipe or redirection fds
 	ft_handle_dup2_and_close_fd(context->input_fd, STDIN_FILENO, data);
 	ft_handle_dup2_and_close_fd(context->output_fd, STDOUT_FILENO, data);
+	ft_close_heredocs_fd(data->ast_root);
 	// TODO: fix issue with exit_code here
 	if (ft_is_child_builtin(command->name))
 		exit_code = ft_exec_child_builtin(command, data);
@@ -80,11 +81,12 @@ int	ft_exec_simple_command(t_command *command, t_shell *data)
 	ft_set_signal_parent(&sig);
 	pid = fork();
 	if (pid < 0)
-	{
-		ft_error_failed_to_fork("ft_exec_simple_command");
-		return (EXIT_FAILURE);
-	}
+		return (ft_error_failed_to_fork("ft_exec_simple_comand"), EXIT_FAILURE);
 	if (pid == 0)
+	{
+		if (!command->redirection)
+			ft_close_heredocs_fd(data->ast_root);
 		ft_exec_simple_command_child(command, data);
+	}
 	return (ft_exec_simple_command_parent(command, data, pid, sig));
 }

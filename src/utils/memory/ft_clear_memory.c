@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:57:54 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/20 10:00:41 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 10:35:18 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,9 @@ void	ft_clear_memory(t_shell *data)
 	if (data->wildcard)
 		ft_free_wildcard_context(data->wildcard);
 	if (data->last_redirection)
+	{
 		free(data->last_redirection);
+		data->last_redirection = NULL;
+	}
 	free(data);
 }
