@@ -48,7 +48,6 @@ void	ft_tokenize_expansion(char *str, unsigned int *pos, t_shell *data)
 	unsigned int	start_index;
 	t_token_type	type;
 
-	ft_printf(STDERR_FILENO, "ft_tokenize_expansion\n");
 	if (!str || !pos || !data)
 		return ;
 	type = TOKEN_EXPANSION;
