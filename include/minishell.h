@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 13:39:32 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/12 12:39:45 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/21 16:07:33 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -173,6 +173,9 @@ int					function_exit(t_command *command, t_shell *data);
 /* ########  SHELL PART  ######## */
 
 void				ft_handle_shell(t_shell *data);
+void				ft_shell_loop(t_shell *data);
+bool				ft_process_input(t_shell *data);
+char				*ft_set_prompt(t_shell *data);
 void				ft_handle_history(char *str);
 void				ft_handle_pipe(t_ast_node *root, t_shell *data);
 
