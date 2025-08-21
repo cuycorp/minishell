@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/01 20:00:21 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/01 20:56:05 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/21 13:56:38 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,4 +51,6 @@ void			ft_parse_error(const t_token *token, const char *msg);
 bool			ft_match_token(t_token **token_list, t_token_type expected);
 void			ft_print_ast_node(t_ast_node *node);
 void			ft_print_in_tree_form(t_ast_node *node, int level);
+bool			ft_append_remaining_arguments(t_command *command,
+					t_token **tokens, bool *has_cmd);
 #endif

@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 14:07:13 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/01 19:30:08 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:19:56 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,19 @@ static t_ast_node	*ft_create_final_node(t_command *cmd,
 	return (NULL);
 }
 
+static bool	ft_parse_remaining_args(t_token **tokens, t_command *command,
+	bool *has_command)
+{
+	if (!tokens || !command || !has_command)
+		return (false);
+	if (command && *tokens && ft_is_argument_type((*tokens)->type))
+	{
+		if (!ft_append_remaining_arguments(command, tokens, has_command))
+			return (false);
+	}
+	return (true);
+}
+
 static t_ast_node	*ft_build_ast_tree_from_tokens(t_token **tokens)
 {
 	t_command		*command;
@@ -51,9 +64,11 @@ static t_ast_node	*ft_build_ast_tree_from_tokens(t_token **tokens)
 		return (NULL);
 	command = ft_create_and_fill_command(tokens, &has_command);
 	if (!ft_extract_redirections(&redirections, tokens, &has_redir))
+		return (ft_free_command(command), NULL);
+	if (!ft_parse_remaining_args(tokens, command, &has_command))
 	{
-		ft_free_command(command);
-		return (NULL);
+		ft_free_redirection(&redirections);
+		return (ft_free_command(command), NULL);
 	}
 	node = ft_create_final_node(command, redirections, has_command, has_redir);
 	if (!node)
