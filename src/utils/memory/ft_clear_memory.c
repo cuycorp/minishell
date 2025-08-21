@@ -27,17 +27,6 @@ static void	ft_free_tokens(t_shell *data)
 		ft_free_tokens_list(&data->tokens_list);
 }
 
-static void	ft_free_tree(t_shell *data)
-{
-	if (data && data->ast_root)
-	{
-		ft_close_heredocs_fd(data->ast_root);
-		ft_free_ast_tree(&data->ast_root);
-		data->ast_root = NULL;
-		data->last_redirection = NULL;
-	}
-}
-
 static void	ft_free_context(t_shell *data)
 {
 	if (data && data->context)
@@ -47,10 +36,8 @@ static void	ft_free_context(t_shell *data)
 	}
 }
 
-void	ft_clear_memory(t_shell *data)
+static void	ft_clear_memory_aux(t_shell *data)
 {
-	if (!data)
-		return ;
 	if (data->input)
 	{
 		free(data->input);
@@ -66,6 +53,13 @@ void	ft_clear_memory(t_shell *data)
 		ft_free_char_tab(data->ev);
 		data->ev = NULL;
 	}
+}
+
+void	ft_clear_memory(t_shell *data)
+{
+	if (!data)
+		return ;
+	ft_clear_memory_aux(data);
 	ft_free_export(data);
 	ft_free_tokens(data);
 	ft_free_tree(data);

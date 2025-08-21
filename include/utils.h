@@ -30,6 +30,7 @@ void		ft_free_exec_context(t_exec_context *context);
 void		ft_safe_close_and_reset_fd(int *fd);
 void		ft_free_wildcard_context(t_wildcard_context *context);
 void		ft_close_heredocs_fd(t_ast_node *node);
+void		ft_free_tree(t_shell *data);
 
 /* String */
 
