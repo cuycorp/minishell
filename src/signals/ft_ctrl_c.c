@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_ctrl_c.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mcamaren <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 11:45:02 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/08/05 11:45:05 by mcamaren         ###   ########.fr       */
+/*   Updated: 2025/08/21 16:20:38 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,5 +32,5 @@ void	ft_ctrl_c(void)
 	sa.sa_flags = SA_RESTART;
 	sigemptyset(&sa.sa_mask);
 	if (sigaction(SIGINT, &sa, NULL) == -1)
-		dprintf(STDERR_FILENO, " Error with CTRL-C\n");
+		ft_printf(STDERR_FILENO, "Error with CTRL-C\n");
 }

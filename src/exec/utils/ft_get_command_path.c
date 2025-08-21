@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/18 14:48:01 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/20 17:49:09 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/21 16:18:26 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ char	*ft_get_command_path(char *command, char **envp, char **error_message)
 	{
 		if (access(command, X_OK) == 0)
 			return (ft_strdup(command));
-		dprintf(STDERR_FILENO, "access failed\n");
+		*error_message = ft_strdup("No such file or directory");
 		return (NULL);
 	}
 	paths = ft_split_env_value(PATH, envp);
