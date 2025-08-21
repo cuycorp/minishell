@@ -40,28 +40,42 @@ static bool	ft_handle_regular_wildcard(t_token **current, t_shell *data)
 	return (true);
 }
 
+static bool	ft_is_expansion_wildcard(t_token *current)
+{
+	if (ft_is_redirection_type(current->type) && current->next
+		&& current->next->type == TOKEN_WORD
+		&& ft_has_wildcard(current->next->value))
+		return (true);
+	return (false);
+}
+
+static bool	ft_is_regular_wildcard(t_token *current)
+{
+	if (current->type == TOKEN_WORD && current->value
+		&& ft_has_wildcard(current->value))
+		return (true);
+	return (false);
+}
+
 bool	ft_expand_wildcards_in_token_list(t_token **tokens, t_shell *data)
 {
 	t_token	*current;
 
-	if (!tokens|| !data)
+	if (!tokens || !data)
 		return (false);
 	current = *tokens;
 	while (current)
 	{
-		if (ft_is_redirection_type(current->type) && current->next
-			&& current->next->type == TOKEN_WORD
-			&& ft_has_wildcard(current->next->value))
+		if (ft_is_expansion_wildcard(current))
 		{
 			if (!ft_handle_redirection_wildcard(&current, data))
 			{
 				current = current->next->next;
-				continue;
+				continue ;
 			}
 			continue ;
 		}
-		if (current->type == TOKEN_WORD && current->value
-			&& ft_has_wildcard(current->value))
+		if (ft_is_regular_wildcard(current))
 		{
 			if (!ft_handle_regular_wildcard(&current, data))
 				return (false);
@@ -71,7 +85,3 @@ bool	ft_expand_wildcards_in_token_list(t_token **tokens, t_shell *data)
 	}
 	return (true);
 }
-
-
-
-
