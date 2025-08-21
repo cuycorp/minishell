@@ -41,8 +41,6 @@ bool	ft_is_valid_delimiter_token(t_token_type type);
 char	*ft_remove_quote(char *str, char quote);
 char	*ft_remove_quotes_of_token_word(char *str);
 
-// adding advanced expansion logicchar *ft_extract_single_quoted_str(char *str, int *i);
-
 /* WILDCARD */
 
 char	**ft_resolve_wildcard_pattern(const char *pattern, t_shell *data);

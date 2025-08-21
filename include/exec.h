@@ -39,7 +39,7 @@ bool	ft_process_heredocs(t_ast_node *root, t_shell *data);
 bool	ft_prepare_command_outputs(t_redirection *redirection,
 			t_redirection *last_output, t_exec_context *context);
 bool	ft_prepare_command_inputs(t_redirection *redirection,
-		t_redirection *last_input, t_exec_context *context);
+			t_redirection *last_input, t_exec_context *context);
 
 /* BUILTINS */
 

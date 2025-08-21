@@ -42,7 +42,6 @@ typedef enum e_quotes
 	NONE,
 	SINGLE,
 	DOUBLE,
-
 }							t_quotes;
 
 /**
@@ -98,12 +97,6 @@ typedef struct s_command
 
 typedef enum e_ast_node_type
 {
-	// AST_SHELL,
-	// AST_COMMAND_LINE,
-	// AST_AND_OR_LIST,
-	// AST_GROUPED_PIPELINE,
-	// AST_ENV_VARIABLE,
-	// AST_WORD,
 	AST_LOGICAL_AND,
 	AST_LOGICAL_OR,
 	AST_PIPE,
@@ -117,47 +110,43 @@ typedef struct s_ast_node
 	t_ast_node_type			type;
 	struct s_ast_node		*left;
 	struct s_ast_node		*right;
-	char 					*value;
-	t_redirection 			*redirection_data;
-	t_command 				*command_data;
+	char					*value;
+	t_redirection			*redirection_data;
+	t_command				*command_data;
 }							t_ast_node;
 
 typedef struct s_exec_context
 {
-	// pid_t	*pids;
-	// int		last_pid;
-	// int		pid_count;
-	// int		command_count;
-	int		input_fd;
-	int		output_fd;
-	int		last_exit_code;
-}	t_exec_context;
+	int						input_fd;
+	int						output_fd;
+	int						last_exit_code;
+}							t_exec_context;
 
 typedef struct s_wildcard_context
 {
-	DIR				*directory;
-	struct dirent	*entry;
-	char			**matches;
-	unsigned int	match_count;
-	char			*pattern;
-	char			*directory_part;
-	char			*basename_part;
-}	t_wildcard_context;
+	DIR						*directory;
+	struct dirent			*entry;
+	char					**matches;
+	unsigned int			match_count;
+	char					*pattern;
+	char					*directory_part;
+	char					*basename_part;
+}							t_wildcard_context;
 
 typedef struct s_shell
 {
-	char				*input;
-	char				*prompt;
-	char				**ev;
-	char				**export;
-	t_token				*tokens_list;
-	t_ast_node			*ast_root;
-	t_exec_context		*context;
-	t_wildcard_context	*wildcard;
-	int					exit_code;
-	bool				has_raised_error;
-	char				*error_message;
-	t_redirection		*last_redirection;
-}	t_shell;
+	char					*input;
+	char					*prompt;
+	char					**ev;
+	char					**export;
+	t_token					*tokens_list;
+	t_ast_node				*ast_root;
+	t_exec_context			*context;
+	t_wildcard_context		*wildcard;
+	int						exit_code;
+	bool					has_raised_error;
+	char					*error_message;
+	t_redirection			*last_redirection;
+}							t_shell;
 
 #endif

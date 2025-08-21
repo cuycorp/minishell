@@ -82,6 +82,7 @@
 									rl_replace_line, rl_redisplay */
 # include <readline/history.h> /* add_history */
 # include <linux/limits.h> /*max size of path PATH_MAX */
+# include <limits.h> /*atoll*/
 
 /* Personnal Libraries */
 # include "ft_printf.h"
@@ -96,8 +97,6 @@
 # include "utils.h"
 # include "signals.h"
 
-#include <limits.h>  /*atoll*/
-
 /* FUNCTIONS */
 
 /* INITIALIZER */
@@ -111,67 +110,70 @@ t_wildcard_context	*ft_create_wildcard_context(const char *pattern);
 
 /* ########  LEXER PART  ######## */
 
-bool	ft_are_quotes_balanced(char *str);
+bool				ft_are_quotes_balanced(char *str);
 
 /* Tokenize function */
 
-void			ft_tokenize_word(char *str, unsigned int *pos, t_shell *data);
-void			ft_tokenize_redirection(char *str, unsigned int *pos,
-					t_shell *data);
-void			ft_tokenize_parenthesis(char *str, unsigned int *pos,
-					t_shell *data);
-void			ft_tokenize_log_operator(char *str, unsigned int *pos,
-					t_shell *data);
-void			ft_tokenize_unknown(char *str, unsigned int *pos,
-					t_shell *data);
-void			ft_tokenize_mixed_word(char *str, unsigned int *pos,
-					t_shell *data);
-void			ft_tokenize_expansion(char *str, unsigned int *pos,
-					t_shell *data);
-void			ft_tokenize_end_of_line(unsigned int *pos, t_shell *data);
-void			ft_tokenize_semicolon(char *str, unsigned int *pos, t_shell *data);
+void				ft_tokenize_word(char *str, unsigned int *pos,
+						t_shell *data);
+void				ft_tokenize_redirection(char *str, unsigned int *pos,
+						t_shell *data);
+void				ft_tokenize_parenthesis(char *str, unsigned int *pos,
+						t_shell *data);
+void				ft_tokenize_log_operator(char *str, unsigned int *pos,
+						t_shell *data);
+void				ft_tokenize_unknown(char *str, unsigned int *pos,
+						t_shell *data);
+void				ft_tokenize_mixed_word(char *str, unsigned int *pos,
+						t_shell *data);
+void				ft_tokenize_expansion(char *str, unsigned int *pos,
+						t_shell *data);
+void				ft_tokenize_end_of_line(unsigned int *pos, t_shell *data);
+void				ft_tokenize_semicolon(char *str, unsigned int *pos,
+						t_shell *data);
 
 /* Token  function */
 
-t_token			*ft_create_token(char *str, t_token_type type);
-void			ft_add_token(t_token **tokens_list, t_token *new_token);
-void			ft_add_token_from_range(t_shell *data, int start, int end,
-					t_token_type type);
-void			ft_free_tokens_list(t_token **tokens_list);
-void			ft_print_tokens_list(t_shell *data);
-void			ft_tokenizer(char *str, t_shell *data);
-
-
-
+t_token				*ft_create_token(char *str, t_token_type type);
+void				ft_add_token(t_token **tokens_list, t_token *new_token);
+void				ft_add_token_from_range(t_shell *data, int start, int end,
+						t_token_type type);
+void				ft_free_tokens_list(t_token **tokens_list);
+void				ft_print_tokens_list(t_shell *data);
+void				ft_tokenizer(char *str, t_shell *data);
 
 /* ########  BUILTINS  ######## */
 
-int		function_cd(t_shell **data, t_command *command);
-bool	ft_save_wd(char *variable);
-char	*get_new_dir(int len, t_shell *data, t_command *command);
-bool	ft_update_path(t_command *command, char *old_pwd, char *pwd,
-			char *in_chdir);
-int		function_pwd(t_shell *data, t_command *command);
-int 	function_echo(t_command *command);
-bool	ft_validate_command(t_command *command, char *commmand_name);
-int		function_export(t_command *command, t_shell *data);
-char	*ft_set_var_definition(char *arguments, int *j, int *to_env);
-bool	ft_is_valid_var_name(char *var_declaration, int *j);
-bool	ft_print_export(t_shell *data);
-bool	ft_evaluate_var_creation(t_command *command, t_shell *data);
-bool	ft_replace_var_definition(char *new_var_definition, char **table);
-bool	ft_var_definition_exists(char *var_definition, char **table);
-bool	ft_is_same_var(char *var_name1, char *var_name2);
-int		function_unset(t_command *command, t_shell *data);
-bool	ft_unset_var(t_command *command, t_shell *data);
-int		function_env(t_command *command, t_shell *data);
-char	*ft_get_var_name(char *var_definition);
-int		function_exit(t_command *command, t_shell *data);
+int					function_cd(t_shell **data, t_command *command);
+bool				ft_save_wd(char *variable);
+char				*get_new_dir(int len, t_shell *data, t_command *command);
+bool				ft_update_path(t_command *command, char *old_pwd, char *pwd,
+						char *in_chdir);
+int					function_pwd(t_shell *data, t_command *command);
+int					function_echo(t_command *command);
+bool				ft_validate_command(t_command *command,
+						char *commmand_name);
+int					function_export(t_command *command, t_shell *data);
+char				*ft_set_var_definition(char *arguments, int *j,
+						int *to_env);
+bool				ft_is_valid_var_name(char *var_declaration, int *j);
+bool				ft_print_export(t_shell *data);
+bool				ft_evaluate_var_creation(t_command *command, t_shell *data);
+bool				ft_replace_var_definition(char *new_var_definition,
+						char **table);
+bool				ft_var_definition_exists(char *var_definition,
+						char **table);
+bool				ft_is_same_var(char *var_name1, char *var_name2);
+int					function_unset(t_command *command, t_shell *data);
+bool				ft_unset_var(t_command *command, t_shell *data);
+int					function_env(t_command *command, t_shell *data);
+char				*ft_get_var_name(char *var_definition);
+int					function_exit(t_command *command, t_shell *data);
 
 /* ########  SHELL PART  ######## */
 
-void		ft_handle_shell(t_shell *data);
-void		ft_handle_history(char *str);
-void		ft_handle_pipe(t_ast_node *root, t_shell *data);
+void				ft_handle_shell(t_shell *data);
+void				ft_handle_history(char *str);
+void				ft_handle_pipe(t_ast_node *root, t_shell *data);
 
 #endif

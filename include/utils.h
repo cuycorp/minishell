@@ -31,13 +31,11 @@ void		ft_safe_close_and_reset_fd(int *fd);
 void		ft_free_wildcard_context(t_wildcard_context *context);
 void		ft_close_heredocs_fd(t_ast_node *node);
 
-
 /* String */
 
 bool		ft_is_unquoted_char(char c);
 bool		ft_is_special_operator(char c);
 bool		ft_is_valid_expansion(char c);
-void	print_char_tab(char **tabs); // TODO: to remove
 
 /* Token */
 
