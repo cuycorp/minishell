@@ -64,8 +64,9 @@ static int	exit_exact_args(t_command *command, t_shell *data, int len)
 			return (ft_close_program(data, exit_code), exit_code);
 		else
 		{
-			ft_printf(STDERR_FILENO, "bash: exit: %s: numeric argument \
-				required\n", command->args[1]);
+			ft_printf(STDERR_FILENO,
+				"bash: exit: %s: numeric argument required\n",
+				command->args[1]);
 			return (ft_close_program(data, 2), 2);
 		}
 	}

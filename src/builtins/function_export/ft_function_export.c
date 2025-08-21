@@ -37,30 +37,3 @@ int	function_export(t_command *command, t_shell *data)
 	}
 	return (EXIT_SUCCESS);
 }
-
-/*
-+ export with no arguments
-	alone prints "export structure"
-+ export with arguments
-	valid var_name : [0-9][a-z][A-Z], starts with letter or underscore
-		for unvalid,
-			error message: bash: export: `1forb': not a valid identifier
-	+ export create empty variable
-	+ syntax to create variable name
-		export varname
-			-> creates var in export
-		export varname=
-			-> creates var in export and env:
-				if unvalid content, creates empty string
-+options provided -> send as error
-export structure
-	1. declare -x
-	2. contains variables that have not finished declaring
-*/
-
-/*
-1. export newz= -> create empty variable
-2. export newz="$a"v ->crate empty variable, where "$a" does not exist
-3.
-
-*/
