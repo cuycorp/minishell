@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:29:45 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/20 16:18:03 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/21 11:22:19 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ static bool	ft_handle_heredoc(t_redirection *redirection, t_shell *data)
 			if (data->last_redirection)
 				ft_safe_close_and_reset_fd(&data->last_redirection->heredoc_fd);
 			fd = ft_exec_heredoc(redirection, redirection->target, data);
+			if (data->exit_code == 130)
+				return (ft_safe_close_and_reset_fd(&fd), false);
 			if (fd == -1)
 			{
 				ft_safe_close_and_reset_fd(&redirection->heredoc_fd);
