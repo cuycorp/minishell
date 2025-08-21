@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/22 14:57:54 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/20 10:35:18 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 19:23:20 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,11 @@ void	ft_clear_memory(t_shell *data)
 	{
 		free(data->last_redirection);
 		data->last_redirection = NULL;
+	}
+	if (data->error_message)
+	{
+		free(data->error_message);
+		data->error_message = NULL;
 	}
 	free(data);
 }

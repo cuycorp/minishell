@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:59:26 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/20 16:21:01 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/21 10:44:20 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ bool	ft_is_parent_builtin(char *command_name);
 
 /* ERRORS*/
 
-void	ft_error_command_not_found(char *command_name, int exit_code);
+void	ft_error_command_not_found(char *command_name, int exit_code,
+			char *error_message);
 void	ft_error_failed_to_fork(char *scope);
 void	ft_error_failed_waitpid(char *scope);
 void	ft_error_failed_to_pipe(char *scope);

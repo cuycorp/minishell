@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/04 23:32:50 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/20 15:00:32 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/20 19:23:30 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,5 +54,10 @@ void	ft_reset_shell(t_shell *data)
 	{
 		free(data->last_redirection);
 		data->last_redirection = NULL;
+	}
+	if (data->error_message)
+	{
+		free(data->error_message);
+		data->error_message = NULL;
 	}
 }

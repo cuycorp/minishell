@@ -21,7 +21,8 @@ int	ft_exec_external_command(t_command *command, t_shell *data)
 	path = ft_get_command_path(command->name, data->ev, &data->error_message);
 	if (!path)
 	{
-		ft_error_command_not_found(command->name, data->exit_code);
+		ft_error_command_not_found(command->name, data->exit_code,
+			data->error_message);
 		return (EXIT_COMMAND_NOT_FOUND);
 	}
 	execve(path, command->args, data->ev);
