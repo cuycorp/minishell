@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 14:12:20 by jgossard          #+#    #+#             */
-/*   Updated: 2025/07/01 20:22:28 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/21 14:24:46 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ static bool	ft_handle_token_advance_and_check_terminator(t_token **tokens,
 	}
 	return (true);
 }
+
 t_ast_node	*ft_parse_pipeline(t_token **tokens)
 {
 	t_ast_node		*left;
@@ -44,7 +45,7 @@ t_ast_node	*ft_parse_pipeline(t_token **tokens)
 		return (ft_parse_error(*tokens, NULL), NULL);
 	while ((*tokens) && (*tokens)->type == TOKEN_PIPE)
 	{
-		operator= ft_get_ast_node_type((*tokens)->type);
+		operator = ft_get_ast_node_type((*tokens)->type);
 		if (!ft_handle_token_advance_and_check_terminator(tokens, &left))
 			return (NULL);
 		right = ft_parse_pipeline_command(tokens);
