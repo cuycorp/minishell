@@ -168,9 +168,10 @@ ${SRC_DIR}/exec/utils/close_fds/ft_close_pipe_fds.c \
 ${SRC_DIR}/exec/utils/close_fds/ft_close_unused_heredoc_fds.c \
 ${SRC_DIR}/exec/utils/close_fds/ft_handle_dup2_and_close_fd.c \
 ${SRC_DIR}/exec/utils/close_fds/ft_reset_context_fds.c \
+${SRC_DIR}/exec/utils/path/ft_get_command_path.c \
+${SRC_DIR}/exec/utils/path/ft_handle_path_search.c \
 ${SRC_DIR}/exec/utils/ft_apply_dup2.c \
 ${SRC_DIR}/exec/utils/ft_count_executable_nodes.c \
-${SRC_DIR}/exec/utils/ft_get_command_path.c \
 ${SRC_DIR}/exec/ft_run_command_tree.c \
 ${SRC_DIR}/main.c \
 ${SRC_DIR}/signals/ft_ctrl_d.c \
@@ -200,7 +201,6 @@ VALG_FLAG	= valgrind --leak-check=full --show-leak-kinds=all \
 EXEC = minishell
 MAIN_SRC = $(SRC_DIR)/main.c
 MAIN_OBJ = $(BUILD_DIR)/main.o
-VALGRIND = valgrind
 
 #################################### COLORS ####################################
 DEFAULT_COLOR = \033[0;39m
@@ -225,17 +225,18 @@ $(BUILD_DIR)/%.o: $(SRC_DIR)/%.c
 	@$(CC) $(CFLAGS) -c $< -o $@
 
 $(EXEC): $(LIBS) $(MINISHELL_STATIC_LIB) $(MAIN_OBJ)
-	@$(CC) $(CFLAGS) $(MAIN_OBJ) $(MINISHELL_STATIC_LIB) $(LIBS) $(LDFLAGS) $(GFLAG) -o $@
+	@$(CC) $(CFLAGS) $(MAIN_OBJ) $(MINISHELL_STATIC_LIB) $(LIBS) $(LDFLAGS) -o $@
 	@echo "$(GREEN_COLOR)Executable: $(DEFAULT_COLOR)$(EXEC) created!✅"
 
 # TODO: fix relinking on debugger and valgrind rules
 # TODO: to delete this rule
-debugger:
-	$(CC) $(CFLAGS) -g3 $(SRC_FILES) $(MINISHELL_STATIC_LIB) $(LIBS) $(LDFLAGS) -o $(EXEC)
+debugger: CFLAGS += $(GFLAG)
+debugger: fclean $(EXEC)
 
 # TODO: fix relinking on debugger and valgrind rules
-$(VALGRIND):
+valgrind: $(EXEC)
 	$(VALG_FLAG) ./$(EXEC)
+
 
 debug:
 	@echo "$(BLUE_COLOR)SRC_FILES: $(DEFAULT_COLOR) $(SRC_FILES)"
@@ -264,4 +265,4 @@ fclean: clean
 re: fclean all
 
 # TODO: add debugger and valrgind to list of .PHONY
-.PHONY: all clean fclean re debug help
+.PHONY: all clean fclean re debug help debugger valgrind
