@@ -453,3 +453,73 @@ cat < *2.txt > "*.txt"
 cat < *.txt > "*.txt"
 cat < *.txt > "*123.txt"
 cat > "*123.txt" < *.txt # ⚠️ not working because the file is not created
+
+
+
+Check Permission denied of not executable file:
+
+### 🔒 **Example 1: Create a non-executable script**
+
+```bash
+echo "echo hello" > ./test_script.sh
+chmod -rwx ./test_script.sh     # Remove all permissions
+chmod +rw ./test_script.sh      # Add only read/write, not execute
+./test_script.sh
+```
+**Expected Output:**
+
+```bash
+bash: ./test_script.sh: Permission denied
+```
+**Exit Code:**
+
+```bash
+echo $?
+126
+```
+
+---
+
+### 🔒 **Example 2: File with no execute permission**
+
+```bash
+touch ./my_binary
+chmod 644 ./my_binary   # rw-r--r--, no execute bits
+./my_binary
+```
+
+**Expected Output:**
+
+```bash
+bash: ./my_binary: Permission denied
+```
+
+**Exit Code:**
+
+```bash
+echo $?
+126
+```
+
+---
+
+### 🔒 **Example 3: Directory with no execute permission (bonus case)**
+
+```bash
+mkdir ./mydir
+chmod -x ./mydir
+./mydir
+```
+
+This will usually result in:
+
+```bash
+bash: ./mydir: Permission denied
+```
+
+**Exit Code:**
+
+```bash
+echo $?
+126
+```

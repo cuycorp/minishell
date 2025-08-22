@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/08 10:37:20 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/11 17:09:43 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:32:27 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ extern int	g_exit_code;
 
 /* EXIT CODE */
 
-# define EXIT_PERMISSION_DENIED 126
+# define EXIT_CANNOT_EXECUTE 126
 # define EXIT_COMMAND_NOT_FOUND 127
 
 #endif

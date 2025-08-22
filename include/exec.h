@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:59:26 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/21 10:44:20 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/22 11:50:44 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,9 @@ bool	ft_wait_all_pids(t_exec_context *context);
 void	ft_mark_pids_reaped(t_exec_context *context);
 void	ft_exit_child(t_shell *data, int exit_code);
 void	ft_reset_shell(t_shell *data);
-char	*ft_get_command_path(char *command, char **envp, char **error_message);
+char	*ft_get_command_path(char *command, char **envp, char **error_message,
+			int *exit_code);
+char	*ft_handle_path_search(char *command, char **envp, char **error_message,
+			int *exit_code);
 
 #endif
