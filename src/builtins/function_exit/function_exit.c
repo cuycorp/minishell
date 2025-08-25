@@ -85,5 +85,7 @@ int	function_exit(t_command *command, t_shell *data)
 		return (exit_extra_args(command, data));
 	else if (len == 2)
 		return (exit_exact_args(command, data, len));
+	else if (len == 1)
+		ft_close_program(data, data->exit_code);
 	return (data->exit_code);
 }

@@ -31,18 +31,6 @@ static bool	ft_validate_input(t_shell *data)
 	return (false);
 }
 
-static bool	ft_handle_exit_command(t_shell *data)
-{
-	if (!data || !data->input)
-		return (false);
-	if (ft_strncmp(data->input, EXIT, ft_strlen(EXIT) + 1) == 0)
-	{
-		ft_putstr_fd(data->input, STDOUT_FILENO);
-		ft_reset_shell(data);
-		return (true);
-	}
-	return (false);
-}
 
 void	ft_shell_loop(t_shell *data)
 {
@@ -57,8 +45,6 @@ void	ft_shell_loop(t_shell *data)
 		ft_ctrl_d(data);
 		if (ft_validate_input(data))
 			continue ;
-		if (ft_handle_exit_command(data))
-			return ;
 		if (!ft_process_input(data))
 			continue ;
 		if (data->ast_root)
