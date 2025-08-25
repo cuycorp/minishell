@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 15:07:24 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/20 16:23:21 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/25 17:42:50 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,49 +65,6 @@ static void	ft_exec_pipe_child(t_ast_node *root, t_shell *data, int *pipe_fd)
 	}
 	exit_code = ft_exec_node_recursive(root->left, data, context);
 	ft_exit_child(data, exit_code);
-}
-
-/**
- * @brief Parent process handler after forking a pipe.
- *
- * Performs cleanup and launches the right subtree of the pipe AST.
- *
- * @param root     Current AST node.
- * @param data     Shell state.
- * @param pid      PID of the forked child process.
- * @param pipe_fd  Pipe file descriptors [READ, WRITE].
- *
- * @return Result of executing the right side of the pipe.
- *
- * @note
- * If the parent process doesn’t close the previous input FD (used by the left
- * command), it will remain open. This can:
- * - Cause the pipe's read end to never receive EOF, making read() hang.
- * - Lead to too many open file descriptors in long pipelines.
- */
-static int	ft_exec_pipe_parent(t_ast_node *root, t_shell *data, pid_t pid,
-	int *pipe_fd)
-{
-	t_exec_context	*context;
-	int				result;
-
-	if (!pipe_fd)
-		ft_exit_child(data, EXIT_FAILURE);
-	if (!root || !data || !data->context || pid < 0)
-	{
-		ft_close_pipe_fds(pipe_fd);
-		ft_exit_child(data, EXIT_FAILURE);
-	}
-	context = data->context;
-	close(pipe_fd[WRITE_END]);
-	if (context->input_fd != STDIN_FILENO)
-		ft_safe_close_and_reset_fd(&context->input_fd);
-	context->input_fd = pipe_fd[READ_END];
-	result = ft_exec_node_recursive(root->right, data, context);
-	close(pipe_fd[READ_END]);
-	if (context->input_fd == pipe_fd[READ_END])
-		context->input_fd = STDIN_FILENO;
-	return (result);
 }
 
 int	ft_exec_pipe_node(t_ast_node *root, t_shell *data)

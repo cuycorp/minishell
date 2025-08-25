@@ -42,6 +42,7 @@ ${SRC_DIR}/utils/memory/ft_free_ast_tree.c \
 ${SRC_DIR}/utils/memory/ft_close_heredoc_fd.c \
 ${SRC_DIR}/utils/memory/ft_free_wildcard_context.c \
 ${SRC_DIR}/utils/memory/ft_free_exec_context.c \
+${SRC_DIR}/utils/memory/ft_free_redir_and_command.c \
 ${SRC_DIR}/utils/memory/ft_safe_close_and_reset_fd.c \
 ${SRC_DIR}/utils/memory/ft_clear_memory.c \
 ${SRC_DIR}/utils/memory/ft_free_tree.c \
@@ -157,6 +158,7 @@ ${SRC_DIR}/exec/execution/ft_exec_heredoc.c \
 ${SRC_DIR}/exec/execution/ft_exec_logical_and.c  \
 ${SRC_DIR}/exec/execution/ft_exec_logical_or.c \
 ${SRC_DIR}/exec/execution/ft_exec_pipe_node.c \
+${SRC_DIR}/exec/execution/ft_exec_pipe_parent.c \
 ${SRC_DIR}/exec/execution/ft_exec_redirections.c \
 ${SRC_DIR}/exec/execution/ft_exec_simple_command.c  \
 ${SRC_DIR}/exec/io/ft_prepare_command_input.c \
@@ -164,6 +166,7 @@ ${SRC_DIR}/exec/io/ft_prepare_command_io.c \
 ${SRC_DIR}/exec/io/ft_prepare_command_outputs.c \
 ${SRC_DIR}/exec/io/ft_process_heredocs.c \
 ${SRC_DIR}/exec/utils/ft_exit_child.c \
+${SRC_DIR}/exec/utils/ft_handle_child_exit_status.c \
 ${SRC_DIR}/exec/utils/close_fds/ft_close_pipe_fds.c \
 ${SRC_DIR}/exec/utils/close_fds/ft_close_unused_heredoc_fds.c \
 ${SRC_DIR}/exec/utils/close_fds/ft_handle_dup2_and_close_fd.c \
