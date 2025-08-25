@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/10 16:58:08 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/20 16:01:12 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/25 18:17:58 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,6 @@ int	ft_exec_redirections(t_redirection *redirection, t_shell *data)
 		ft_error_failed_waitpid("ft_exec_redirections");
 		return (EXIT_FAILURE);
 	}
-	return (context->last_exit_code);
+	data->exit_code = ft_handle_child_exit_status(context->last_exit_code);
+	return (data->exit_code);
 }
