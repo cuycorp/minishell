@@ -231,15 +231,11 @@ $(EXEC): $(LIBS) $(MINISHELL_STATIC_LIB) $(MAIN_OBJ)
 	@$(CC) $(CFLAGS) $(MAIN_OBJ) $(MINISHELL_STATIC_LIB) $(LIBS) $(LDFLAGS) -o $@
 	@echo "$(GREEN_COLOR)Executable: $(DEFAULT_COLOR)$(EXEC) created!✅"
 
-# TODO: fix relinking on debugger and valgrind rules
-# TODO: to delete this rule
 debugger: CFLAGS += $(GFLAG)
 debugger: fclean $(EXEC)
 
-# TODO: fix relinking on debugger and valgrind rules
 valgrind: $(EXEC)
 	$(VALG_FLAG) ./$(EXEC)
-
 
 debug:
 	@echo "$(BLUE_COLOR)SRC_FILES: $(DEFAULT_COLOR) $(SRC_FILES)"
@@ -267,5 +263,4 @@ fclean: clean
 
 re: fclean all
 
-# TODO: add debugger and valrgind to list of .PHONY
 .PHONY: all clean fclean re debug help debugger valgrind
