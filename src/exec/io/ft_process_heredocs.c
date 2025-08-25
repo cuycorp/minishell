@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/23 12:29:45 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/21 11:22:19 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/25 14:16:30 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,23 @@ static bool	ft_handle_heredoc(t_redirection *redirection, t_shell *data)
 	return (true);
 }
 
+static bool	ft_process_node_heredoc(t_ast_node *node, t_shell *data)
+{
+	if (!node || !data)
+		return (true);
+	if (node->type == AST_REDIRECTION && node->redirection_data)
+	{
+		if (!ft_handle_heredoc(node->redirection_data, data))
+			return (false);
+	}
+	if (node->type == AST_SIMPLE_COMMAND && node->command_data)
+	{
+		if (!ft_handle_heredoc(node->command_data->redirection, data))
+			return (false);
+	}
+	return (true);
+}
+
 /**
  * @brief Processes heredocs in a given abstract syntax tree (AST) node.
  *
@@ -67,17 +84,23 @@ bool	ft_process_heredocs(t_ast_node *root, t_shell *data)
 
 	if (!root || !data)
 		return (true);
-	if (root->type == AST_REDIRECTION && root->redirection_data)
+	left_result = true;
+	right_result = true;
+	if (!ft_process_node_heredoc(root, data))
+		return (false);
+	if (g_exit_code == 130)
+		return (false);
+	if (root->left)
 	{
-		if (!ft_handle_heredoc(root->redirection_data, data))
+		left_result = ft_process_heredocs(root->left, data);
+		if (!left_result)
 			return (false);
 	}
-	if (root->type == AST_SIMPLE_COMMAND && root->command_data)
+	if (root->right)
 	{
-		if (!ft_handle_heredoc(root->command_data->redirection, data))
+		right_result = ft_process_heredocs(root->right, data);
+		if (!right_result)
 			return (false);
 	}
-	left_result = ft_process_heredocs(root->left, data);
-	right_result = ft_process_heredocs(root->right, data);
 	return (left_result && right_result);
 }

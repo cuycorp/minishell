@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/08/05 14:32:50 by mcamaren          #+#    #+#             */
-/*   Updated: 2025/08/19 18:07:38 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/25 14:16:06 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,4 @@ void	ft_set_signal_parent(t_signal_child *sig)
 	if (sigaction(SIGQUIT, &sig->sa_ignore, &sig->sa_old_quit) == -1)
 		ft_printf(STDERR_FILENO,
 			"ft_set_signal_parent: Error with CTRL-slash \n");
-	g_exit_code = -1;
 }

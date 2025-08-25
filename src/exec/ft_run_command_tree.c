@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/02 11:32:22 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/21 11:22:46 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/25 14:17:24 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	ft_run_command_tree(t_ast_node *root, t_shell *data)
 {
+	int	exit_code;
+
 	if (!root || !data)
 		return (EXIT_FAILURE);
 	data->context = ft_create_exec_context(root);
@@ -26,9 +28,10 @@ int	ft_run_command_tree(t_ast_node *root, t_shell *data)
 	}
 	if (!ft_process_heredocs(root, data))
 	{
+		exit_code = data->exit_code;
 		ft_free_exec_context(data->context);
 		data->context = NULL;
-		return (EXIT_FAILURE);
+		return (exit_code);
 	}
 	ft_exec_node_recursive(root, data, data->context);
 	ft_free_exec_context(data->context);
