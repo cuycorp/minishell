@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:23:56 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/20 15:45:16 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/25 17:32:28 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -148,5 +148,14 @@ typedef struct s_shell
 	char					*error_message;
 	t_redirection			*last_redirection;
 }							t_shell;
+
+typedef struct s_pipe_exec_data
+{
+	t_ast_node		*root;
+	t_shell			*data;
+	t_exec_context	*context;
+	int				*pipe_fd;
+	pid_t			left_pid;
+}	t_pipe_exec_data;
 
 #endif

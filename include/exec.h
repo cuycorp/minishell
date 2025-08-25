@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/07/07 14:59:26 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/22 11:50:44 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/25 17:02:36 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ int		ft_exec_node_recursive(t_ast_node *node, t_shell *data,
 			t_exec_context *context);
 int		ft_exec_simple_command(t_command *command, t_shell *data);
 int		ft_exec_pipe_node(t_ast_node *root, t_shell *data);
+int		ft_exec_pipe_parent(t_ast_node *root, t_shell *data, pid_t left_pid,
+			int *pipe_fd);
 int		ft_exec_redirections(t_redirection *redirection, t_shell *data);
 int		ft_exec_heredoc(t_redirection *redirection, char *delimiter,
 			t_shell *data);
@@ -73,5 +75,6 @@ char	*ft_get_command_path(char *command, char **envp, char **error_message,
 			int *exit_code);
 char	*ft_handle_path_search(char *command, char **envp, char **error_message,
 			int *exit_code);
+int		ft_handle_child_exit_status(int status);
 
 #endif
