@@ -24,4 +24,5 @@ void	ft_set_signal_parent(t_signal_child *sig)
 	if (sigaction(SIGQUIT, &sig->sa_ignore, &sig->sa_old_quit) == -1)
 		ft_printf(STDERR_FILENO,
 			"ft_set_signal_parent: Error with CTRL-slash \n");
+	g_exit_code = -1;
 }

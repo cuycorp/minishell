@@ -31,7 +31,6 @@ static bool	ft_validate_input(t_shell *data)
 	return (false);
 }
 
-
 void	ft_shell_loop(t_shell *data)
 {
 	if (!data)
