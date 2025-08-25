@@ -42,6 +42,7 @@ ${SRC_DIR}/utils/memory/ft_free_ast_tree.c \
 ${SRC_DIR}/utils/memory/ft_close_heredoc_fd.c \
 ${SRC_DIR}/utils/memory/ft_free_wildcard_context.c \
 ${SRC_DIR}/utils/memory/ft_free_exec_context.c \
+${SRC_DIR}/utils/memory/ft_free_redir_and_command.c \
 ${SRC_DIR}/utils/memory/ft_safe_close_and_reset_fd.c \
 ${SRC_DIR}/utils/memory/ft_clear_memory.c \
 ${SRC_DIR}/utils/memory/ft_free_tree.c \

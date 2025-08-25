@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/05/21 14:24:47 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/20 16:21:26 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:53:23 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ void		ft_safe_close_and_reset_fd(int *fd);
 void		ft_free_wildcard_context(t_wildcard_context *context);
 void		ft_close_heredocs_fd(t_ast_node *node);
 void		ft_free_tree(t_shell *data);
+void		ft_free_redir_and_command(t_redirection **redirections,
+				t_command *command);
 
 /* String */
 

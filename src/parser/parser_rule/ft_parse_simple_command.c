@@ -6,7 +6,7 @@
 /*   By: jgossard <jgossard@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2025/06/09 14:07:13 by jgossard          #+#    #+#             */
-/*   Updated: 2025/08/21 14:19:56 by jgossard         ###   ########.fr       */
+/*   Updated: 2025/08/22 14:53:23 by jgossard         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,10 +65,10 @@ static t_ast_node	*ft_build_ast_tree_from_tokens(t_token **tokens)
 	command = ft_create_and_fill_command(tokens, &has_command);
 	if (!ft_extract_redirections(&redirections, tokens, &has_redir))
 		return (ft_free_command(command), NULL);
-	if (!ft_parse_remaining_args(tokens, command, &has_command))
+	if (command && *tokens && ft_is_argument_type((*tokens)->type))
 	{
-		ft_free_redirection(&redirections);
-		return (ft_free_command(command), NULL);
+		if (!ft_parse_remaining_args(tokens, command, &has_command))
+			return (ft_free_redir_and_command(&redirections, command), NULL);
 	}
 	node = ft_create_final_node(command, redirections, has_command, has_redir);
 	if (!node)
